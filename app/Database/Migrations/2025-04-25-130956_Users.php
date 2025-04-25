@@ -26,9 +26,8 @@ class Users extends Migration
                 "constraint" => 100,
             ],
             "password" => [
-                "type" => "VARCHAR",
+                "type" => "TEXT",
                 "null" => false,
-                "constraint" => 255,
             ],
             "role" => [
                 "type" => "ENUM",

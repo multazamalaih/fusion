@@ -56,7 +56,7 @@
 
             <!-- Tombol kanan (mobile) -->
             <div class="d-flex d-lg-none mt-2">
-                <a href="login.php" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
+                <a href="/login" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
                 <a href="register.php" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
             </div>
 
@@ -74,7 +74,7 @@
 
             <!-- Tombol kanan (desktop) -->
             <div class="d-none d-lg-flex gap-2">
-                <a href="login.php" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
+                <a href="/login" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
                 <a href="register.php" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
             </div>
         </div>
