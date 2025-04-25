@@ -7,7 +7,7 @@
     <title>FUSION - Futsal Reccomendation</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="img/logo.png">
+    <link rel="icon" href="<?= base_url() ?>/img/logo.png">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
@@ -23,14 +23,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="<?= base_url() ?>/css/style.css" rel="stylesheet">
 </head>
 
 <body style="font-family: 'Alata', sans-serif;">
