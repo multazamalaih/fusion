@@ -56,8 +56,12 @@
 
             <!-- Tombol kanan (mobile) -->
             <div class="d-flex d-lg-none mt-2">
-                <a href="/login" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
-                <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <?php if (!$isLogin) : ?>
+                    <a href="/login" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
+                    <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <?php else : ?>
+                    <a class="btn btn-sm rounded-pill px-3 btn-daftar" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                <?php endif; ?>
             </div>
 
             <!-- Menu Tengah -->
@@ -74,8 +78,12 @@
 
             <!-- Tombol kanan (desktop) -->
             <div class="d-none d-lg-flex gap-2">
-                <a href="/login" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
-                <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <?php if (!$isLogin) : ?>
+                    <a href="/login" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
+                    <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <?php else : ?>
+                    <a data-bs-toggle="modal" data-bs-target="#logoutModal" class="btn btn-sm rounded-pill px-3 btn-daftar">Logout</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
@@ -212,6 +220,27 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <!-- Modal logout -->
+    <div class="modal fade " id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Anda yakin ingin logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-secondary">Ya</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

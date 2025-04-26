@@ -15,3 +15,4 @@ $routes->get('/register', 'Auth::register', ['filter' => 'redirectIfAuthenticate
 // auth proses
 $routes->post('/login', 'Auth::loginProses');
 $routes->post('/register', 'Auth::registerProses');
+$routes->delete('/logout', 'Auth::logoutProses');

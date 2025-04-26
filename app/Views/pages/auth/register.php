@@ -49,7 +49,7 @@
             outline: none;
         }
 
-        .register-box-button {
+        .register-box button {
             font-family: 'Alata';
             background-color: #43b600;
             color: white;
@@ -63,7 +63,7 @@
             transition: 0.3s;
         }
 
-        .register-box-button:hover {
+        .register-box button:hover {
             background-color: #3ba200;
         }
 
@@ -128,7 +128,7 @@
             <?php endif; ?>
 
 
-            <button type="submit" class="register-box-button">Register</button>
+            <button type="submit">Register</button>
         </form>
         <div class="login-link">
             Sudah punya akun ? <a href="/login"> Login <strong> disini</strong></a>
