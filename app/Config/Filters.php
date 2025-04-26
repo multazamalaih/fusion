@@ -2,6 +2,8 @@
 
 namespace Config;
 
+use App\Filters\Auth;
+use App\Filters\RedirectIfAuthenticated;
 use CodeIgniter\Config\Filters as BaseFilters;
 use CodeIgniter\Filters\Cors;
 use CodeIgniter\Filters\CSRF;
@@ -34,6 +36,8 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'redirectIfAuthenticated' => RedirectIfAuthenticated::class,
+        'authCheck' => Auth::class,
     ];
 
     /**
@@ -72,6 +76,10 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'authCheck' => ['except' => [
+                '/login',
+                '/register'
+            ]]
         ],
         'after' => [
             // 'honeypot',

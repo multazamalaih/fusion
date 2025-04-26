@@ -45,7 +45,7 @@
         <div class="container position-relative">
 
             <!-- Logo -->
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="/">
                 <img src="img/logo-fusion.png" alt="FUSION" style="height: 42px;">
             </a>
             <!-- Hamburger Menu (mobile) -->
@@ -57,7 +57,7 @@
             <!-- Tombol kanan (mobile) -->
             <div class="d-flex d-lg-none mt-2">
                 <a href="/login" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
-                <a href="register.php" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
             </div>
 
             <!-- Menu Tengah -->
@@ -75,7 +75,7 @@
             <!-- Tombol kanan (desktop) -->
             <div class="d-none d-lg-flex gap-2">
                 <a href="/login" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
-                <a href="register.php" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
+                <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
             </div>
         </div>
     </nav>
@@ -216,11 +216,11 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="<?= base_url() ?>/lib/wow/wow.min.js"></script>
+    <script src="<?= base_url() ?>/lib/easing/easing.min.js"></script>
+    <script src="<?= base_url() ?>/lib/waypoints/waypoints.min.js"></script>
+    <script src="<?= base_url() ?>/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="<?= base_url() ?>/js/main.js"></script>
     <script>
         window.addEventListener('load', function() {
             const spinner = document.getElementById('spinner');
