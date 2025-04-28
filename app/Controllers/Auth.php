@@ -98,4 +98,10 @@ class Auth extends BaseController
             return redirect()->to(base_url('/register'))->with('error', 'Gagal mendaftar');
         }
     }
+    public function logoutProses()
+    {
+        session()->remove('user');
+        session()->destroy();
+        return redirect()->to(base_url('/login'));
+    }
 }

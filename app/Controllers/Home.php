@@ -6,7 +6,11 @@ class Home extends BaseController
 {
     public function index(): string
     {
-        return view('pages/home');
+        $userSession = session()->get('user');
+        $data = [
+            'isLogin' => $userSession ? true : false
+        ];
+        return view('pages/home', $data);
     }
     public function about(): string
     {

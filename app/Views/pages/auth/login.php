@@ -91,6 +91,11 @@
                 <?= session()->getFlashdata('success') ?>
             </div>
         <?php endif; ?>
+        <?php if (session()->getFlashdata('error')) : ?>
+            <div style="background-color: #d4edda; color:rgb(194, 21, 21); padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb;">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
         <form action="/login" method="post">
             <div>
                 <input type="email" placeholder="Email" name="email" required class="<?= session()->getFlashdata("errorEmail") ? "is-invalid" : "" ?>" value="<?= old("email") ?>">

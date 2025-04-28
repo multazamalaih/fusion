@@ -108,22 +108,26 @@
                     </div>
                 <?php endif; ?>
             </div>
-            <div>
-                <input type="password" name="password" placeholder="Password" required class="<?= validation_show_error('password') ? 'is-invalid' : "" ?>">
-                <?php if (validation_show_error("password")) : ?>
-                    <div style="color: red; font-size: 13px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
-                        <?= validation_show_error('password') ?>
-                    </div>
-                <?php endif; ?>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Password" required class="<?= validation_show_error('password') ? 'is-invalid' : "" ?>">
+
             </div>
-            <div>
-                <input type="password" name="konfirmasi" placeholder="Ulangi Password" required class="<?= validation_show_error('konfirmasi') ? 'is-invalid' : "" ?>">
-                <?php if (validation_show_error("konfirmasi")) : ?>
-                    <div style="color: red; font-size: 13px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
-                        <?= validation_show_error('konfirmasi') ?>
-                    </div>
-                <?php endif; ?>
+            <?php if (validation_show_error("password")) : ?>
+                <div style="color: red; font-size: 13px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
+                    <?= validation_show_error('password') ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="password-wrapper">
+                <input type="password" id="konfirmasi" name="konfirmasi" placeholder="Ulangi Password" required class="<?= validation_show_error('konfirmasi') ? 'is-invalid' : "" ?>">
             </div>
+            <?php if (validation_show_error("konfirmasi")) : ?>
+                <div style="color: red; font-size: 13px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
+                    <?= validation_show_error('konfirmasi') ?>
+                </div>
+            <?php endif; ?>
+
+
             <button type="submit">Register</button>
         </form>
         <div class="login-link">
