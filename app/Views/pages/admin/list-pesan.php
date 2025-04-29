@@ -1,6 +1,4 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-envelope"></i> Data Pesan</h1>
@@ -33,8 +31,8 @@ require_once('template/header.php');
                         <td>Contoh Pesan</td>
                         <td>
                             <div class="btn-group" role="group">
-                                <a data-toggle="tooltip" data-placement="bottom" title="Detail Data" href="detail-pesan.php" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
-                                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="hapus-pesan.php" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" title="Detail Data" href="<?= base_url('admin/detail-pesan') ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
+                                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="<?= base_url('admin/hapus-pesan') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -44,6 +42,4 @@ require_once('template/header.php');
     </div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

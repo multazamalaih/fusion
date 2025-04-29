@@ -1,6 +1,5 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
+
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cubes"></i> Data Sub Kriteria</h1>
@@ -102,6 +101,4 @@ require_once('template/header.php');
 	</div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

@@ -1,11 +1,8 @@
-<?php
-require_once('template/header.php');
-?>
-
+<?= view('pages/admin/template/header') ?>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Kriteria</h1>
-    <a href="list-kriteria.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+    <a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
         <span class="text">Kembali</span>
     </a>
 </div>
@@ -50,11 +47,9 @@ require_once('template/header.php');
 
 
     <div class="card-footer text-right">
-        <a type="edit" class="btn btn-warning" href="edit-kriteria.php"><i class="fa fa-edit"></i> Edit</a>
-        <a type="delete" class="btn btn-danger" href="hapus-kriteria.php" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
+        <a type="edit" class="btn btn-warning" href="<?= base_url('admin/edit-kriteria') ?>"><i class="fa fa-edit"></i> Edit</a>
+        <a type="delete" class="btn btn-danger" href="<?= base_url('admin/hapus-kriteria') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
     </div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

@@ -1,11 +1,10 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
+
 
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Kriteria</h1>
-	<a href="list-kriteria.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+	<a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
 		<span class="text">Kembali</span>
 	</a>
 </div>
@@ -15,7 +14,7 @@ require_once('template/header.php');
 		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-plus"></i> Tambah Data Kriteria</h6>
 	</div>
 
-	<form action="tambah-kriteria.php" method="post">
+	<form action="<?= base_url('admin/tambah-kriteria') ?>" method="post">
 		<div class="card-body">
 			<div class="row">
 				<div class="form-group col-md-6">
@@ -66,6 +65,4 @@ require_once('template/header.php');
 </div>
 
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

@@ -1,6 +1,5 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
+
 <style type="text/css">
 	.jam-input {
 		display: none;
@@ -30,7 +29,7 @@ require_once('template/header.php');
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-list"></i> Data Lapangan Futsal</h1>
-	<a href="list-lapangan.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+	<a href="<?= base_url('admin/list-lapangan') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
 		<span class="text">Kembali</span>
 	</a>
 </div>
@@ -40,7 +39,7 @@ require_once('template/header.php');
 		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-plus"></i> Tambah Data Lapangan Futsal</h6>
 	</div>
 
-	<form action="tambah-lapangan.php" method="post">
+	<form action="<?= base_url('admin/tambah-lapangan') ?>" method="post">
 		<div class="card-body">
 			<div class="row">
 				<div class="form-group col-md-6">

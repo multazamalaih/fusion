@@ -1,6 +1,4 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
 
 <div class="mb-4">
     <!-- Page Heading -->
@@ -20,7 +18,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-kriteria.php" class="text-secondary text-decoration-none">Data Kriteria</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-kriteria') ?>" class="text-secondary text-decoration-none">Data Kriteria</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-cube fa-2x text-gray-300"></i>
@@ -36,7 +34,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-sub_kriteria.php" class="text-secondary text-decoration-none">Data Sub Kriteria</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-sub-kriteria') ?>" class="text-secondary text-decoration-none">Data Sub Kriteria</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-cubes fa-2x text-gray-300"></i>
@@ -51,7 +49,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-lapangan.php" class="text-secondary text-decoration-none">Data Lapangan Futsal</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-lapangan') ?>" class="text-secondary text-decoration-none">Data Lapangan Futsal</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-list fa-2x text-gray-300"></i>
@@ -66,7 +64,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-penilaian.php" class="text-secondary text-decoration-none">Data Penilaian</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-penilaian') ?>" class="text-secondary text-decoration-none">Data Penilaian</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-edit fa-2x text-gray-300"></i>
@@ -81,7 +79,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="perhitungan.php" class="text-secondary text-decoration-none">Data Perhitungan</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/perhitungan') ?>" class="text-secondary text-decoration-none">Data Perhitungan</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-calculator fa-2x text-gray-300"></i>
@@ -96,7 +94,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="hasil.php" class="text-secondary text-decoration-none">Data Hasil Akhir</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/hasil') ?>" class="text-secondary text-decoration-none">Data Hasil Akhir</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-chart-area fa-2x text-gray-300"></i>
@@ -111,7 +109,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-rekomendasi.php" class="text-secondary text-decoration-none">Data Rekomendasi</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-rekomendasi') ?>" class="text-secondary text-decoration-none">Data Rekomendasi</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-message fa-2x text-gray-300"></i>
@@ -126,7 +124,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-pesan.php" class="text-secondary text-decoration-none">Data Pesan</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-pesan') ?>" class="text-secondary text-decoration-none">Data Pesan</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-envelope fa-2x text-gray-300"></i>
@@ -141,7 +139,7 @@ require_once('template/header.php');
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="list-informasi_kontak.php" class="text-secondary text-decoration-none">Data Informasi Kontak</a></div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><a href="<?= base_url('admin/list-informasi-kontak') ?>" class="text-secondary text-decoration-none">Data Informasi Kontak</a></div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-phone fa-2x text-gray-300"></i>
@@ -154,6 +152,4 @@ require_once('template/header.php');
     </div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

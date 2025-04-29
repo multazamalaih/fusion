@@ -1,6 +1,4 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
 
 <style>
     .hari {
@@ -18,7 +16,7 @@ require_once('template/header.php');
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-list"></i> Data Lapangan Futsal</h1>
-    <a href="list-lapangan.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+    <a href="<?= base_url('admin/list-lapangan') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
         <span class="text">Kembali</span>
     </a>
 </div>
@@ -116,7 +114,7 @@ require_once('template/header.php');
                                 <h6 class="mb-0 font-weight-bold" style="font-size: 0.85rem;">Foto Lapangan</h6>
                             </div>
                             <div class="card-body p-0">
-                                <img src="/fusion/assets/img/contoh.png" alt="Foto Lapangan" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="<?= base_url('admin/img/contoh.png') ?>" alt="Foto Lapangan" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -128,7 +126,7 @@ require_once('template/header.php');
                                 <h6 class="mb-0 font-weight-bold" style="font-size: 0.85rem;">Foto Bangku</h6>
                             </div>
                             <div class="card-body p-0">
-                                <img src="/fusion/assets/img/contoh.png" alt="Foto Bangku" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="<?= base_url('admin/img/contoh.png') ?>" alt="Foto Bangku" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -140,7 +138,7 @@ require_once('template/header.php');
                                 <h6 class="mb-0 font-weight-bold" style="font-size: 0.85rem;">Foto Toilet</h6>
                             </div>
                             <div class="card-body p-0">
-                                <img src="/fusion/assets/img/contoh.png" alt="Foto Toilet" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="<?= base_url('admin/img/contoh.png') ?>" alt="Foto Toilet" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -152,7 +150,7 @@ require_once('template/header.php');
                                 <h6 class="mb-0 font-weight-bold" style="font-size: 0.85rem;">Foto Mushola</h6>
                             </div>
                             <div class="card-body p-0">
-                                <img src="/fusion/assets/img/contoh.png" alt="Foto Mushola" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="<?= base_url('admin/img/contoh.png') ?>" alt="Foto Mushola" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -164,7 +162,7 @@ require_once('template/header.php');
                                 <h6 class="mb-0 font-weight-bold" style="font-size: 0.85rem;">Foto Parkir</h6>
                             </div>
                             <div class="card-body p-0">
-                                <img src="/fusion/assets/img/contoh.png" alt="Foto Parkir" class="w-100 h-100" style="object-fit: cover;">
+                                <img src="<?= base_url('admin/img/contoh.png') ?>" alt="Foto Parkir" class="w-100 h-100" style="object-fit: cover;">
                             </div>
                         </div>
                     </div>
@@ -177,10 +175,8 @@ require_once('template/header.php');
         </div>
     </div>
     <div class="card-footer text-right">
-        <a type="edit" class="btn btn-warning" href="edit-lapangan.php"><i class="fa fa-edit"></i> Edit</a>
-        <a type="delete" class="btn btn-danger" href="hapus-lapangan.php" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
+        <a type="edit" class="btn btn-warning" href="<?= base_url('admin/edit-lapangan') ?>"><i class="fa fa-edit"></i> Edit</a>
+        <a type="delete" class="btn btn-danger" href="<?= base_url('hapus/list-lapangan') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
     </div>
 </div>
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

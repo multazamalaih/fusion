@@ -1,16 +1,14 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-user"></i> Data Profil</h1>
 
-    <a href="list-profil.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+    <a href="<?= base_url('admin/list-profil') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
         <span class="text">Kembali</span>
     </a>
 </div>
 
-<form action="edit-profil.php" method="post">
+<form action="<?= base_url('admin/edit-profil') ?>" method="post">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-edit"></i> Edit Data Profil</h6>
@@ -24,7 +22,7 @@ require_once('template/header.php');
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">E-Mail</label>
-                    <input autocomplete="off" type="email" name="email" required class="form-control" value="nama lama" />
+                    <input autocomplete="off" type="email" name="email" required class="form-control" value="email lama" />
                 </div>
 
                 <div class="form-group col-md-6">
@@ -46,6 +44,4 @@ require_once('template/header.php');
     </div>
 </form>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

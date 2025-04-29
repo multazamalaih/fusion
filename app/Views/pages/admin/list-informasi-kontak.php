@@ -1,6 +1,4 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-phone"></i> Data Informasi Kontak</h1>
@@ -45,7 +43,7 @@ require_once('template/header.php');
                                     <h5 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Edit Informasi Kontak</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 </div>
-                                <form action="list-informasi-kontak.php" method="post">
+                                <form action="" method="post">
                                     <input type="text" name="informasi-kontak" value="informasi-kontak" hidden>
                                     <div class="modal-body">
                                         <input type="text" name="informasi-kontak" value="informasi-kontak" hidden>
@@ -102,7 +100,7 @@ require_once('template/header.php');
                 </div>
                 <form action="" method="post">
                     <div class="modal-body">
-                        <input type="text" name="id_kriteria" value="id_ulasan" hidden>
+                        <input type="text" name="id_ulasan" value="id_ulasan" hidden>
                         <div class="form-group">
                             <label class="font-weight-bold">Pihak Manajemen</label>
                             <input autocomplete="off" type="text" class="form-control" name="nama" required>
@@ -111,13 +109,13 @@ require_once('template/header.php');
                             <label class="font-weight-bold">Nama Lapangan</label>
                             <select name="nilai" class="form-control" required>
                                 <option value="">--Pilih--</option>
-                                <option value="Sangat Buruk">Noel Futsal</option>
-                                <option value="Buruk">Taruna Mandiri</option>
+                                <option value="Noel Futsal">Noel Futsal</option>
+                                <option value="Taruna Mandiri">Taruna Mandiri</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label class="font-weight-bold">Ulasan</label>
-                            <textarea autocomplete="off" name="keterangan" required v class="form-control" style="height: 200px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: break-word;"></textarea>
+                            <textarea autocomplete="off" name="keterangan" required class="form-control" style="height: 200px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: break-word;"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -197,6 +195,4 @@ require_once('template/header.php');
         </div>
     </div>
 </div>
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

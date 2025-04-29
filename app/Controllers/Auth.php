@@ -46,12 +46,12 @@ class Auth extends BaseController
     }
     public function registerProses()
     {
-        $nama = $this->request->getVar("username");
+        $nama = $this->request->getVar("nama");
         $email = $this->request->getVar("email");
         $password = $this->request->getVar("password");
         $konfirmasi = $this->request->getVar("konfirmasi");
         if (!$this->validate([
-            "username" => [
+            "nama" => [
                 "rules" => "required|min_length[3]|max_length[100]|is_unique[users.nama]",
                 "errors" => [
                     "required" => "Nama tidak boleh kosong",

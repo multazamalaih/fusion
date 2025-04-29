@@ -1,11 +1,25 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
+
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-users-cog"></i> Data User</h1>
-	<a href="tambah-user.php" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Data </a>
+	<a href="<?= base_url('admin/tambah-user') ?>" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Data </a>
 </div>
+
+<?php if (session()->getFlashdata('success')): ?>
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<?= session()->getFlashdata('success') ?>
+	</div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')): ?>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<?= session()->getFlashdata('error') ?>
+	</div>
+<?php endif; ?>
+
 
 <div class="card shadow mb-4">
 	<!-- /.card-header -->
@@ -26,24 +40,35 @@ require_once('template/header.php');
 					</tr>
 				</thead>
 				<tbody>
-					<tr align="center">
-						<td>1</td>
-						<td>Contoh Nama User</td>
-						<td>Contoh Nama Email</td>
-						<td>Role Admin/User</td>
-						<td>
-							<div class="btn-group" role="group">
-								<a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="edit-user.php" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-								<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="hapus-user.php" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-							</div>
-						</td>
-					</tr>
+					<?php $no = 1;
+					foreach ($users as $user): ?>
+						<tr align="center">
+							<td><?= $no++ ?></td>
+							<td><?= esc($user['nama']) ?></td>
+							<td><?= esc($user['email']) ?></td>
+							<td><?= esc($user['role']) ?></td>
+							<td>
+								<div class="btn-group" role="group">
+									<a data-toggle="tooltip" data-placement="bottom" title="Edit Data"
+										href="<?= base_url('admin/edit-user/' . $user['id_user']) ?>"
+										class="btn btn-warning btn-sm">
+										<i class="fa fa-edit"></i>
+									</a>
+
+									<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
+										href="<?= base_url('admin/hapus-user/' . $user['id_user']) ?>"
+										onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')"
+										class="btn btn-danger btn-sm">
+										<i class="fa fa-trash"></i>
+									</a>
+								</div>
+							</td>
+						</tr>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>

@@ -1,10 +1,9 @@
-<?php
-require_once('template/header.php');
-?>
+<?= view('pages/admin/template/header') ?>
+
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cubes"></i> Data Kriteria</h1>
-	<a href="list-kriteria.php" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Kriteria</h1>
+	<a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
 		<span class="text">Kembali</span>
 	</a>
 </div>
@@ -104,56 +103,61 @@ require_once('template/header.php');
 
 <div class="card shadow mb-4">
 	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Perbandingan Data Antar Kriteria</h6>
+		<h6 class="m-0 font-weight-bold text-success">
+			<i class="fas fa-fw fa-table"></i> Perbandingan Data Antar Kriteria
+		</h6>
 	</div>
 
 	<form action="" method="post">
-		<div class="card-body ">
-			<table class="table table-bordered table-responsive">
-				<thead>
-					<tr>
-						<th class="text-right" width="25%">Nama Kriteria</th>
-						<th class="text-center" width="50%">Skala Perbandingan</th>
-						<th class="text-left" width="25%">Nama Kriteria</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="text-right">Nama Kriteria 1</td>
-						<td class="text-center">
-							<div class="btn-group btn-group-toggle" data-toggle="buttons">
-								<label class="btn btn-success "><input type="radio" id="radio_a_" name="nilai_" value="-9">9</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-8">8</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-7">7</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-6">6</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-5">5</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-4">4</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-3">3</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="-2">2</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="1">1</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="2">2</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="3">3</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="4">4</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="5">5</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="6">6</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="7">7</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="8">8</label>
-								<label class="btn btn-success "><input type="radio" id="radio_b_" name="nilai_" value="9">9</label>
-							</div>
-						</td>
-						<td class="text-left">Nama Kriteria 2</td>
-					</tr>
-					<tr>
-						<td class="text-center" colspan="3">
-							<button type="submit" name="save" class="btn btn-primary"><i class="fas fa-fw fa-save mr-1"></i> Simpan</button>
-							<button type="submit" name="check" class="btn btn-success"><i class="fas fa-fw fa-check mr-1"></i> Cek Konsistensi</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-right" width="25%">Nama Kriteria</th>
+							<th class="text-center" width="50%">Skala Perbandingan</th>
+							<th class="text-left" width="25%">Nama Kriteria</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="text-right">Nama Kriteria 1</td>
+							<td class="text-center">
+								<div class="btn-group btn-group-toggle" data-toggle="buttons">
+									<?php for ($i = 9; $i >= 2; $i--): ?>
+										<label class="btn btn-success">
+											<input type="radio" name="nilai_" value="-<?= $i ?>"> <?= $i ?>
+										</label>
+									<?php endfor; ?>
+									<label class="btn btn-success">
+										<input type="radio" name="nilai_" value="1"> 1
+									</label>
+									<?php for ($i = 2; $i <= 9; $i++): ?>
+										<label class="btn btn-success">
+											<input type="radio" name="nilai_" value="<?= $i ?>"> <?= $i ?>
+										</label>
+									<?php endfor; ?>
+								</div>
+							</td>
+							<td class="text-left">Nama Kriteria 2</td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="3">
+								<button type="submit" name="save" class="btn btn-primary">
+									<i class="fas fa-fw fa-save mr-1"></i> Simpan
+								</button>
+								<button type="submit" name="check" class="btn btn-success">
+									<i class="fas fa-fw fa-check mr-1"></i> Cek Konsistensi
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div> <!-- close table-responsive -->
+		</div> <!-- close card-body -->
 	</form>
 </div>
+
 
 <div class="card shadow mb-4">
 	<div class="card-header py-3">
@@ -213,6 +217,4 @@ require_once('template/header.php');
 	</div>
 </div>
 
-<?php
-require_once('template/footer.php');
-?>
+<?= view('pages/admin/template/footer') ?>
