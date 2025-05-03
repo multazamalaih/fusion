@@ -1,98 +1,87 @@
 <?= view('pages/admin/template/header') ?>
 
-
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Kriteria</h1>
-	<a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Perbandingan Kriteria</h1>
+	<a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split">
+		<span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
 		<span class="text">Kembali</span>
 	</a>
 </div>
 
-<div class="alert alert-info">
+<?php
+$successMessage = session()->getFlashdata('success') ?: ($success ?? null);
+$errorMessage  = session()->getFlashdata('error') ?: ($error ?? null);
+?>
+
+<?php if ($successMessage): ?>
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<?= esc($successMessage) ?>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+<?php endif; ?>
+
+<?php if ($errorMessage): ?>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<?= esc($errorMessage) ?>
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+	</div>
+<?php endif; ?>
+
+<div class="alert alert-success">
 	Silahkan isi terlebih dahulu nilai kriteria menggunakan perbandingan berpasangan berdasarkan skala perbandingan 1-9
-	(<span class="highlight-text" data-bs-toggle="modal" href="#teori" data-toggle="modal">sesuai teori</span>) kemudian klik
-	<b>SIMPAN</b>. Setelah itu klik <b>CEK KONSISTENSI</b> untuk melakukan pembobotan preferensi dengan menggunakan metode AHP.
+	(<span class="highlight-text" data-toggle="modal" href="#teori">sesuai teori</span>) kemudian klik
+	<b>SIMPAN</b> atau <b>CEK KONSISTENSI</b> untuk menghitung bobot AHP.
 </div>
 
-<div class="modal fade" id="teori" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal Skala -->
+<div class="modal fade" id="teori" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-xl">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title text-center w-100 font-weight-bold" id="myModalLabel">Skala Perbandingan 1-9</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h5 class="modal-title w-100 text-center">Skala Perbandingan 1–9</h5>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-bordered" id="Table" width="100%" cellspacing="0">
-						<thead class="bg-success text-white">
-							<tr align="center">
+					<table class="table table-bordered">
+						<thead class="bg-success text-white text-center">
+							<tr>
 								<th>Skala</th>
 								<th>Tingkat Kepentingan</th>
 								<th>Deskripsi</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td align="center">1</td>
-								<td>Sama penting</td>
-								<td>Kedua kriteria sama penting atau memiliki pengaruh yang sama besar</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">2</td>
-								<td>Mendekati sedikit lebih penting</td>
-								<td>Satu kriteria sedikit lebih penting dibandingkan yang lain, tetapi perbedaannya kecil</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">3</td>
-								<td>Sedikit lebih penting</td>
-								<td>Berdasarkan pengalaman atau penilaian, satu kriteria lebih dominan</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">4</td>
-								<td>Mendekati lebih penting</td>
-								<td>Satu kriteria lebih penting, tetapi belum signifikan</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">5</td>
-								<td>Lebih penting</td>
-								<td>Satu kriteria jelas lebih penting dibandingkan yang lain</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">6</td>
-								<td>Mendekati jauh lebih penting</td>
-								<td>Satu kriteria jauh lebih dominan dibandingkan yang lain</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">7</td>
-								<td>Jauh lebih penting</td>
-								<td>Satu kriteria sangat dominan berdasarkan bukti atau penilaian yang kuat</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">8</td>
-								<td>Mendekati sangat penting</td>
-								<td>Satu kriteria hampir mendominasi sepenuhnya dibandingkan yang lain</td>
-							</tr>
-						</tbody>
-						<tbody>
-							<tr>
-								<td align="center">9</td>
-								<td>Sangat penting</td>
-								<td>Satu kriteria benar-benar dominan atau sangat penting dibandingkan yang lain</td>
-							</tr>
+							<?php
+							$skala = [
+								1 => 'Sama penting',
+								2 => 'Mendekati sedikit lebih penting',
+								3 => 'Sedikit lebih penting',
+								4 => 'Mendekati lebih penting',
+								5 => 'Lebih penting',
+								6 => 'Mendekati jauh lebih penting',
+								7 => 'Jauh lebih penting',
+								8 => 'Mendekati sangat penting',
+								9 => 'Sangat penting'
+							];
+							$deskripsi = [
+								1 => 'Kedua Kriteria sama - sama penting',
+								2 => 'Satu Kriteria sedikit lebih penting dari Kriteria lainnya',
+								3 => 'Satu Kriteria lebih penting dari Kriteria lainnya',
+								4 => 'Satu Kriteria agak lebih penting dari Kriteria lainnya',
+								5 => 'Satu Kriteria cukup lebih penting dari Kriteria lainnya',
+								6 => 'Satu Kriteria jauh lebih penting dari Kriteria lainnya',
+								7 => 'Satu Kriteria sangat lebih penting dari Kriteria lainnya',
+								8 => 'Satu Kriteria hampir mutlak lebih penting dari Kriteria lainnya',
+								9 => 'Satu Kriteria jauh lebih penting dari Kriteria lainnya tanpa keraguan',
+							];
+							foreach ($skala as $i => $label): ?>
+								<tr>
+									<td class="text-center"><?= $i ?></td>
+									<td><?= $label ?></td>
+									<td><?= $deskripsi[$i] ?></td>
+								</tr>
+							<?php endforeach ?>
 						</tbody>
 					</table>
 				</div>
@@ -101,120 +90,113 @@
 	</div>
 </div>
 
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success">
-			<i class="fas fa-fw fa-table"></i> Perbandingan Data Antar Kriteria
-		</h6>
-	</div>
-
-	<form action="" method="post">
+<form action="<?= base_url('admin/simpan-bobot') ?>" method="post">
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Perbandingan Kriteria</h6>
+		</div>
 		<div class="card-body">
 			<div class="table-responsive">
 				<table class="table table-bordered">
-					<thead>
+					<thead class="text-center">
 						<tr>
-							<th class="text-right" width="25%">Nama Kriteria</th>
-							<th class="text-center" width="50%">Skala Perbandingan</th>
-							<th class="text-left" width="25%">Nama Kriteria</th>
+							<th>Kriteria 1</th>
+							<th>Skala</th>
+							<th>Kriteria 2</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="text-right">Nama Kriteria 1</td>
-							<td class="text-center">
-								<div class="btn-group btn-group-toggle" data-toggle="buttons">
-									<?php for ($i = 9; $i >= 2; $i--): ?>
-										<label class="btn btn-success">
-											<input type="radio" name="nilai_" value="-<?= $i ?>"> <?= $i ?>
-										</label>
-									<?php endfor; ?>
-									<label class="btn btn-success">
-										<input type="radio" name="nilai_" value="1"> 1
-									</label>
-									<?php for ($i = 2; $i <= 9; $i++): ?>
-										<label class="btn btn-success">
-											<input type="radio" name="nilai_" value="<?= $i ?>"> <?= $i ?>
-										</label>
-									<?php endfor; ?>
-								</div>
-							</td>
-							<td class="text-left">Nama Kriteria 2</td>
-						</tr>
+						<?php $i = 0;
+						foreach ($kriteria as $k1): $j = 0;
+							foreach ($kriteria as $k2):
+								if ($i < $j):
+									$inputName = 'nilai_' . $k1['id_kriteria'] . '_' . $k2['id_kriteria'];
+									$nilai = isset($nilai_input_sementara[$k1['id_kriteria']][$k2['id_kriteria']])
+										? $nilai_input_sementara[$k1['id_kriteria']][$k2['id_kriteria']]
+										: ($nilaiBobot[$k1['id_kriteria']][$k2['id_kriteria']] ?? 1);
+						?>
+									<tr>
+										<td class="text-right"><?= esc($k1['kode_kriteria']) ?> - <?= esc($k1['nama']) ?></td>
+										<td class="text-center">
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+												<?php for ($n = 9; $n >= 2; $n--): ?>
+													<label class="btn btn-success <?= ($nilai == -$n) ? 'active' : '' ?>">
+														<input type="radio" name="<?= $inputName ?>" value="-<?= $n ?>" <?= ($nilai == -$n) ? 'checked' : '' ?>><?= $n ?>
+													</label>
+												<?php endfor; ?>
+												<label class="btn btn-success <?= ($nilai == 1) ? 'active' : '' ?>">
+													<input type="radio" name="<?= $inputName ?>" value="1" <?= ($nilai == 1) ? 'checked' : '' ?>>1
+												</label>
+												<?php for ($n = 2; $n <= 9; $n++): ?>
+													<label class="btn btn-success <?= ($nilai == $n) ? 'active' : '' ?>">
+														<input type="radio" name="<?= $inputName ?>" value="<?= $n ?>" <?= ($nilai == $n) ? 'checked' : '' ?>><?= $n ?>
+													</label>
+												<?php endfor; ?>
+											</div>
+										</td>
+										<td class="text-left"><?= esc($k2['kode_kriteria']) ?> - <?= esc($k2['nama']) ?></td>
+									</tr>
+						<?php endif;
+								$j++;
+							endforeach;
+							$i++;
+						endforeach; ?>
 						<tr>
 							<td class="text-center" colspan="3">
-								<button type="submit" name="save" class="btn btn-primary">
-									<i class="fas fa-fw fa-save mr-1"></i> Simpan
-								</button>
-								<button type="submit" name="check" class="btn btn-success">
-									<i class="fas fa-fw fa-check mr-1"></i> Cek Konsistensi
-								</button>
+								<button type="submit" name="save" class="btn btn-primary mr-2"><i class="fas fa-fw fa-save mr-1"></i> Simpan</button>
+								<button type="submit" formaction="<?= base_url('admin/cek-konsistensi') ?>" name="check" class="btn btn-success"><i class="fas fa-fw fa-check mr-1"></i> Cek Konsistensi</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div> <!-- close table-responsive -->
-		</div> <!-- close card-body -->
-	</form>
-</div>
-
-
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Perbandingan Berpasangan</h6>
-	</div>
-
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered">
-				Isinya Matriks Perbandingan Berpasangan
-			</table>
+			</div>
 		</div>
 	</div>
-</div>
+</form>
 
-
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Nilai Kriteria (Normalisasi)</h6>
-	</div>
-
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered">
-				Matriks Nilai Kriteria (Normalisasi)
-			</table>
+<?php if (isset($from_cek_konsistensi) && isset($list_data)): ?>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Perbandingan Berpasangan</h6>
 		</div>
+		<div class="card-body table-responsive"> <?= $list_data ?> </div>
 	</div>
-</div>
+<?php endif; ?>
 
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Penjumlahan Setiap Baris</h6>
-	</div>
-
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered">
-				Matriks Penjumlahan Setiap Baris
-			</table>
+<?php if (isset($from_cek_konsistensi) && isset($list_data2)): ?>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Normalisasi & Bobot</h6>
 		</div>
+		<div class="card-body table-responsive"> <?= $list_data2 ?> </div>
 	</div>
-</div>
+<?php endif; ?>
 
-<div class="card shadow mb-4">
-	<div class="card-header py-3">
-		<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Perhitungan Rasio Konsistensi</h6>
-	</div>
-
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered">
-				Perhitungan Rasio Konsistensi
-			</table>
-			Hasil Perhitungan AHP
+<?php if (isset($from_cek_konsistensi) && isset($list_data3)): ?>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Penjumlahan Baris</h6>
 		</div>
+		<div class="card-body table-responsive"> <?= $list_data3 ?> </div>
 	</div>
-</div>
+<?php endif; ?>
+
+<?php if (isset($from_cek_konsistensi) && isset($list_data4)): ?>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Rasio Konsistensi</h6>
+		</div>
+		<div class="card-body table-responsive"> <?= $list_data4 ?> </div>
+	</div>
+<?php endif; ?>
+
+<?php if (isset($from_cek_konsistensi) && isset($list_data5)): ?>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Detail rasio Konsistensi</h6>
+		</div>
+		<div class="card-body"> <?= $list_data5 ?> </div>
+	</div>
+<?php endif; ?>
 
 <?= view('pages/admin/template/footer') ?>

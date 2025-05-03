@@ -20,7 +20,6 @@
 	</div>
 <?php endif; ?>
 
-
 <div class="card shadow mb-4">
 	<!-- /.card-header -->
 	<div class="card-header py-3">

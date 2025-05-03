@@ -57,6 +57,17 @@
 			});
 		});
 	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			let checkboxes = document.querySelectorAll(".form-check-input");
+			checkboxes.forEach(function(checkbox) {
+				checkbox.addEventListener("change", function() {
+					let jamInput = this.closest(".form-check").querySelector(".jam-input");
+					jamInput.style.display = this.checked ? "flex" : "none";
+				});
+			});
+		});
+	</script>
 
 	</body>
 

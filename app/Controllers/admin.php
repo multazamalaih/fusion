@@ -11,27 +11,6 @@ class Admin extends BaseController
     {
         return view('pages/admin/dashboard');
     }
-    public function listKriteria()
-    {
-        return view('pages/admin/list-kriteria');
-    }
-    public function tambahKriteria()
-    {
-        return view('pages/admin/tambah-kriteria');
-    }
-    public function detailKriteria()
-    {
-        return view('pages/admin/detail-kriteria');
-    }
-
-    public function editKriteria()
-    {
-        return view('pages/admin/edit-kriteria');
-    }
-    public function tambahBobot()
-    {
-        return view('pages/admin/tambah-bobot');
-    }
     public function listSubKriteria()
     {
         return view('pages/admin/list-sub-kriteria');

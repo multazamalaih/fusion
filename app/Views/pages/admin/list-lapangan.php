@@ -5,6 +5,19 @@
 	<a href="<?= base_url('admin/tambah-lapangan') ?>" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Data </a>
 </div>
 
+<?php if (session()->getFlashdata('success')): ?>
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<?= session()->getFlashdata('success') ?>
+	</div>
+<?php endif; ?>
+<?php if (session()->getFlashdata('error')): ?>
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<?= session()->getFlashdata('error') ?>
+	</div>
+<?php endif; ?>
+
 <div class="card shadow mb-4">
 	<!-- /.card-header -->
 	<div class="card-header py-3">
@@ -25,20 +38,23 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr align="center">
-						<td>1</td>
-						<td>Noel Futsal</td>
-						<td>Rp. 100.000</td>
-						<td>Vinyl</td>
-						<td>081234567890</td>
-						<td>
-							<div class="btn-group" role="group">
-								<a data-toggle="tooltip" data-placement="bottom" title="Detail Data" href="<?= base_url('admin/detail-lapangan') ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
-								<a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="<?= base_url('admin/edit-lapangan') ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-								<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="<?= base_url('admin/hapus-lapangan') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-							</div>
-						</td>
-					</tr>
+					<?php $no = 1;
+					foreach ($lapangan as $l): ?>
+						<tr align="center">
+							<td><?= $no++ ?></td>
+							<td><?= esc($l['nama']) ?></td>
+							<td>Rp <?= number_format($l['harga'], 0, ',', '.') ?></td>
+							<td><?= esc($l['jenis_lantai']) ?></td>
+							<td><?= esc($l['no_hp']) ?></td>
+							<td>
+								<div class="btn-group" role="group">
+									<a data-toggle="tooltip" title="Detail Data" href="<?= base_url('admin/detail-lapangan/' . $l['id_lapangan']) ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
+									<a data-toggle="tooltip" title="Edit Data" href="<?= base_url('admin/edit-lapangan/' . $l['id_lapangan']) ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
+									<a data-toggle="tooltip" title="Hapus Data" href="<?= base_url('admin/hapus-lapangan/' . $l['id_lapangan']) ?>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+								</div>
+							</td>
+						</tr>
+					<?php endforeach; ?>
 				</tbody>
 			</table>
 		</div>

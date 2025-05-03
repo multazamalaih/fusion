@@ -2,14 +2,17 @@
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-cube"></i> Data Kriteria</h1>
-    <a href="<?= base_url('admin/list-kriteria') ?>" class="btn btn-secondary btn-icon-split"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+    <a href="javascript:history.back()" class="btn btn-secondary btn-icon-split">
+        <span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
         <span class="text">Kembali</span>
     </a>
 </div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-magnifying-glass"></i> Detail Data Kriteria</h6>
+        <h6 class="m-0 font-weight-bold text-success">
+            <i class="fas fa-fw fa-magnifying-glass"></i> Detail Data Kriteria
+        </h6>
     </div>
 
     <div class="card-body text-gray-800">
@@ -17,38 +20,41 @@
             <table class="table">
                 <tr>
                     <td class="w-50">Kode Kriteria</td>
-                    <td class="font-weight-bold w-50">Kode 1</td>
+                    <td class="font-weight-bold w-50"><?= esc($kriteria['kode_kriteria']) ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Nama Kriteria</td>
-                    <td class="font-weight-bold w-50">Harga Sewa</td>
+                    <td class="font-weight-bold w-50"><?= esc($kriteria['nama']) ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Tipe Kriteria</td>
-                    <td class="font-weight-bold w-50">Cost</td>
+                    <td class="font-weight-bold w-50"><?= esc($kriteria['tipe']) ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Cara Penilaian</td>
-                    <td class="font-weight-bold w-50">Pilihan Sub Kriteria</td>
+                    <td class="font-weight-bold w-50"><?= esc($kriteria['pilihan']) ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Slogan Kriteria</td>
-                    <td class="font-weight-bold w-50" align="justify">Semakin murah harga sewa, semakin baik penilaian lapangan di mata pengguna</td>
+                    <td class="font-weight-bold w-50" align="justify"><?= esc($kriteria['slogan']) ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Keterangan Kriteria</td>
-                    <td class="font-weight-bold w-50" align="justify">
-                        Harga sewa adalah biaya yang harus dikeluarkan pengguna untuk menyewa lapangan futsal dalam satuan waktu tertentu (biasanya per jam). Kriteria ini termasuk kategori cost, yang berarti semakin kecil nilainya, semakin baik bagi pengguna. Harga yang murah memberikan keuntungan ekonomis, terutama bagi kelompok pemain yang sering menyewa lapangan. Namun, harga harus tetap seimbang dengan kualitas layanan dan fasilitas yang ditawarkan.
+                    <td class="font-weight-bold w-50 text-justify" style="white-space: normal; word-break: break-word;">
+                        <?= esc($kriteria['keterangan']) ?>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 
-
     <div class="card-footer text-right">
-        <a type="edit" class="btn btn-warning" href="<?= base_url('admin/edit-kriteria') ?>"><i class="fa fa-edit"></i> Edit</a>
-        <a type="delete" class="btn btn-danger" href="<?= base_url('admin/hapus-kriteria') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
+        <a class="btn btn-warning" href="<?= base_url('admin/edit-kriteria/' . $kriteria['id_kriteria']) ?>">
+            <i class="fa fa-edit"></i> Edit
+        </a>
+        <a class="btn btn-danger" href="<?= base_url('admin/hapus-kriteria/' . $kriteria['id_kriteria']) ?>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')">
+            <i class="fa fa-trash"></i> Hapus
+        </a>
     </div>
 </div>
 
