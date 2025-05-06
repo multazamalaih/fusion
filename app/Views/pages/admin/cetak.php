@@ -2,124 +2,67 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="utf-8">
 	<title>Fusion - Futsal Recommendation</title>
-	<link rel="shortcut icon" href="<?= base_url('admin/img/favicon.png') ?>" type="image/x-icon">
-	<link rel="icon" href="<?= base_url('admin/img/favicon.png') ?>" type="image/x-icon">
-	<style>
-		body {
-			font-family: 'Alata', Tahoma, Geneva, Verdana, sans-serif;
-			margin: 40px;
-			color: #222;
-			background-color: #fff;
-		}
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta content="" name="keywords">
+	<meta content="" name="description">
 
-		.header {
-			text-align: center;
-			margin-bottom: 30px;
-		}
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="<?= base_url('img/logo-baru.png') ?>" type="image/x-icon">
+	<link rel="icon" href="<?= base_url('img/logo-baru.png') ?>" type="image/x-icon">
 
-		.header img {
-			height: 90px;
-			margin-bottom: 10px;
-		}
+	<!-- Google Web Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 
-		.title-fusion {
-			font-size: 32px;
-			font-weight: bold;
-			letter-spacing: 6px;
-			margin: 0;
-			color: #2c3e50;
-		}
+	<!-- Icon Font Stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-		.subtitle-futsal {
-			font-size: 16px;
-			letter-spacing: 3px;
-			margin-top: 5px;
-			color: #7f8c8d;
-		}
+	<!-- Libraries Stylesheet -->
+	<link href="lib/animate/animate.min.css" rel="stylesheet">
+	<link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-		h4 {
-			margin-top: 40px;
-			margin-bottom: 25px;
-			text-align: center;
-			font-size: 22px;
-			font-weight: normal;
-			color: #34495e;
-		}
-
-		table {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 10px;
-			font-size: 16px;
-		}
-
-		th,
-		td {
-			border: 1px solid #ccc;
-			padding: 12px 16px;
-			text-align: center;
-		}
-
-		th {
-			background-color: #1cc88a;
-			/* fallback yang aman untuk print */
-			color: #000;
-			font-weight: bold;
-			border: 1px solid #999;
-		}
-
-		tbody tr:nth-child(even) {
-			background-color: #f2f2f2;
-		}
-
-		tbody tr:hover {
-			background-color: #e1f5f2;
-		}
-
-		@media print {
-			th {
-				background-color: #eaeaea !important;
-				color: #000 !important;
-			}
-		}
-	</style>
+	<!-- Template Stylesheet -->
+	<link href="<?= base_url('assets-admin/css/sb-admin-2.css') ?>" rel="stylesheet">
 </head>
 
 <body onload="window.print();">
 
 	<!-- Header -->
-	<div class="header">
-		<img src="<?= base_url('admin/img/logo.png') ?>" alt="Fusion Logo">
+	<div class="print-header mt-5">
+		<img src="<?= base_url('/assets-admin/img/logo.png') ?>" alt="Fusion Logo">
 		<p class="title-fusion">FUSION</p>
 		<p class="subtitle-futsal">FUTSAL RECOMMENDATION</p>
 	</div>
 
 	<!-- Judul -->
-	<h4>Hasil Rekomendasi Lapangan Futsal dengan Metode AHP-TOPSIS</h4>
-
-	<!-- Tabel -->
-	<table>
-		<thead>
-			<tr>
-				<th>Nama Lapangan Futsal</th>
-				<th>Nilai Preferensi</th>
-				<th>Peringkat</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php $rank = 1;
-			foreach ($hasil as $row): ?>
+	<div class="print-section">
+		<h4>Hasil Rekomendasi Lapangan Futsal dengan Metode AHP-TOPSIS</h4>
+		<!-- Tabel -->
+		<table>
+			<thead>
 				<tr>
-					<td><?= esc($namaLapanganMap[$row['id_lapangan']] ?? '-') ?></td>
-					<td><?= number_format($row['nilai'], 5, ',', '.') ?></td>
-					<td><?= $rank++ ?></td>
+					<th>Nama Lapangan Futsal</th>
+					<th>Nilai Preferensi</th>
+					<th>Peringkat</th>
 				</tr>
-			<?php endforeach ?>
-		</tbody>
-	</table>
-
+			</thead>
+			<tbody>
+				<?php $rank = 1;
+				foreach ($hasil as $row): ?>
+					<tr>
+						<td><?= esc($namaLapanganMap[$row['id_lapangan']] ?? '-') ?></td>
+						<td><?= number_format($row['nilai'], 5, ',', '.') ?></td>
+						<td><?= $rank++ ?></td>
+					</tr>
+				<?php endforeach ?>
+			</tbody>
+		</table>
+	</div>
 </body>
 
 </html>
