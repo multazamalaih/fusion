@@ -8,11 +8,11 @@
 	</a>
 </div>
 
-<?php if (session()->getFlashdata('errors')): ?>
+<?php if (validation_errors()): ?>
 	<div class="alert alert-danger alert-dismissible fade show" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 		<ul class="mb-0">
-			<?php foreach (session()->getFlashdata('errors') as $error): ?>
+			<?php foreach (validation_errors() as $error): ?>
 				<li><?= esc($error) ?></li>
 			<?php endforeach; ?>
 		</ul>
@@ -53,8 +53,8 @@
 					<label class="font-weight-bold">Role</label>
 					<select name="role" required class="form-control">
 						<option value="">--Pilih--</option>
-						<option value="admin" <?= $user['role'] == 'admin' ? 'selected' : '' ?>>Administrator</option>
-						<option value="user" <?= $user['role'] == 'user' ? 'selected' : '' ?>>User</option>
+						<option value="admin" selected="<?= $user['role'] === "Admin" ? 'true' : "false" ?>">Administrator</option>
+						<option value="user" selected="<?= $user['role'] === "User" ? 'true' : "false" ?>">User</option>
 					</select>
 				</div>
 			</div>

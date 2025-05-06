@@ -89,10 +89,15 @@
 
     <div class="register-box">
         <h2>Register</h2>
+        <?php if (session()->getFlashdata('error')) : ?>
+            <div style="background-color: #d4edda; color:rgb(194, 21, 21); padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb;">
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
         <form action="/register" method="post">
             <?= csrf_field() ?>
             <div>
-                <input type="username" name="username" placeholder="Nama" required value="<?= old("username") ?>" class="<?= validation_show_error('username') ? 'is-invalid' : "" ?>">
+                <input type="username" name="nama" placeholder="Nama" required value="<?= old("username") ?>" class="<?= validation_show_error('username') ? 'is-invalid' : "" ?>">
                 <?php if (validation_show_error("username")) : ?>
                     <div style="color: red; font-size: 13px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
                         <?= validation_show_error('username') ?>

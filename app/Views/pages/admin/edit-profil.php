@@ -8,7 +8,8 @@
     </a>
 </div>
 
-<form action="<?= base_url('admin/edit-profil') ?>" method="post">
+<form action="<?= base_url('admin/update-profil') ?>" method="post">
+    <input type="hidden" name="_method" value="PUT">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-edit"></i> Edit Data Profil</h6>
@@ -17,22 +18,22 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Nama User</label>
-                    <input autocomplete="off" type="text" name="nama" required class="form-control" value="nama lama" />
+                    <input autocomplete="off" type="text" name="nama" required class="form-control" value="<?= esc($user['nama']) ?>" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">E-Mail</label>
-                    <input autocomplete="off" type="email" name="email" required class="form-control" value="email lama" />
+                    <input autocomplete="off" type="email" name="email" required class="form-control" value="<?= esc($user['email']) ?>" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Password</label>
-                    <input autocomplete="off" type="password" name="password" required class="form-control" />
+                    <input autocomplete="off" type="password" name="password" class="form-control" />
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Ulangi Password</label>
-                    <input autocomplete="off" type="password" name="password2" required class="form-control" />
+                    <input autocomplete="off" type="password" name="konfirmasi" class="form-control" />
                 </div>
 
             </div>

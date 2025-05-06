@@ -42,6 +42,9 @@ class Auth extends BaseController
             "role" => $user["role"],
         ];
         session()->set("user", json_encode($user));
+        if ($user['role'] === "Admin") {
+            return redirect()->to(base_url('/admin/'));
+        }
         return redirect()->to(base_url('/'))->with('success', 'Berhasil login');
     }
     public function registerProses()
@@ -95,6 +98,7 @@ class Auth extends BaseController
             ]);
             return redirect()->to(base_url('/login'))->with('success', 'Berhasil mendaftar, silahkan login');
         } catch (\Exception $e) {
+            dd($e);
             return redirect()->to(base_url('/register'))->with('error', 'Gagal mendaftar');
         }
     }

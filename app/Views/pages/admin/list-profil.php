@@ -23,8 +23,8 @@
 				</thead>
 				<tbody>
 					<tr align="center">
-						<td>Contoh Nama User</td>
-						<td>Contoh Nama Email</td>
+						<td><?= esc($user['nama']) ?></td>
+						<td><?= esc($user['email']) ?></td>
 						<td>
 							<a data-toggle="tooltip" data-placement="bottom" title="Edit Data" href="<?= base_url('admin/edit-profil') ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
 						</td>

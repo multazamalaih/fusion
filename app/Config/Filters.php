@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Filters\Auth;
+use App\Filters\CheckAuth;
 use App\Filters\RedirectIfAuthenticated;
 use CodeIgniter\Config\Filters as BaseFilters;
 use CodeIgniter\Filters\Cors;
@@ -38,6 +39,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'redirectIfAuthenticated' => RedirectIfAuthenticated::class,
         'authCheck' => Auth::class,
+        'checkAdmin' => CheckAuth::class,
     ];
 
     /**

@@ -8,6 +8,7 @@ use App\Models\Users;
 class User extends BaseController
 {
     protected $userModel;
+    protected $helpers = ['form'];
 
     public function __construct()
     {
@@ -27,80 +28,72 @@ class User extends BaseController
 
     public function simpanUser()
     {
-        $errors = [];
+        // Aturan validasi
+        $validationRules = [
+            'nama' => [
+                'label' => 'Nama',
+                'rules' => 'required|min_length[3]|max_length[100]|is_unique[users.nama]',
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong',
+                    'min_length' => 'Nama minimal 3 karakter',
+                    'max_length' => 'Nama maksimal 100 karakter',
+                    'is_unique' => 'Nama sudah terdaftar',
+                ]
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => 'required|valid_email|is_unique[users.email]',
+                'errors' => [
+                    'required' => 'Email tidak boleh kosong',
+                    'valid_email' => 'Email tidak valid',
+                    'is_unique' => 'Email sudah terdaftar',
+                ]
+            ],
+            'password' => [
+                'label' => 'Password',
+                'rules' => 'required|min_length[6]|max_length[255]',
+                'errors' => [
+                    'required' => 'Password tidak boleh kosong',
+                    'min_length' => 'Password minimal 6 karakter',
+                    'max_length' => 'Password maksimal 255 karakter',
+                ]
+            ],
+            'konfirmasi' => [
+                'label' => 'Konfirmasi Password',
+                'rules' => 'required|matches[password]',
+                'errors' => [
+                    'required' => 'Konfirmasi password tidak boleh kosong',
+                    'matches' => 'Konfirmasi password tidak sama',
+                ]
+            ],
+            'role' => [
+                'label' => 'Role',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Role tidak boleh kosong',
+                ]
+            ]
+        ];
 
-        $nama       = $this->request->getPost('nama');
-        $email      = $this->request->getPost('email');
-        $password   = $this->request->getPost('password');
-        $konfirmasi = $this->request->getPost('konfirmasi');
-        $role       = $this->request->getPost('role');
-
-        // Validasi Nama
-        if (!$nama) {
-            $errors[] = 'Nama tidak boleh kosong';
-        } elseif (strlen($nama) < 3) {
-            $errors[] = 'Nama minimal 3 karakter';
-        } elseif (strlen($nama) > 100) {
-            $errors[] = 'Nama maksimal 100 karakter';
-        } else {
-            $userModel = new Users();
-            if ($userModel->where('nama', $nama)->first()) {
-                $errors[] = 'Nama sudah terdaftar';
-            }
+        // Proses validasi
+        if (!$this->validate($validationRules)) {
+            return redirect()->to(base_url('admin/tambah-user'))
+                ->withInput();
         }
 
-        // Validasi Email
-        if (!$email) {
-            $errors[] = 'Email tidak boleh kosong';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Email tidak valid';
-        } else {
-            $userModel = new Users();
-            if ($userModel->where('email', $email)->first()) {
-                $errors[] = 'Email sudah terdaftar';
-            }
-        }
-
-        // Validasi Password
-        if (!$password) {
-            $errors[] = 'Password tidak boleh kosong';
-        } elseif (strlen($password) < 6) {
-            $errors[] = 'Password minimal 6 karakter';
-        } elseif (strlen($password) > 255) {
-            $errors[] = 'Password maksimal 255 karakter';
-        }
-
-        // Validasi Konfirmasi
-        if (!$konfirmasi) {
-            $errors[] = 'Konfirmasi password tidak boleh kosong';
-        } elseif ($password !== $konfirmasi) {
-            $errors[] = 'Konfirmasi password tidak sama';
-        }
-
-        // Validasi Role
-        if (!$role) {
-            $errors[] = 'Role tidak boleh kosong';
-        }
-
-        // Kalau ada error, kembali ke form
-        if (!empty($errors)) {
-            session()->setFlashdata('errors', $errors);
-            return redirect()->to(base_url('admin/tambah-user'))->withInput();
-        }
-
-        // Simpan data
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        // Simpan data jika valid
+        $passwordHash = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
 
         $this->userModel->save([
-            'nama'     => $nama,
-            'email'    => $email,
+            'nama'     => $this->request->getPost('nama'),
+            'email'    => $this->request->getPost('email'),
             'password' => $passwordHash,
-            'role'     => $role,
+            'role'     => $this->request->getPost('role'),
         ]);
 
-        session()->setFlashdata('success', 'Data berhasil ditambahkan.');
-        return redirect()->to(base_url('admin/list-user'));
+        return redirect()->to(base_url('admin/list-user'))->with('success', 'Data berhasil ditambahkan.');
     }
+
 
     public function editUser($id)
     {
@@ -119,71 +112,74 @@ class User extends BaseController
 
     public function updateUser($id)
     {
-        $errors = [];
+        $userLama = $this->userModel->find($id);
+        if (!$userLama) {
+            return redirect()->to(base_url('admin/list-user'))->with('error', 'User tidak ditemukan.');
+        }
 
-        $nama       = $this->request->getPost('nama');
-        $email      = $this->request->getPost('email');
-        $password   = $this->request->getPost('password');
+        // Aturan validasi
+        $validationRules = [
+            'nama' => [
+                'label' => 'Nama',
+                'rules' => "required|min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
+                'errors' => [
+                    'required' => 'Nama tidak boleh kosong',
+                    'min_length' => 'Nama minimal 3 karakter',
+                    'max_length' => 'Nama maksimal 100 karakter',
+                    'is_unique' => 'Nama sudah terdaftar',
+                ]
+            ],
+            'email' => [
+                'label' => 'Email',
+                'rules' => "required|valid_email|is_unique[users.email,id_user,{$id}]",
+                'errors' => [
+                    'required' => 'Email tidak boleh kosong',
+                    'valid_email' => 'Email tidak valid',
+                    'is_unique' => 'Email sudah terdaftar',
+                ]
+            ],
+            'role' => [
+                'label' => 'Role',
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Role tidak boleh kosong',
+                ]
+            ]
+        ];
+
+        // Tambahkan validasi password hanya jika diisi
+        $password = $this->request->getPost('password');
         $konfirmasi = $this->request->getPost('konfirmasi');
-        $role       = $this->request->getPost('role');
-
-        // Validasi Nama
-        if (!$nama) {
-            $errors[] = 'Nama tidak boleh kosong';
-        } elseif (strlen($nama) < 3) {
-            $errors[] = 'Nama minimal 3 karakter';
-        } elseif (strlen($nama) > 100) {
-            $errors[] = 'Nama maksimal 100 karakter';
-        } else {
-            $userModel = new Users();
-            $user = $userModel->where('nama', $nama)->where('id_user !=', $id)->first();
-            if ($user) {
-                $errors[] = 'Nama sudah terdaftar';
-            }
-        }
-
-        // Validasi Email
-        if (!$email) {
-            $errors[] = 'Email tidak boleh kosong';
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Email tidak valid';
-        } else {
-            $userModel = new Users();
-            $user = $userModel->where('email', $email)->where('id_user !=', $id)->first();
-            if ($user) {
-                $errors[] = 'Email sudah terdaftar';
-            }
-        }
-
-        // Validasi Password (opsional saat edit)
         if ($password) {
-            if (strlen($password) < 6) {
-                $errors[] = 'Password minimal 6 karakter';
-            } elseif (strlen($password) > 255) {
-                $errors[] = 'Password maksimal 255 karakter';
-            }
-            if ($password !== $konfirmasi) {
-                $errors[] = 'Konfirmasi password tidak sama';
-            }
+            $validationRules['password'] = [
+                'label' => 'Password',
+                'rules' => 'min_length[6]|max_length[255]',
+                'errors' => [
+                    'min_length' => 'Password minimal 6 karakter',
+                    'max_length' => 'Password maksimal 255 karakter',
+                ]
+            ];
+            $validationRules['konfirmasi'] = [
+                'label' => 'Konfirmasi Password',
+                'rules' => 'matches[password]',
+                'errors' => [
+                    'matches' => 'Konfirmasi password tidak sama',
+                ]
+            ];
         }
 
-        // Validasi Role
-        if (!$role) {
-            $errors[] = 'Role tidak boleh kosong';
+        // Proses validasi
+        if (!$this->validate($validationRules)) {
+            return redirect()->to(base_url('admin/edit-user/' . $id))
+                ->withInput();
         }
 
-        // Kalau ada error, kembali ke form
-        if (!empty($errors)) {
-            session()->setFlashdata('errors', $errors);
-            return redirect()->to(base_url('admin/edit-user/' . $id))->withInput();
-        }
-
-        // Simpan update data
+        // Simpan update
         $dataUpdate = [
             'id_user' => $id,
-            'nama'    => $nama,
-            'email'   => $email,
-            'role'    => $role,
+            'nama'    => $this->request->getPost('nama'),
+            'email'   => $this->request->getPost('email'),
+            'role'    => $this->request->getPost('role'),
         ];
 
         if ($password) {
@@ -192,9 +188,9 @@ class User extends BaseController
 
         $this->userModel->save($dataUpdate);
 
-        session()->setFlashdata('success', 'Data berhasil diupdate.');
-        return redirect()->to(base_url('admin/list-user'));
+        return redirect()->to(base_url('admin/list-user'))->with('success', 'Data berhasil diupdate.');
     }
+
 
     public function hapusUser($id)
     {

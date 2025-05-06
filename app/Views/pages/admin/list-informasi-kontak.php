@@ -4,12 +4,20 @@
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-phone"></i> Data Informasi Kontak</h1>
 </div>
 
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('success') ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Tutup">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<?php endif; ?>
+
+<!-- Informasi Kontak -->
 <div class="card shadow mb-4">
-    <!-- /.card-header -->
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-success"><i class="fa fa-table"></i> Daftar Data Informasi Kontak</h6>
     </div>
-
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" width="100%" cellspacing="0">
@@ -25,174 +33,198 @@
                 </thead>
                 <tbody>
                     <tr align="center">
-                        <td>Contoh Instagram</td>
-                        <td>Contoh FB</td>
-                        <td>Contoh Twitter</td>
-                        <td>Contoh TikTok</td>
-                        <td>Contoh WhatsApp</td>
-                        <td>
-                            <a data-toggle="modal" href="#editik" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
-                        </td>
+                        <?php if (!$kontak): ?>
+                            <td colspan="5">Belum ada data Informasi Kontak.</td>
+                            <td><a href="#inputKontak" data-toggle="modal" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Input</a></td>
+                        <?php else: ?>
+                            <td><?= esc($kontak['instagram']) ?></td>
+                            <td><?= esc($kontak['facebook']) ?></td>
+                            <td><?= esc($kontak['twitter']) ?></td>
+                            <td><?= esc($kontak['tiktok']) ?></td>
+                            <td><?= esc($kontak['whatsapp']) ?></td>
+                            <td><a href="#editKontak" data-toggle="modal" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a></td>
+                        <?php endif; ?>
                     </tr>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="editik" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Edit Informasi Kontak</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                </div>
-                                <form action="" method="post">
-                                    <input type="text" name="informasi-kontak" value="informasi-kontak" hidden>
-                                    <div class="modal-body">
-                                        <input type="text" name="informasi-kontak" value="informasi-kontak" hidden>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Instagram</label>
-                                            <input type="text" autocomplete="off" class="form-control" value="nama ig lama" name="instagram" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Facebook</label>
-                                            <input type="text" step="0.001" autocomplete="off" name="facebook" class="form-control" value="nama fb lama" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Twitter</label>
-                                            <input type="text" step="0.001" autocomplete="off" name="twitter" class="form-control" value="nama twitter lama" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">TikTok</label>
-                                            <input type="text" step="0.001" autocomplete="off" name="tiktok" class="form-control" value="nama tiktok lama" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">WhatsApp</label>
-                                            <input type="number" step="0.001" autocomplete="off" name="whatsapp" class="form-control" value="028464747" required>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
-                                        <button type="submit" name="edit" class="btn btn-success"><i class="fa fa-save"></i> Update</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<div class="card shadow mb-4">
-    <!-- /.card-header -->
-    <div class="card-header py-3">
-        <div class="d-sm-flex align-items-center justify-content-between">
-            <h6 class="m-0 font-weight-bold text-success"><i class="fa fa-table"></i> Daftar Ulasan Manajemen</h6>
-            <a href="#tambah" data-toggle="modal" class="btn btn-sm btn-success"> <i class="fa fa-plus"></i> Tambah Data </a>
+<!-- Modal Input -->
+<div class="modal fade" id="inputKontak" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="<?= base_url('admin/simpan-kontak') ?>" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa fa-plus"></i> Input Kontak</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <?php foreach (['instagram', 'facebook', 'twitter', 'tiktok', 'whatsapp'] as $field): ?>
+                        <div class="form-group">
+                            <label class="font-weight-bold text-capitalize"><?= $field ?></label>
+                            <input type="text" name="<?= $field ?>" class="form-control" autocomplete="off">
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- Modal Edit -->
+<?php if ($kontak): ?>
+    <div class="modal fade" id="editKontak" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel"><i class="fa fa-plus"></i> Tambah Ulasan Manajemen</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <form action="" method="post">
+                <form action="<?= base_url('admin/update-kontak') ?>" method="post">
+                    <input type="hidden" name="id_kontak" value="<?= $kontak['id_kontak'] ?>">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fa fa-edit"></i> Edit Kontak</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
                     <div class="modal-body">
-                        <input type="text" name="id_ulasan" value="id_ulasan" hidden>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Pihak Manajemen</label>
-                            <input autocomplete="off" type="text" class="form-control" name="nama" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Nama Lapangan</label>
-                            <select name="nilai" class="form-control" required>
-                                <option value="">--Pilih--</option>
-                                <option value="Noel Futsal">Noel Futsal</option>
-                                <option value="Taruna Mandiri">Taruna Mandiri</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="font-weight-bold">Ulasan</label>
-                            <textarea autocomplete="off" name="keterangan" required class="form-control" style="height: 200px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: break-word;"></textarea>
-                        </div>
+                        <?php foreach (['instagram', 'facebook', 'twitter', 'tiktok', 'whatsapp'] as $field): ?>
+                            <div class="form-group">
+                                <label class="font-weight-bold text-capitalize"><?= $field ?></label>
+                                <input type="text" name="<?= $field ?>" class="form-control" value="<?= esc($kontak[$field]) ?>" autocomplete="off">
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
-                        <button type="submit" name="tambah" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
+<?php endif; ?>
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between">
+        <h6 class="m-0 font-weight-bold text-success">
+            <i class="fa fa-table"></i> Daftar Ulasan Manajemen
+        </h6>
+        <a href="#tambahUlasan" data-toggle="modal" class="btn btn-sm btn-success">
+            <i class="fa fa-plus"></i> Tambah Data
+        </a>
+    </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" width="100%" cellspacing="0">
                 <thead class="bg-success text-white">
                     <tr align="center">
-                        <th width="5%">No</th>
-                        <th>Pihak Manajemen</th>
+                        <th>No</th>
+                        <th>Nama Manajemen</th>
                         <th>Nama Lapangan</th>
                         <th>Ulasan</th>
                         <th width="15%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr align="center">
-                        <td>1</td>
-                        <td>contoh Pihak Manajemen</td>
-                        <td>Contoh Nama Lapangan</td>
-                        <td>contoh Ulasan</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a data-toggle="modal" title="Edit Data" href="#editulasan" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-                                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="list-informasi-kontak.php" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="editulasan" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Edit Ulasan Manajemen</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <?php $no = 1;
+                    foreach ($ulasan as $row): ?>
+                        <tr align="center">
+                            <td><?= $no++ ?></td>
+                            <td><?= esc($row['nama']) ?></td>
+                            <td><?= esc($namaLapanganMap[$row['id_lapangan']] ?? '-') ?></td>
+                            <td><?= esc($row['ulasan']) ?></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="#editUlasan<?= $row['id_ulasan'] ?>" data-toggle="modal" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a href="<?= base_url('admin/hapus-ulasan/' . $row['id_ulasan']) ?>" onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </div>
-                                <form action="" method="post">
-                                    <div class="modal-body">
-                                        <input type="text" name="id_ulasan" hidden>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Pihak Manajemen</label>
-                                            <input autocomplete="off" type="text" class="form-control" name="nama" value="nama lama" required>
+                            </td>
+                        </tr>
+
+                        <!-- Modal Edit -->
+                        <div class="modal fade" id="editUlasan<?= $row['id_ulasan'] ?>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="<?= base_url('admin/update-ulasan/' . $row['id_ulasan']) ?>" method="post">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Edit Ulasan</h5>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Nama Lapangan</label>
-                                            <select name="nilai" class="form-control" required>
-                                                <option value="">--Pilih--</option>
-                                                <option value="Noel Futsal">Noel Futsal</option>
-                                                <option value="Taruna Mandiri" selected>Taruna Mandiri</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="font-weight-bold">Ulasan</label>
-                                            <textarea autocomplete="off" name="keterangan" required class="form-control"
-                                                style="height: 200px; text-align: left; vertical-align: top; word-break: break-word; overflow-wrap: break-word;">keterangan lama</textarea>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <label>Nama Manajemen</label>
+                                                <input type="text" name="nama" class="form-control" value="<?= esc($row['nama']) ?>" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Lapangan</label>
+                                                <select name="id_lapangan" class="form-control" required>
+                                                    <?php foreach ($lapanganList as $lap): ?>
+                                                        <option value="<?= $lap['id_lapangan'] ?>" <?= $row['id_lapangan'] == $lap['id_lapangan'] ? 'selected' : '' ?>>
+                                                            <?= esc($lap['nama']) ?>
+                                                        </option>
+                                                    <?php endforeach ?>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Ulasan</label>
+                                                <textarea name="ulasan" class="form-control" rows="4" required><?= esc($row['ulasan']) ?></textarea>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
-                                            <button type="submit" name="edit" class="btn btn-success"><i class="fa fa-save"></i> Update</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                                            <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Update</button>
                                         </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endforeach ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Modal Tambah Ulasan -->
+<div class="modal fade" id="tambahUlasan" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="<?= base_url('admin/simpan-ulasan') ?>" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Ulasan</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nama Manajemen</label>
+                        <input type="text" name="nama" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Lapangan</label>
+                        <select name="id_lapangan" class="form-control" required>
+                            <option value="">-- Pilih Lapangan --</option>
+                            <?php foreach ($lapanganList as $lap): ?>
+                                <option value="<?= $lap['id_lapangan'] ?>"><?= esc($lap['nama']) ?></option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ulasan</label>
+                        <textarea name="ulasan" class="form-control" rows="4" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <?= view('pages/admin/template/footer') ?>

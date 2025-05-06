@@ -12,18 +12,18 @@
   <title>Fusion</title>
 
   <!-- Custom fonts for this template-->
-  <link href="<?= base_url('admin/vendor/fontawesome-free/css/all.min.css') ?>" rel="stylesheet" type="text/css">
+  <link href="<?= base_url('assets-admin/vendor/fontawesome-free/css/all.min.css') ?>" rel="stylesheet" type="text/css">
   <!-- Font Awesome 6 (Terbaru) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="<?= base_url('admin/css/sb-admin-2.min.css') ?>" rel="stylesheet">
-  <link href="<?= base_url('admin/css/sb-admin-2.css') ?>" rel="stylesheet">
-  <link href="<?= base_url('admin/vendor/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
-  <script src="<?= base_url('admin/vendor/jquery/jquery.min.js') ?>"></script>
-  <link rel="shortcut icon" href="<?= base_url('admin/img/logo.png') ?>" type="image/x-icon">
-  <link rel="icon" href="<?= base_url('admin/img/logo.png') ?>" type="image/x-icon">
+  <link href="<?= base_url('assets-admin/css/sb-admin-2.min.css') ?>" rel="stylesheet">
+  <link href="<?= base_url('assets-admin/css/sb-admin-2.css') ?>" rel="stylesheet">
+  <link href="<?= base_url('assets-admin/vendor/datatables/dataTables.bootstrap4.min.css') ?>" rel="stylesheet">
+  <script src="<?= base_url('assets-admin/vendor/jquery/jquery.min.js') ?>"></script>
+  <link rel="shortcut icon" href="<?= base_url('assets-admin/img/logo.png') ?>" type="image/x-icon">
+  <link rel="icon" href="<?= base_url('assets-admin/img/logo.png') ?>" type="image/x-icon">
 
 </head>
 
@@ -36,9 +36,9 @@
     <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('admin/dashboard') ?>">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('assets-admin/dashboard') ?>">
         <div class="sidebar-brand-icon">
-          <img src="<?= base_url('admin/img/logo.png') ?>" alt="Logo Fusion" style="height: 50px;">
+          <img src="<?= base_url('assets-admin/img/logo.png') ?>" alt="Logo Fusion" style="height: 50px;">
         </div>
         <div class="sidebar-brand-text">
           <div style="font-size: 20px; letter-spacing: 5px; line-height: 1;">FUSION</div>
@@ -183,7 +183,7 @@
                 <span class="text-uppercase mr-2 d-none d-lg-inline text-gray-600 small">
                   Admin
                 </span>
-                <img class="img-profile rounded-circle" src="<?= base_url('admin/img/user.png') ?>">
+                <img class="img-profile rounded-circle" src="<?= base_url('assets-admin/img/user.png') ?>">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
