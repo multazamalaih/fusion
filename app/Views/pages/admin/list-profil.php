@@ -5,6 +5,13 @@
 	<h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-user"></i> Data Profil</h1>
 </div>
 
+<?php if (session()->getFlashdata('success')): ?>
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		<?= session()->getFlashdata('success') ?>
+	</div>
+<?php endif; ?>
+
 <div class="card shadow mb-4">
 	<!-- /.card-header -->
 	<div class="card-header py-3">

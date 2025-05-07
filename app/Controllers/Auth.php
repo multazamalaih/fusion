@@ -41,7 +41,7 @@ class Auth extends BaseController
             "email" => $user["email"],
             "role" => $user["role"],
         ];
-        session()->set("user", json_encode($user));
+        session()->set('user', $user);
         if ($user['role'] === "Admin") {
             return redirect()->to(base_url('/admin/'));
         }

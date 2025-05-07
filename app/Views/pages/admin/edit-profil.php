@@ -17,23 +17,31 @@
         <div class="card-body">
             <div class="row">
                 <div class="form-group col-md-6">
-                    <label class="font-weight-bold">Nama User</label>
-                    <input autocomplete="off" type="text" name="nama" required class="form-control" value="<?= esc($user['nama']) ?>" />
+                    <label class="font-weight-bold">Nama</label>
+                    <input type="text" name="nama" value="<?= old('nama', $user['nama']) ?>" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" required>
+                    <?php if (session('errors.nama')): ?>
+                        <div class="invalid-feedback text-danger"><?= session('errors.nama') ?></div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">E-Mail</label>
-                    <input autocomplete="off" type="email" name="email" required class="form-control" value="<?= esc($user['email']) ?>" />
+                    <input autocomplete="off" type="email" name="email" value="<?= old('email', $user['email']) ?>" class="form-control <?= session('errors.email') ? 'is-invalid' : '' ?>" required>
+                    <?php if (session('errors.email')): ?>
+                        <div class="invalid-feedback text-danger"><?= session('errors.email') ?></div>
+                    <?php endif; ?>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Password</label>
-                    <input autocomplete="off" type="password" name="password" class="form-control" />
+                    <input autocomplete="off" type="password" name="password" class="form-control <?= session('errors.password') ? 'is-invalid' : '' ?>">
+                    <?php if (session('errors.password')): ?><div class="invalid-feedback text-danger"> <?= session('errors.password') ?> </div><?php endif; ?>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label class="font-weight-bold">Ulangi Password</label>
-                    <input autocomplete="off" type="password" name="konfirmasi" class="form-control" />
+                    <input autocomplete="off" type="password" name="konfirmasi" class="form-control <?= session('errors.konfirmasi') ? 'is-invalid' : '' ?>">
+                    <?php if (session('errors.konfirmasi')): ?><div class="invalid-feedback text-danger"> <?= session('errors.konfirmasi') ?> </div><?php endif; ?>
                 </div>
 
             </div>

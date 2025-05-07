@@ -89,6 +89,11 @@ class Penilaian extends BaseController
                     session()->setFlashdata('error', 'Sub Kriteria tidak valid.');
                     return redirect()->to('/admin/list-penilaian');
                 }
+            } else {
+                if (!is_numeric($nilai) || !ctype_digit($nilai) || (int)$nilai <= 0) {
+                    session()->setFlashdata('error', 'Nilai untuk kriteria "' . $kriteria['nama'] . '" harus berupa angka bulat lebih dari 0.');
+                    return redirect()->to('/admin/list-penilaian')->withInput();
+                }
             }
 
             // Menyimpan data penilaian ke tabel penilaian
@@ -133,6 +138,11 @@ class Penilaian extends BaseController
                     // Jika sub-kriteria tidak valid, bisa menampilkan error
                     session()->setFlashdata('error', 'Sub Kriteria tidak valid.');
                     return redirect()->to('/admin/list-penilaian');
+                }
+            } else {
+                if (!is_numeric($nilai) || !ctype_digit($nilai) || (int)$nilai <= 0) {
+                    session()->setFlashdata('error', 'Nilai untuk kriteria "' . $kriteria['nama'] . '" harus berupa angka bulat lebih dari 0.');
+                    return redirect()->to('/admin/list-penilaian')->withInput();
                 }
             }
 

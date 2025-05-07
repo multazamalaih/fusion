@@ -94,8 +94,10 @@
 
     <div class="card-footer text-right">
         <a href="<?= base_url('admin/edit-lapangan/' . $lapangan['id_lapangan']) ?>" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
-        <a href="<?= base_url('admin/hapus-lapangan/' . $lapangan['id_lapangan']) ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="fa fa-trash"></i> Hapus</a>
+        <a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-lapangan/' . $lapangan['id_lapangan']) ?>"
+            class="btn btn-danger" title="Hapus Data">
+            <i class="fa fa-trash"></i> Hapus
+        </a>
     </div>
-</div>
 
-<?= view('pages/admin/template/footer') ?>
+    <?= view('pages/admin/template/footer') ?>

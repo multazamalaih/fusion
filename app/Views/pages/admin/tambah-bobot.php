@@ -153,50 +153,186 @@ $errorMessage  = session()->getFlashdata('error') ?: ($error ?? null);
 		</div>
 	</div>
 </form>
+<?php if (isset($hasil_ahp)) {
+	extract($hasil_ahp); // ini akan membuat $matrik, $jumlahKolom, dst tersedia
+} ?>
 
-<?php if (isset($from_cek_konsistensi) && isset($list_data)): ?>
+<?php if (isset($from_cek_konsistensi) && isset($matrik) && isset($jumlahKolom)): ?>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Perbandingan Berpasangan</h6>
 		</div>
-		<div class="card-body table-responsive"> <?= $list_data ?> </div>
+		<div class="card-body table-responsive">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>Kriteria</th>
+						<?php foreach ($kriteria as $k): ?>
+							<th><?= esc($k['kode_kriteria']) ?></th>
+						<?php endforeach; ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($kriteria as $i => $baris): ?>
+						<tr>
+							<th><?= esc($baris['kode_kriteria']) ?></th>
+							<?php foreach ($kriteria as $j => $kolom): ?>
+								<td><?= $matrik[$i][$j] ?? '-' ?></td>
+							<?php endforeach; ?>
+						</tr>
+					<?php endforeach; ?>
+					<tr>
+						<th>Jumlah</th>
+						<?php foreach ($jumlahKolom as $jumlah): ?>
+							<td class="font-weight-bold"><?= $jumlah ?></td>
+						<?php endforeach; ?>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 <?php endif; ?>
 
-<?php if (isset($from_cek_konsistensi) && isset($list_data2)): ?>
+<?php if (isset($from_cek_konsistensi) && isset($normalisasi) && isset($prioritas)): ?>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Normalisasi & Bobot</h6>
 		</div>
-		<div class="card-body table-responsive"> <?= $list_data2 ?> </div>
+		<div class="card-body table-responsive">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>Kriteria</th>
+						<?php foreach ($kriteria as $k): ?>
+							<th><?= esc($k['kode_kriteria']) ?></th>
+						<?php endforeach; ?>
+						<th>Jumlah</th>
+						<th>Prioritas</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($kriteria as $i => $row): ?>
+						<tr>
+							<th><?= esc($row['kode_kriteria']) ?></th>
+							<?php
+							$jumlah = 0;
+							foreach ($kriteria as $j => $col):
+								$val = $normalisasi[$i][$j];
+								$jumlah += $val;
+							?>
+								<td><?= $val ?></td>
+							<?php endforeach; ?>
+							<td class="font-weight-bold"><?= round($jumlah, 5) ?></td>
+							<td class="font-weight-bold"><?= $prioritas[$i] ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 <?php endif; ?>
 
-<?php if (isset($from_cek_konsistensi) && isset($list_data3)): ?>
+<?php if (isset($from_cek_konsistensi) && isset($matrikBaris) && isset($jumlahBaris)): ?>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Penjumlahan Baris</h6>
 		</div>
-		<div class="card-body table-responsive"> <?= $list_data3 ?> </div>
+		<div class="card-body table-responsive">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>Kriteria</th>
+						<?php foreach ($kriteria as $k): ?>
+							<th><?= esc($k['kode_kriteria']) ?></th>
+						<?php endforeach; ?>
+						<th>Jumlah</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($kriteria as $i => $row): ?>
+						<tr>
+							<th><?= esc($row['kode_kriteria']) ?></th>
+							<?php foreach ($kriteria as $j => $col): ?>
+								<td><?= $matrikBaris[$i][$j] ?></td>
+							<?php endforeach; ?>
+							<td class="font-weight-bold"><?= $jumlahBaris[$i] ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 <?php endif; ?>
 
-<?php if (isset($from_cek_konsistensi) && isset($list_data4)): ?>
+<?php if (isset($from_cek_konsistensi) && isset($hasilKonsistensi)): ?>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
 			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Matriks Rasio Konsistensi</h6>
 		</div>
-		<div class="card-body table-responsive"> <?= $list_data4 ?> </div>
+		<div class="card-body table-responsive">
+			<table class="table table-bordered text-center">
+				<thead>
+					<tr>
+						<th>Kriteria</th>
+						<th>Jumlah Baris</th>
+						<th>Prioritas</th>
+						<th>Hasil</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($kriteria as $i => $k): ?>
+						<tr>
+							<td><?= esc($k['kode_kriteria']) ?></td>
+							<td><?= $jumlahBaris[$i] ?></td>
+							<td><?= $prioritas[$i] ?></td>
+							<td class="font-weight-bold"><?= $hasilKonsistensi[$i] ?></td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		</div>
 	</div>
 <?php endif; ?>
 
-<?php if (isset($from_cek_konsistensi) && isset($list_data5)): ?>
+<?php if (isset($from_cek_konsistensi) && isset($lambdaMax)): ?>
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
-			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Detail rasio Konsistensi</h6>
+			<h6 class="m-0 font-weight-bold text-success"><i class="fas fa-fw fa-table"></i> Detail Rasio Konsistensi</h6>
 		</div>
-		<div class="card-body"> <?= $list_data5 ?> </div>
+		<div class="card-body">
+			<table class="table">
+				<tr>
+					<td width="150">Jumlah</td>
+					<td>= <?= round($lambdaMax * count($kriteria), 5) ?></td>
+				</tr>
+				<tr>
+					<td>n</td>
+					<td>= <?= count($kriteria) ?></td>
+				</tr>
+				<tr>
+					<td>&#955; maks</td>
+					<td>= <?= round($lambdaMax, 5) ?></td>
+				</tr>
+				<tr>
+					<td>CI</td>
+					<td>= <?= round($ci, 5) ?></td>
+				</tr>
+				<tr>
+					<td>IR</td>
+					<td>= <?= $ir[count($kriteria) - 1] ?></td>
+				</tr>
+				<tr>
+					<td>CR</td>
+					<td>= <?= round($cr, 5) ?></td>
+				</tr>
+				<tr>
+					<td>CR &le; 0.1</td>
+					<td class="font-weight-bold"><?= ($cr <= 0.1) ? 'Konsisten' : 'Tidak Konsisten' ?></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 <?php endif; ?>
+
 
 <?= view('pages/admin/template/footer') ?>

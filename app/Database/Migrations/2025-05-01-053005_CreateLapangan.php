@@ -22,7 +22,7 @@ class CreateLapangan extends Migration
             ],
             'harga' => [
                 'type' => 'DECIMAL',
-                'constraint' => '10,2',
+                'constraint' => '10,0',
                 'null' => false,
             ],
             'jenis_lantai' => [

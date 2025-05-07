@@ -31,16 +31,32 @@ class Perhitungan extends BaseController
         $kriteriaList = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
         $lapanganList = $this->lapanganModel->findAll();
 
-        // Cek apakah semua kombinasi penilaian terisi
+        if (empty($kriteriaList) || empty($lapanganList)) {
+            session()->setFlashdata('errorperhitungan', 'Data kriteria atau lapangan kosong. Harap lengkapi terlebih dahulu.');
+            session()->remove('success');
+            return view('pages/admin/perhitungan', [
+                'kriteriaList' => $kriteriaList,
+                'lapanganList' => $lapanganList,
+                'penilaianLengkap' => false
+            ]);
+        }
+
+        // ✅ Cek kelengkapan data penilaian
         foreach ($lapanganList as $lapangan) {
             foreach ($kriteriaList as $kriteria) {
                 $cek = $this->penilaianModel
                     ->where('id_lapangan', $lapangan['id_lapangan'])
                     ->where('id_kriteria', $kriteria['id_kriteria'])
                     ->first();
+
                 if (!$cek) {
-                    session()->setFlashdata('errorpenilaian', 'Data penilaian belum lengkap. Harap isi semua penilaian untuk setiap kombinasi lapangan dan kriteria.');
-                    return redirect()->to(base_url('admin/perhitungan'));
+                    session()->setFlashdata('errorperhitungan', 'Data penilaian belum lengkap. Harap isi semua penilaian.');
+                    session()->remove('success');
+                    return view('pages/admin/perhitungan', [
+                        'kriteriaList' => $kriteriaList,
+                        'lapanganList' => $lapanganList,
+                        'penilaianLengkap' => false
+                    ]);
                 }
             }
         }
@@ -165,7 +181,7 @@ class Perhitungan extends BaseController
             ]);
         }
 
-        session()->setFlashdata('success', 'Perhitungan berhasil dilakukan dan disimpan.');
+        session()->setFlashdata('successperhitungan', 'Perhitungan berhasil dilakukan dan disimpan.');
         // Kirim data ke view
         return view('pages/admin/perhitungan', [
             'kriteriaList' => $kriteriaList,
@@ -178,6 +194,7 @@ class Perhitungan extends BaseController
             'jarakIdealPositif' => $jarakIdealPositif,
             'jarakIdealNegatif' => $jarakIdealNegatif,
             'nilaiPreferensi' => $nilaiPreferensi,
+            'penilaianLengkap' => true,
         ]);
     }
 }

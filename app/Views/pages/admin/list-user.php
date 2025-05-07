@@ -54,10 +54,8 @@
 										<i class="fa fa-edit"></i>
 									</a>
 
-									<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
-										href="<?= base_url('admin/hapus-user/' . $user['id_user']) ?>"
-										onclick="return confirm('Apakah anda yakin ingin menghapus data ini?')"
-										class="btn btn-danger btn-sm">
+									<a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-user/' . $user['id_user']) ?>"
+										class="btn btn-danger btn-sm" data-placement="bottom" title="Hapus Data">
 										<i class="fa fa-trash"></i>
 									</a>
 								</div>

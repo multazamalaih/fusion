@@ -26,7 +26,7 @@
 				<!-- Harga Sewa -->
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Harga Sewa per Jam</label>
-					<input type="text" name="harga" value="<?= old('harga', $lapangan['harga']) ?>" class="form-control <?= session('errors.harga') ? 'is-invalid' : '' ?>" required />
+					<input type="number" step="1" name="harga" value="<?= old('harga', number_format($lapangan['harga'], 0, '.', '')) ?>" class="form-control <?= session('errors.harga') ? 'is-invalid' : '' ?>" required />
 					<?php if (session('errors.harga')): ?><div class="invalid-feedback text-danger"> <?= session('errors.harga') ?> </div><?php endif; ?>
 				</div>
 
@@ -52,14 +52,14 @@
 				<!-- Latitude -->
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Latitude</label>
-					<input type="text" name="latitude" value="<?= old('latitude', $lapangan['latitude']) ?>" class="form-control <?= session('errors.latitude') ? 'is-invalid' : '' ?>" required />
+					<input type="number" step="0.000001" name="latitude" value="<?= old('latitude', $lapangan['latitude']) ?>" class="form-control <?= session('errors.latitude') ? 'is-invalid' : '' ?>" required />
 					<?php if (session('errors.latitude')): ?><div class="invalid-feedback text-danger"> <?= session('errors.latitude') ?> </div><?php endif; ?>
 				</div>
 
 				<!-- Longitude -->
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Longitude</label>
-					<input type="text" name="longitude" value="<?= old('longitude', $lapangan['longitude']) ?>" class="form-control <?= session('errors.longitude') ? 'is-invalid' : '' ?>" required />
+					<input type="number" step="0.000001" name="longitude" value="<?= old('longitude', $lapangan['longitude']) ?>" class="form-control <?= session('errors.longitude') ? 'is-invalid' : '' ?>" required />
 					<?php if (session('errors.longitude')): ?><div class="invalid-feedback text-danger"> <?= session('errors.longitude') ?> </div><?php endif; ?>
 				</div>
 

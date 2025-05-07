@@ -32,7 +32,8 @@ class CreateKriteria extends Migration
                 'default' => 'Benefit',
             ],
             'bobot' => [
-                'type' => 'FLOAT',
+                'type' => 'DECIMAL',
+                'constraint' => '10,5',
                 'null' => true,
                 'default' => 0,
             ],

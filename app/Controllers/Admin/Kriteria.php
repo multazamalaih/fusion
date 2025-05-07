@@ -206,7 +206,7 @@ class Kriteria extends BaseController
             return redirect()->to(base_url('admin/list-kriteria'))->with('error', 'Data Kriteria tidak ditemukan.');
         }
 
-        // Hapus sub-kriteria terkait dulu (jaga-jaga kalau ON DELETE CASCADE tidak bekerja)
+        // Hapus sub-kriteria terkait
         $this->subKriteriaModel->where('id_kriteria', $id)->delete();
 
         // Hapus data kriteria
@@ -215,15 +215,13 @@ class Kriteria extends BaseController
         session()->setFlashdata('success', 'Data berhasil dihapus.');
         return redirect()->to(base_url('admin/list-kriteria'));
     }
+
     public function tambahBobot()
     {
         $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
         $ahpList = $this->kriteriaAhpModel->findAll();
 
-        // Ambil flashdata jika ada
         $nilai_input_sementara = session()->getFlashdata('nilai_input_sementara');
-
-        // Jika tidak ada nilai sementara dari session (berarti buka ulang halaman), isi dari DB
         if (empty($nilai_input_sementara)) {
             foreach ($ahpList as $row) {
                 $id1 = $row['id_kriteria_1'];
@@ -242,44 +240,21 @@ class Kriteria extends BaseController
             'kriteria' => $kriteria,
             'ahpList'  => $ahpList,
             'nilai_input_sementara' => $nilai_input_sementara,
-            'nilaiBobot' => [],
-            'list_data'   => session()->getFlashdata('list_data'),
-            'list_data2'  => session()->getFlashdata('list_data2'),
-            'list_data3'  => session()->getFlashdata('list_data3'),
-            'list_data4'  => session()->getFlashdata('list_data4'),
-            'list_data5'  => session()->getFlashdata('list_data5'),
+            'hasil_ahp' => session()->getFlashdata('hasil_ahp'),
+            'from_cek_konsistensi' => session()->getFlashdata('from_cek_konsistensi'),
+            'success' => session()->getFlashdata('success'),
+            'error' => session()->getFlashdata('error'),
         ];
 
         return view('pages/admin/tambah-bobot', $data);
     }
-
 
     public function simpanBobot()
     {
         $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
         $this->kriteriaAhpModel->truncate();
 
-        // Ambil matriks & nilai input
         [$matrik, $nilai_input_sementara] = $this->buatMatrikDariInput($kriteria);
-
-        // Simpan ke DB
-        foreach ($kriteria as $i => $row1) {
-            foreach ($kriteria as $j => $row2) {
-                if ($i < $j && isset($nilai_input_sementara[$row1['id_kriteria']][$row2['id_kriteria']])) {
-                    $nilai = $nilai_input_sementara[$row1['id_kriteria']][$row2['id_kriteria']];
-                    $nilai_1 = ($nilai < 1) ? abs($nilai) : (($nilai > 1) ? round(1 / abs($nilai), 5) : 1);
-                    $nilai_2 = ($nilai < 1) ? round(1 / abs($nilai), 5) : (($nilai > 1) ? abs($nilai) : 1);
-
-                    $this->kriteriaAhpModel->save([
-                        'id_kriteria_1' => $row1['id_kriteria'],
-                        'id_kriteria_2' => $row2['id_kriteria'],
-                        'nilai_1' => $nilai_1,
-                        'nilai_2' => $nilai_2,
-                    ]);
-                }
-            }
-        }
-
         $hasil = $this->hitungAhp($matrik);
 
         if (count($kriteria) < 3) {
@@ -295,19 +270,10 @@ class Kriteria extends BaseController
             session()->setFlashdata('success', 'Data berhasil disimpan dan Bobot Kriteria diperbarui.');
         }
 
-        session()->setFlashdata([
-            'nilai_input_sementara' => $nilai_input_sementara,
-            'nilaiBobot' => [],
-            'list_data' => $hasil['list_data'],
-            'list_data2' => $hasil['list_data2'],
-            'list_data3' => $hasil['list_data3'],
-            'list_data4' => $hasil['list_data4'],
-            'list_data5' => $hasil['list_data5'],
-        ]);
+        session()->setFlashdata('nilai_input_sementara', $nilai_input_sementara);
 
         return redirect()->to(base_url('admin/tambah-bobot'));
     }
-
 
     public function cekKonsistensi()
     {
@@ -342,15 +308,9 @@ class Kriteria extends BaseController
         $data = [
             'kriteria' => $kriteria,
             'nilai_input_sementara' => $nilai_input_sementara,
-            'list_data' => $hasil['list_data'],
-            'list_data2' => $hasil['list_data2'],
-            'list_data3' => $hasil['list_data3'],
-            'list_data4' => $hasil['list_data4'],
-            'list_data5' => $hasil['list_data5'],
+            'hasil_ahp' => $hasil,
             'from_cek_konsistensi' => true,
         ];
-
-
 
         if ($hasil['cr'] > 0.1) {
             $data['error'] = 'Data tidak konsisten (CR > 0.1). Silakan perbaiki nilai perbandingan';
@@ -360,8 +320,6 @@ class Kriteria extends BaseController
 
         return view('pages/admin/tambah-bobot', $data);
     }
-
-
 
     private function buatMatrikDariInput($kriteria)
     {
@@ -426,107 +384,17 @@ class Kriteria extends BaseController
         return $matrik;
     }
 
-    private function tampilData1($matrik, $jumlahKolom)
-    {
-        $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
-        $html = '<table class="table table-bordered text-center"><thead><tr><th>Kriteria</th>';
-        foreach ($kriteria as $k) {
-            $html .= '<th>' . esc($k['kode_kriteria']) . '</th>';
-        }
-        $html .= '</tr></thead><tbody>';
-        foreach ($kriteria as $i => $baris) {
-            $html .= '<tr><th>' . esc($baris['kode_kriteria']) . '</th>';
-            foreach ($kriteria as $j => $kolom) {
-                $html .= '<td>' . $matrik[$i][$j] . '</td>';
-            }
-            $html .= '</tr>';
-        }
-        $html .= '<tr><th>Jumlah</th>';
-        foreach ($jumlahKolom as $jumlah) {
-            $html .= '<td class="font-weight-bold">' . $jumlah . '</td>';
-        }
-        $html .= '</tr></tbody></table>';
-        return $html;
-    }
-
-    private function tampilData2($normalisasi, $prioritas)
-    {
-        $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
-        $html = '<table class="table table-bordered text-center"><thead><tr><th>Kriteria</th>';
-        foreach ($kriteria as $k) {
-            $html .= '<th>' . esc($k['kode_kriteria']) . '</th>';
-        }
-        $html .= '<th>Jumlah</th><th>Prioritas</th></tr></thead><tbody>';
-        foreach ($kriteria as $i => $baris) {
-            $html .= '<tr><th>' . esc($baris['kode_kriteria']) . '</th>';
-            $jumlah = 0;
-            foreach ($kriteria as $j => $kolom) {
-                $nilai = $normalisasi[$i][$j];
-                $html .= '<td>' . $nilai . '</td>';
-                $jumlah += $nilai;
-            }
-            $html .= '<td class="font-weight-bold">' . round($jumlah, 5) . '</td>';
-            $html .= '<td class="font-weight-bold">' . $prioritas[$i] . '</td></tr>';
-        }
-        $html .= '</tbody></table>';
-        return $html;
-    }
-
-    private function tampilData3($matrikBaris, $jumlahBaris)
-    {
-        $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
-        $html = '<table class="table table-bordered text-center"><thead><tr><th>Kriteria</th>';
-        foreach ($kriteria as $k) {
-            $html .= '<th>' . esc($k['kode_kriteria']) . '</th>';
-        }
-        $html .= '<th>Jumlah</th></tr></thead><tbody>';
-        foreach ($kriteria as $i => $baris) {
-            $html .= '<tr><th>' . esc($baris['kode_kriteria']) . '</th>';
-            foreach ($kriteria as $j => $kolom) {
-                $html .= '<td>' . $matrikBaris[$i][$j] . '</td>';
-            }
-            $html .= '<td class="font-weight-bold">' . $jumlahBaris[$i] . '</td></tr>';
-        }
-        $html .= '</tbody></table>';
-        return $html;
-    }
-
-    private function tampilData4($jumlahBaris, $prioritas, $hasilKonsistensi)
-    {
-        $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
-        $html = '<table class="table table-bordered text-center"><thead><tr><th>Kriteria</th><th>Jumlah Baris</th><th>Prioritas</th><th>Hasil</th></tr></thead><tbody>';
-        foreach ($kriteria as $i => $k) {
-            $html .= '<tr><td>' . esc($k['kode_kriteria']) . '</td>';
-            $html .= '<td>' . $jumlahBaris[$i] . '</td>';
-            $html .= '<td>' . $prioritas[$i] . '</td>';
-            $html .= '<td class="font-weight-bold">' . $hasilKonsistensi[$i] . '</td></tr>';
-        }
-        $html .= '</tbody></table>';
-        return $html;
-    }
-
-    private function tampilData5($lambdaMax, $ci, $cr, $n, $ir)
-    {
-        $html = '<table class="table">';
-        $html .= '<tr><td width="100">Jumlah</td><td>= ' . round($lambdaMax * $n, 5) . '</td></tr>';
-        $html .= '<tr><td width="100">n</td><td>= ' . $n . '</td></tr>';
-        $html .= '<tr><td width="100">&#955; maks</td><td>= ' . round($lambdaMax, 5) . '</td></tr>';
-        $html .= '<tr><td width="100">CI</td><td>= ' . round($ci, 5) . '</td></tr>';
-        $html .= '<tr><td width="100">IR</td><td>= ' . $ir . '</td></tr>';
-        $html .= '<tr><td width="100">CR</td><td>= ' . round($cr, 5) . '</td></tr>';
-        $html .= '<tr><td width="100">CR <= 0.1</td><td class="font-weight-bold" >' . ($cr <= 0.1 ? 'Konsisten' : 'Tidak Konsisten') . '</td></tr>';
-        $html .= '</table>';
-        return $html;
-    }
-
     private function hitungAhp($matrik)
     {
         $n = count($matrik);
+
+        // Hitung jumlah tiap kolom matriks
         $jumlahKolom = [];
         foreach ($matrik as $j => $col) {
             $jumlahKolom[$j] = array_sum(array_column($matrik, $j));
         }
 
+        // Normalisasi matriks dan hitung prioritas
         $normalisasi = [];
         $prioritas = [];
         foreach ($matrik as $i => $baris) {
@@ -539,6 +407,7 @@ class Kriteria extends BaseController
             $prioritas[$i] = round($total / $n, 5);
         }
 
+        // Hitung matriks baris dan jumlah baris
         $matrikBaris = [];
         $jumlahBaris = [];
         foreach ($matrik as $i => $baris) {
@@ -549,6 +418,7 @@ class Kriteria extends BaseController
             }
         }
 
+        // Hitung hasil konsistensi tiap baris
         $hasilKonsistensi = [];
         $lambda = 0;
         foreach ($jumlahBaris as $i => $val) {
@@ -556,17 +426,13 @@ class Kriteria extends BaseController
             $lambda += $hasilKonsistensi[$i];
         }
 
+        // Hitung CI dan CR
         $lambdaMax = $lambda / $n;
         $ci = ($lambdaMax - $n) / ($n - 1);
         $ir = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49];
         $cr = ($n <= 10) ? round($ci / $ir[$n - 1], 5) : 0;
 
-        $list_data  = $this->tampilData1($matrik, $jumlahKolom);
-        $list_data2 = $this->tampilData2($normalisasi, $prioritas);
-        $list_data3 = $this->tampilData3($matrikBaris, $jumlahBaris);
-        $list_data4 = $this->tampilData4($jumlahBaris, $prioritas, $hasilKonsistensi);
-        $list_data5 = $this->tampilData5($lambdaMax, $ci, $cr, $n, $ir[$n - 1]);
-
+        // Return semua data mentah ke view
         return compact(
             'matrik',
             'jumlahKolom',
@@ -578,12 +444,7 @@ class Kriteria extends BaseController
             'lambdaMax',
             'ci',
             'cr',
-            'ir',
-            'list_data',
-            'list_data2',
-            'list_data3',
-            'list_data4',
-            'list_data5'
+            'ir'
         );
     }
 }

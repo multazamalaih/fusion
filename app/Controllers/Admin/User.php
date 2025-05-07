@@ -17,7 +17,7 @@ class User extends BaseController
 
     public function listUser()
     {
-        $data['users'] = $this->userModel->findAll();
+        $data['users'] = $this->userModel->orderBy('nama', 'ASC')->findAll();
         return view('pages/admin/list-user', $data);
     }
 
@@ -29,12 +29,11 @@ class User extends BaseController
     public function simpanUser()
     {
         // Aturan validasi
-        $validationRules = [
+        $rules = [
             'nama' => [
                 'label' => 'Nama',
-                'rules' => 'required|min_length[3]|max_length[100]|is_unique[users.nama]',
+                'rules' => 'min_length[3]|max_length[100]|is_unique[users.nama]',
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong',
                     'min_length' => 'Nama minimal 3 karakter',
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique' => 'Nama sudah terdaftar',
@@ -42,27 +41,24 @@ class User extends BaseController
             ],
             'email' => [
                 'label' => 'Email',
-                'rules' => 'required|valid_email|is_unique[users.email]',
+                'rules' => 'valid_email|is_unique[users.email]',
                 'errors' => [
-                    'required' => 'Email tidak boleh kosong',
                     'valid_email' => 'Email tidak valid',
                     'is_unique' => 'Email sudah terdaftar',
                 ]
             ],
             'password' => [
                 'label' => 'Password',
-                'rules' => 'required|min_length[6]|max_length[255]',
+                'rules' => 'min_length[6]|max_length[255]',
                 'errors' => [
-                    'required' => 'Password tidak boleh kosong',
                     'min_length' => 'Password minimal 6 karakter',
                     'max_length' => 'Password maksimal 255 karakter',
                 ]
             ],
             'konfirmasi' => [
                 'label' => 'Konfirmasi Password',
-                'rules' => 'required|matches[password]',
+                'rules' => 'matches[password]',
                 'errors' => [
-                    'required' => 'Konfirmasi password tidak boleh kosong',
                     'matches' => 'Konfirmasi password tidak sama',
                 ]
             ],
@@ -76,22 +72,22 @@ class User extends BaseController
         ];
 
         // Proses validasi
-        if (!$this->validate($validationRules)) {
-            return redirect()->to(base_url('admin/tambah-user'))
-                ->withInput();
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Simpan data jika valid
         $passwordHash = password_hash($this->request->getPost('password'), PASSWORD_DEFAULT);
 
-        $this->userModel->save([
+        $this->userModel->insert([
             'nama'     => $this->request->getPost('nama'),
             'email'    => $this->request->getPost('email'),
             'password' => $passwordHash,
             'role'     => $this->request->getPost('role'),
         ]);
 
-        return redirect()->to(base_url('admin/list-user'))->with('success', 'Data berhasil ditambahkan.');
+        session()->setFlashdata('success', 'User berhasil ditambahkan.');
+        return redirect()->to(base_url('admin/list-user'));
     }
 
 
@@ -100,7 +96,7 @@ class User extends BaseController
         $user = $this->userModel->find($id);
 
         if (!$user) {
-            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            return redirect()->to(base_url('admin/list-kriteria'))->with('error', 'User tidak ditemukan.');
         }
 
         $data = [
@@ -118,12 +114,11 @@ class User extends BaseController
         }
 
         // Aturan validasi
-        $validationRules = [
+        $rules = [
             'nama' => [
                 'label' => 'Nama',
-                'rules' => "required|min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
+                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong',
                     'min_length' => 'Nama minimal 3 karakter',
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique' => 'Nama sudah terdaftar',
@@ -131,9 +126,8 @@ class User extends BaseController
             ],
             'email' => [
                 'label' => 'Email',
-                'rules' => "required|valid_email|is_unique[users.email,id_user,{$id}]",
+                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]",
                 'errors' => [
-                    'required' => 'Email tidak boleh kosong',
                     'valid_email' => 'Email tidak valid',
                     'is_unique' => 'Email sudah terdaftar',
                 ]
@@ -151,7 +145,7 @@ class User extends BaseController
         $password = $this->request->getPost('password');
         $konfirmasi = $this->request->getPost('konfirmasi');
         if ($password) {
-            $validationRules['password'] = [
+            $rules['password'] = [
                 'label' => 'Password',
                 'rules' => 'min_length[6]|max_length[255]',
                 'errors' => [
@@ -159,7 +153,7 @@ class User extends BaseController
                     'max_length' => 'Password maksimal 255 karakter',
                 ]
             ];
-            $validationRules['konfirmasi'] = [
+            $rules['konfirmasi'] = [
                 'label' => 'Konfirmasi Password',
                 'rules' => 'matches[password]',
                 'errors' => [
@@ -169,9 +163,10 @@ class User extends BaseController
         }
 
         // Proses validasi
-        if (!$this->validate($validationRules)) {
+        if (!$this->validate($rules)) {
             return redirect()->to(base_url('admin/edit-user/' . $id))
-                ->withInput();
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
         }
 
         // Simpan update
@@ -188,9 +183,8 @@ class User extends BaseController
 
         $this->userModel->save($dataUpdate);
 
-        return redirect()->to(base_url('admin/list-user'))->with('success', 'Data berhasil diupdate.');
+        return redirect()->to(base_url('admin/list-user'))->with('success', 'Data berhasil diperbarui.');
     }
-
 
     public function hapusUser($id)
     {

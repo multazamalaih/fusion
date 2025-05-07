@@ -52,7 +52,7 @@
 								</div>
 								<div class="form-group">
 									<label class="font-weight-bold">Nilai</label>
-									<input type="number" name="nilai" step="0.001"
+									<input type="number" name="nilai" step="1"
 										value="<?= old('id_kriteria') == $id_kriteria ? old('nilai') : '' ?>"
 										class="form-control <?= session('errors.nilai') && old('id_kriteria') == $id_kriteria ? 'is-invalid' : '' ?>" required>
 									<?php if (session('errors.nilai') && old('id_kriteria') == $id_kriteria): ?>
@@ -93,10 +93,8 @@
 												href="#edit<?= $sub['id_sub_kriteria'] ?>" class="btn btn-warning btn-sm">
 												<i class="fa fa-edit"></i>
 											</a>
-											<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
-												href="<?= base_url('admin/hapus-sub-kriteria/' . $sub['id_sub_kriteria']) ?>"
-												onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')"
-												class="btn btn-danger btn-sm">
+											<a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-sub-kriteria/' . $sub['id_sub_kriteria']) ?>"
+												class="btn btn-danger btn-sm" data-placement="bottom" title="Hapus Data">
 												<i class="fa fa-trash"></i>
 											</a>
 										</div>
@@ -128,7 +126,7 @@
 
 													<div class="form-group">
 														<label class="font-weight-bold">Nilai</label>
-														<input type="number" name="nilai" step="0.001"
+														<input type="number" name="nilai" step="1"
 															value="<?= old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? old('nilai') : esc($sub['nilai']) ?>"
 															class="form-control <?= session('errors.nilai') && old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? 'is-invalid' : '' ?>" required>
 														<?php if (session('errors.nilai') && old('id_sub_kriteria') == $sub['id_sub_kriteria']): ?>

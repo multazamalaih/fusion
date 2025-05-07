@@ -9,6 +9,11 @@ function getUser()
     if (!$userSession) {
         return null;
     }
-    $userSession = json_decode($userSession, true);
+
+    // Tambahkan pengecekan apakah sudah array
+    if (!is_array($userSession)) {
+        $userSession = json_decode($userSession, true);
+    }
+
     return $userSession;
 }

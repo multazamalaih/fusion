@@ -52,7 +52,8 @@
         <a class="btn btn-warning" href="<?= base_url('admin/edit-kriteria/' . $kriteria['id_kriteria']) ?>">
             <i class="fa fa-edit"></i> Edit
         </a>
-        <a class="btn btn-danger" href="<?= base_url('admin/hapus-kriteria/' . $kriteria['id_kriteria']) ?>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')">
+        <a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-kriteria/' . $kriteria['id_kriteria']) ?>"
+            class="btn btn-danger" title="Hapus Data">
             <i class="fa fa-trash"></i> Hapus
         </a>
     </div>

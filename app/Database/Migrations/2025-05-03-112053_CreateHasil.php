@@ -20,7 +20,19 @@ class CreateHasil extends Migration
             ],
             'nilai' => [
                 'type' => 'DECIMAL',
-                'constraint' => '5,2',
+                'constraint' => '10,5',
+            ],
+            'created_at' => [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
+            'updated_at' => [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
+            'deleted_at' => [
+                'type' => 'DATETIME',
+                'null' => true
             ],
         ]);
         $this->forge->addPrimaryKey('id_hasil');

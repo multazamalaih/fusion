@@ -27,7 +27,6 @@
 
 <?php if (session()->getFlashdata('errorkriteria')): ?>
 	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<?= session()->getFlashdata('errorkriteria') ?>
 	</div>
 <?php endif; ?>
@@ -74,9 +73,10 @@
 										href="<?= base_url('admin/edit-kriteria/' . $krit['id_kriteria']) ?>" class="btn btn-warning btn-sm">
 										<i class="fa fa-edit"></i>
 									</a>
-									<a data-toggle="tooltip" data-placement="bottom" title="Hapus Data"
-										href="<?= base_url('admin/hapus-kriteria/' . $krit['id_kriteria']) ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini ?')" class="btn btn-danger btn-sm">
-										<i class="fa fa-trash"></i></a>
+									<a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-kriteria/' . $krit['id_kriteria']) ?>"
+										class="btn btn-danger btn-sm" data-placement="bottom" title="Hapus Data">
+										<i class="fa fa-trash"></i>
+									</a>
 								</div>
 							</td>
 						</tr>

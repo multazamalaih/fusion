@@ -46,9 +46,10 @@ class Lapangan extends BaseController
                 ]
             ],
             'harga' => [
-                'rules' => 'numeric',
+                'rules' => 'numeric|is_natural_no_zero',
                 'errors' => [
                     'numeric' => 'Harga Sewa berupa angka',
+                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif'
                 ]
             ],
             'jenis_lantai' => [
@@ -287,8 +288,11 @@ class Lapangan extends BaseController
                 ]
             ],
             'harga' => [
-                'rules' => 'numeric',
-                'errors' => ['numeric' => 'Harga harus berupa angka']
+                'rules' => 'numeric|is_natural_no_zero',
+                'errors' => [
+                    'numeric' => 'Harga Sewa berupa angka',
+                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif'
+                ]
             ],
             'jenis_lantai' => [
                 'rules' => 'in_list[Vinyl,Rumput Sintetis,Semen,Parquette,Taraflex,Interlock]',

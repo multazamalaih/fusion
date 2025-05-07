@@ -24,11 +24,13 @@ class CreateKriteriaAhp extends Migration
                 'constraint' => 11,
             ],
             'nilai_1' => [
-                'type' => 'FLOAT',
+                'type' => 'DECIMAL',
+                'constraint' => '10,5',
                 'null' => false,
             ],
             'nilai_2' => [
-                'type' => 'FLOAT',
+                'type' => 'DECIMAL',
+                'constraint' => '10,5',
                 'null' => false,
             ],
             'created_at' => [

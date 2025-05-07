@@ -36,7 +36,7 @@
     <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('assets-admin/dashboard') ?>">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= base_url('/admin') ?>">
         <div class="sidebar-brand-icon">
           <img src="<?= base_url('assets-admin/img/logo.png') ?>" alt="Logo Fusion" style="height: 50px;">
         </div>
@@ -52,7 +52,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('admin/dashboard') ?>">
+        <a class="nav-link" href="<?= base_url('/admin') ?>">
           <i class="fas fa-fw fa-home"></i>
           <span>Dashboard</span></a>
       </li>
@@ -181,7 +181,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="text-uppercase mr-2 d-none d-lg-inline text-gray-600 small">
-                  Admin
+                  <?= esc(getUser()['nama'] ?? 'Admin') ?>
                 </span>
                 <img class="img-profile rounded-circle" src="<?= base_url('assets-admin/img/user.png') ?>">
               </a>

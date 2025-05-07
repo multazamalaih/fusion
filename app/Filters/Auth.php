@@ -30,9 +30,18 @@ class Auth implements FilterInterface
         if (!$userSession) {
             return;
         }
-        $userSession = json_decode($userSession, true);
+
+        // Tambahkan pengecekan tipe
+        if (!is_array($userSession)) {
+            $userSession = json_decode($userSession, true);
+        }
+
         $userModel = new Users();
-        $userDatabase = $userModel->where('email', $userSession['email'])->where('nama', $userSession['nama'])->first();
+        $userDatabase = $userModel
+            ->where('email', $userSession['email'])
+            ->where('nama', $userSession['nama'])
+            ->first();
+
         if (!$userDatabase) {
             session()->remove('user');
             session()->destroy();

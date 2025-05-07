@@ -50,7 +50,10 @@
 								<div class="btn-group" role="group">
 									<a data-toggle="tooltip" title="Detail Data" href="<?= base_url('admin/detail-lapangan/' . $l['id_lapangan']) ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
 									<a data-toggle="tooltip" title="Edit Data" href="<?= base_url('admin/edit-lapangan/' . $l['id_lapangan']) ?>" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
-									<a data-toggle="tooltip" title="Hapus Data" href="<?= base_url('admin/hapus-lapangan/' . $l['id_lapangan']) ?>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
+									<a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-lapangan/' . $l['id_lapangan']) ?>"
+										class="btn btn-danger btn-sm" data-placement="bottom" title="Hapus Data">
+										<i class="fa fa-trash"></i>
+									</a>
 								</div>
 							</td>
 						</tr>

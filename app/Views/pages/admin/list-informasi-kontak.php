@@ -52,7 +52,7 @@
 </div>
 
 <!-- Modal Input -->
-<div class="modal fade" id="inputKontak" tabindex="-1" role="dialog">
+<div class="modal fade" id="tambahKontak" tabindex="-1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <form action="<?= base_url('admin/simpan-kontak') ?>" method="post">
@@ -61,6 +61,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="mode" value="tambahkontak">
                     <?php foreach (['instagram', 'facebook', 'twitter', 'tiktok', 'whatsapp'] as $field): ?>
                         <div class="form-group">
                             <label class="font-weight-bold text-capitalize"><?= $field ?></label>
@@ -89,10 +90,18 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
+                        <input type="hidden" name="mode" value="editkontak">
                         <?php foreach (['instagram', 'facebook', 'twitter', 'tiktok', 'whatsapp'] as $field): ?>
                             <div class="form-group">
                                 <label class="font-weight-bold text-capitalize"><?= $field ?></label>
-                                <input type="text" name="<?= $field ?>" class="form-control" value="<?= esc($kontak[$field]) ?>" autocomplete="off">
+                                <input type="text" required
+                                    name="<?= $field ?>"
+                                    value="<?= old($field, $kontak[$field]) ?>"
+                                    class="form-control <?= session('errors.' . $field) ? 'is-invalid' : '' ?>"
+                                    autocomplete="off">
+                                <?php if (session('errors.' . $field)): ?>
+                                    <div class="invalid-feedback text-danger"><?= session('errors.' . $field) ?></div>
+                                <?php endif; ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -104,6 +113,20 @@
             </div>
         </div>
     </div>
+<?php endif; ?>
+<?php if (session('errors') && old('mode') === 'tambahkontak'): ?>
+    <script>
+        $(document).ready(function() {
+            $('#tambahKontak').modal('show');
+        });
+    </script>
+<?php endif; ?>
+<?php if (session('errors') && old('mode') === 'editkontak'): ?>
+    <script>
+        $(document).ready(function() {
+            $('#editKontak').modal('show');
+        });
+    </script>
 <?php endif; ?>
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between">
@@ -139,7 +162,8 @@
                                     <a href="#editUlasan<?= $row['id_ulasan'] ?>" data-toggle="modal" class="btn btn-warning btn-sm">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <a href="<?= base_url('admin/hapus-ulasan/' . $row['id_ulasan']) ?>" onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">
+                                    <a href="#" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('admin/hapus-ulasan/' . $row['id_ulasan']) ?>"
+                                        class="btn btn-danger btn-sm" data-placement="bottom" title="Hapus Data">
                                         <i class="fa fa-trash"></i>
                                     </a>
                                 </div>
@@ -152,31 +176,49 @@
                                 <div class="modal-content">
                                     <form action="<?= base_url('admin/update-ulasan/' . $row['id_ulasan']) ?>" method="post">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Edit Ulasan</h5>
+                                            <h5 class="modal-title"><i class="fa fa-edit"></i>Edit Ulasan</h5>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
+                                            <input type="hidden" name="mode" value="edit">
+                                            <input type="hidden" name="id_ulasan" value="<?= old('id_ulasan', $row['id_ulasan']) ?>">
                                             <div class="form-group">
                                                 <label>Nama Manajemen</label>
-                                                <input type="text" name="nama" class="form-control" value="<?= esc($row['nama']) ?>" required>
+                                                <input type="text" name="nama"
+                                                    value="<?= old('nama', $row['nama']) ?>"
+                                                    class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" required>
+                                                <?php if (session('errors.nama')): ?>
+                                                    <div class="invalid-feedback text-danger"><?= session('errors.nama') ?></div>
+                                                <?php endif; ?>
                                             </div>
+
                                             <div class="form-group">
                                                 <label>Lapangan</label>
-                                                <select name="id_lapangan" class="form-control" required>
+                                                <select name="id_lapangan"
+                                                    class="form-control <?= session('errors.id_lapangan') ? 'is-invalid' : '' ?>" required>
                                                     <?php foreach ($lapanganList as $lap): ?>
-                                                        <option value="<?= $lap['id_lapangan'] ?>" <?= $row['id_lapangan'] == $lap['id_lapangan'] ? 'selected' : '' ?>>
+                                                        <option value="<?= $lap['id_lapangan'] ?>"
+                                                            <?= old('id_lapangan', $row['id_lapangan']) == $lap['id_lapangan'] ? 'selected' : '' ?>>
                                                             <?= esc($lap['nama']) ?>
                                                         </option>
-                                                    <?php endforeach ?>
+                                                    <?php endforeach; ?>
                                                 </select>
+                                                <?php if (session('errors.id_lapangan')): ?>
+                                                    <div class="invalid-feedback text-danger"><?= session('errors.id_lapangan') ?></div>
+                                                <?php endif; ?>
                                             </div>
+
                                             <div class="form-group">
                                                 <label>Ulasan</label>
-                                                <textarea name="ulasan" class="form-control" rows="4" required><?= esc($row['ulasan']) ?></textarea>
+                                                <textarea name="ulasan" class="form-control <?= session('errors.ulasan') ? 'is-invalid' : '' ?>"
+                                                    rows="4" required><?= old('ulasan', $row['ulasan']) ?></textarea>
+                                                <?php if (session('errors.ulasan')): ?>
+                                                    <div class="invalid-feedback text-danger"><?= session('errors.ulasan') ?></div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+                                            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
                                             <button type="submit" class="btn btn-success"> <i class="fa fa-save"></i> Update</button>
                                         </div>
                                     </form>
@@ -196,28 +238,50 @@
         <div class="modal-content">
             <form action="<?= base_url('admin/simpan-ulasan') ?>" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title">Tambah Ulasan</h5>
+                    <h5 class="modal-title"><i class="fa fa-plus"></i> Tambah Ulasan</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" name="mode" value="tambahulasan">
                     <div class="form-group">
                         <label>Nama Manajemen</label>
-                        <input type="text" name="nama" class="form-control" required>
+                        <input type="text" name="nama"
+                            value="<?= old('nama') ?>"
+                            class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" required>
+                        <?php if (session('errors.nama')): ?>
+                            <div class="invalid-feedback text-danger"><?= session('errors.nama') ?></div>
+                        <?php endif; ?>
                     </div>
+
                     <div class="form-group">
                         <label>Lapangan</label>
-                        <select name="id_lapangan" class="form-control" required>
+                        <select name="id_lapangan"
+                            class="form-control <?= session('errors.id_lapangan') ? 'is-invalid' : '' ?>" required>
                             <option value="">-- Pilih Lapangan --</option>
                             <?php foreach ($lapanganList as $lap): ?>
-                                <option value="<?= $lap['id_lapangan'] ?>"><?= esc($lap['nama']) ?></option>
-                            <?php endforeach ?>
+                                <option value="<?= $lap['id_lapangan'] ?>"
+                                    <?= old('id_lapangan') == $lap['id_lapangan'] ? 'selected' : '' ?>>
+                                    <?= esc($lap['nama']) ?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
+                        <?php if (session('errors.id_lapangan')): ?>
+                            <div class="invalid-feedback text-danger"><?= session('errors.id_lapangan') ?></div>
+                        <?php endif; ?>
                     </div>
+
                     <div class="form-group">
                         <label>Ulasan</label>
-                        <textarea name="ulasan" class="form-control" rows="4" required></textarea>
+                        <textarea name="ulasan"
+                            class="form-control <?= session('errors.ulasan') ? 'is-invalid' : '' ?>"
+                            rows="4" required><?= old('ulasan') ?></textarea>
+                        <?php if (session('errors.ulasan')): ?>
+                            <div class="invalid-feedback text-danger"><?= session('errors.ulasan') ?></div>
+                        <?php endif; ?>
                     </div>
                 </div>
+
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
                     <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
@@ -226,5 +290,20 @@
         </div>
     </div>
 </div>
+<?php if (session('errors') && old('mode') === 'tambahulasan'): ?>
+    <script>
+        $(document).ready(function() {
+            $('#tambahUlasan').modal('show');
+        });
+    </script>
+<?php endif; ?>
+<?php if (session('errors') && old('mode') === 'edit' && old('id_ulasan')): ?>
+    <script>
+        $(document).ready(function() {
+            $('#editUlasan<?= old('id_ulasan') ?>').modal('show');
+        });
+    </script>
+<?php endif; ?>
+
 
 <?= view('pages/admin/template/footer') ?>

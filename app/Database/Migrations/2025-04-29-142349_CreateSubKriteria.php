@@ -25,7 +25,8 @@ class CreateSubKriteria extends Migration
                 'null' => false,
             ],
             'nilai' => [
-                'type' => 'FLOAT',
+                'type' => 'DECIMAL',
+                'constraint' => '10,0',
                 'null' => false,
             ],
             "created_at" => [

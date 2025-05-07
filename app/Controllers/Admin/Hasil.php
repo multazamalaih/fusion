@@ -22,20 +22,27 @@ class Hasil extends BaseController
     {
         $hasil = $this->hasilModel->orderBy('nilai', 'DESC')->findAll();
 
-        if (empty($hasil)) {
-            session()->setFlashdata('errorhasil', 'Data hasil akhir belum tersedia. Silakan lakukan perhitungan terlebih dahulu.');
-            return redirect()->to(base_url('admin/hasil'));
-        }
-
         $lapanganList = $this->lapanganModel->findAll();
         $namaLapanganMap = [];
         foreach ($lapanganList as $lap) {
             $namaLapanganMap[$lap['id_lapangan']] = $lap['nama'];
         }
 
+        // ✅ Jika data hasil kosong, tampilkan view dengan flag
+        if (empty($hasil)) {
+            session()->setFlashdata('errorhasil', 'Data hasil akhir belum tersedia. Silakan lakukan perhitungan terlebih dahulu.');
+            return view('pages/admin/hasil', [
+                'hasil' => [],
+                'namaLapanganMap' => $namaLapanganMap,
+                'hasilLengkap' => false
+            ]);
+        }
+
+        // ✅ Jika data ada, tampilkan view normal
         return view('pages/admin/hasil', [
             'hasil' => $hasil,
             'namaLapanganMap' => $namaLapanganMap,
+            'hasilLengkap' => true
         ]);
     }
 }

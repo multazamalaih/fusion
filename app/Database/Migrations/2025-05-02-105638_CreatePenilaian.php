@@ -23,7 +23,8 @@ class CreatePenilaian extends Migration
                 'constraint' => 11,
             ],
             'nilai' => [
-                'type' => 'FLOAT',
+                'type' => 'DECIMAL',
+                'constraint' => '10,0',
                 'null' => false,
             ],
             'created_at' => [

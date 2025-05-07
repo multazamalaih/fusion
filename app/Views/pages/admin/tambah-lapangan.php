@@ -25,7 +25,7 @@
 				<!-- Harga -->
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Harga Sewa per Jam</label>
-					<input type="text" name="harga" class="form-control <?= session('errors.harga') ? 'is-invalid' : '' ?>" value="<?= old('harga') ?>" required>
+					<input type="number" step="1" name="harga" class="form-control <?= session('errors.harga') ? 'is-invalid' : '' ?>" value="<?= old('harga') ?>" required>
 					<?php if (session('errors.harga')): ?><div class="invalid-feedback text-danger"><?= session('errors.harga') ?></div><?php endif; ?>
 				</div>
 
@@ -52,13 +52,13 @@
 				<!-- Latitude & Longitude -->
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Latitude</label>
-					<input type="text" name="latitude" class="form-control <?= session('errors.latitude') ? 'is-invalid' : '' ?>" value="<?= old('latitude') ?>" required>
+					<input type="number" step="0.000001" name="latitude" class="form-control <?= session('errors.latitude') ? 'is-invalid' : '' ?>" value="<?= old('latitude') ?>" required>
 					<?php if (session('errors.latitude')): ?><div class="invalid-feedback text-danger"><?= session('errors.latitude') ?></div><?php endif; ?>
 				</div>
 
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Longitude</label>
-					<input type="text" name="longitude" class="form-control <?= session('errors.longitude') ? 'is-invalid' : '' ?>" value="<?= old('longitude') ?>" required>
+					<input type="number" step="0.000001" name="longitude" class="form-control <?= session('errors.longitude') ? 'is-invalid' : '' ?>" value="<?= old('longitude') ?>" required>
 					<?php if (session('errors.longitude')): ?><div class="invalid-feedback text-danger"><?= session('errors.longitude') ?></div><?php endif; ?>
 				</div>
 
@@ -127,7 +127,7 @@
 							?>
 								<div class="form-check mb-2">
 									<input class="form-check-input toggle-jam" type="checkbox" id="<?= $hari ?>" name="<?= $hari ?>" <?= $checked ?>>
-									<label class="form-check-label font-weight-bold" for="<?= $hari ?>"><?= ucfirst($hari) ?></label>
+									<label class="form-check-label " for="<?= $hari ?>"><?= ucfirst($hari) ?></label>
 									<div class="jam-input mt-2 ml-4" style="display:<?= $checked ? 'flex' : 'none' ?>;">
 										<span class="mr-2 mb-2">Jam Buka:</span>
 										<input type="time" name="<?= $hari ?>_buka" value="<?= $buka ?>" class="form-control form-control-sm bg-light mr-3 mb-2" style="width: 100px;">

@@ -8,17 +8,6 @@
 	</a>
 </div>
 
-<?php if (validation_errors()): ?>
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-		<ul class="mb-0">
-			<?php foreach (validation_errors() as $error): ?>
-				<li><?= esc($error) ?></li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
-<?php endif; ?>
-
 <form action="<?= base_url('admin/update-user/' . $user['id_user']) ?>" method="post">
 	<div class="card shadow mb-4">
 		<div class="card-header py-3">
@@ -31,30 +20,38 @@
 			<div class="row">
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Nama</label>
-					<input autocomplete="off" type="text" name="nama" required class="form-control" value="<?= esc($user['nama']) ?>" />
+					<input type="text" name="nama" value="<?= old('nama', $user['nama']) ?>" class="form-control <?= session('errors.nama') ? 'is-invalid' : '' ?>" required>
+					<?php if (session('errors.nama')): ?>
+						<div class="invalid-feedback text-danger"><?= session('errors.nama') ?></div>
+					<?php endif; ?>
 				</div>
 
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">E-Mail</label>
-					<input autocomplete="off" type="email" name="email" required class="form-control" value="<?= esc($user['email']) ?>" />
+					<input autocomplete="off" type="email" name="email" value="<?= old('email', $user['email']) ?>" class="form-control <?= session('errors.email') ? 'is-invalid' : '' ?>" required>
+					<?php if (session('errors.email')): ?>
+						<div class="invalid-feedback text-danger"><?= session('errors.email') ?></div>
+					<?php endif; ?>
 				</div>
 
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Password</label>
-					<input autocomplete="off" type="password" name="password" class="form-control" />
+					<input autocomplete="off" type="password" name="password" class="form-control <?= session('errors.password') ? 'is-invalid' : '' ?>">
+					<?php if (session('errors.password')): ?><div class="invalid-feedback text-danger"> <?= session('errors.password') ?> </div><?php endif; ?>
 				</div>
 
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Ulangi Password</label>
-					<input autocomplete="off" type="password" name="konfirmasi" class="form-control" />
+					<input autocomplete="off" type="password" name="konfirmasi" class="form-control <?= session('errors.konfirmasi') ? 'is-invalid' : '' ?>">
+					<?php if (session('errors.konfirmasi')): ?><div class="invalid-feedback text-danger"> <?= session('errors.konfirmasi') ?> </div><?php endif; ?>
 				</div>
 
 				<div class="form-group col-md-6">
 					<label class="font-weight-bold">Role</label>
-					<select name="role" required class="form-control">
+					<select name="role" class="form-control  <?= session('errors.role') ? 'is-invalid' : '' ?>" required>
 						<option value="">--Pilih--</option>
-						<option value="admin" selected="<?= $user['role'] === "Admin" ? 'true' : "false" ?>">Administrator</option>
-						<option value="user" selected="<?= $user['role'] === "User" ? 'true' : "false" ?>">User</option>
+						<option value="Admin" <?= old('role', $user['role']) == 'Admin' ? 'selected' : '' ?>>Administrator</option>
+						<option value="User" <?= old('role', $user['role']) == 'User' ? 'selected' : '' ?>>User</option>
 					</select>
 				</div>
 			</div>

@@ -163,7 +163,7 @@
 										</select>
 									<?php else: ?>
 										<!-- Input angka jika kriteria tidak memiliki sub-kriteria -->
-										<input type="number" name="nilai[]" class="form-control" step="0.001" value="<?= $nilai ?>" required autocomplete="off">
+										<input type="number" name="nilai[]" class="form-control" step="1" value="<?= $nilai ?>" required autocomplete="off">
 									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>

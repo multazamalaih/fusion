@@ -4,10 +4,18 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
+use App\Models\Users;
 
 class Profile extends BaseController
 {
     protected $helpers = ['form'];
+    protected $userModel;
+
+    public function __construct()
+    {
+        $this->userModel = new Users();
+    }
+
     public function listProfil()
     {
         $data = [
@@ -22,32 +30,76 @@ class Profile extends BaseController
         ];
         return view('pages/admin/edit-profil', $data);
     }
+
     public function updateProfil()
     {
-        $nama = $this->request->getVar('nama');
-        $email = $this->request->getVar('email');
-        $password = $this->request->getVar('password');
+        $id = getUser()['id_user']; // Ambil ID dari session
+        $nama = $this->request->getPost('nama');
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+        $konfirmasi = $this->request->getPost('konfirmasi');
 
-        if (!$this->validate([
-            "nama" => [
-                "rules" => "required|min_length[3]|max_length[100]|is_unique[users.nama]",
-                "errors" => [
-                    "required" => "Nama tidak boleh kosong",
-                    "min_length" => "Nama minimal 3 karakter",
-                    "max_length" => "Nama maksimal 100 karakter",
-                    "is_unique" => "Nama sudah terdaftar",
-                ],
+        $rules = [
+            'nama' => [
+                'label' => 'Nama',
+                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
+                'errors' => [
+                    'min_length' => 'Nama minimal 3 karakter',
+                    'max_length' => 'Nama maksimal 100 karakter',
+                    'is_unique' => 'Nama sudah terdaftar',
+                ]
             ],
-            "email" => [
-                "rules" => "required|valid_email|is_unique[users.email]",
-                "errors" => [
-                    "required" => "Email tidak boleh kosong",
-                    "valid_email" => "Email tidak valid",
-                    "is_unique" => "Email sudah terdaftar",
-                ],
-            ],
-        ])) {
-            return redirect()->to(base_url(''));
+            'email' => [
+                'label' => 'Email',
+                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]",
+                'errors' => [
+                    'valid_email' => 'Email tidak valid',
+                    'is_unique' => 'Email sudah terdaftar',
+                ]
+            ]
+        ];
+
+        if ($password) {
+            $rules['password'] = [
+                'label' => 'Password',
+                'rules' => 'min_length[6]|max_length[255]',
+                'errors' => [
+                    'min_length' => 'Password minimal 6 karakter',
+                    'max_length' => 'Password maksimal 255 karakter',
+                ]
+            ];
+            $rules['konfirmasi'] = [
+                'label' => 'Konfirmasi Password',
+                'rules' => 'matches[password]',
+                'errors' => [
+                    'matches' => 'Konfirmasi password tidak sama',
+                ]
+            ];
         }
+
+        if (!$this->validate($rules)) {
+            return redirect()->to(base_url('admin/edit-profil'))
+                ->withInput()
+                ->with('errors', $this->validator->getErrors());
+        }
+
+        $dataUpdate = [
+            'id_user' => $id,
+            'nama'    => $this->request->getPost('nama'),
+            'email'   => $this->request->getPost('email'),
+        ];
+
+        if ($password) {
+            $dataUpdate['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        $this->userModel->save($dataUpdate);
+        // Ambil data user terbaru dari DB
+        $userBaru = $this->userModel->find($id);
+
+        // Update session login
+        session()->set('user', $userBaru);
+
+        return redirect()->to(base_url('admin/list-profil'))->with('success', 'Profil berhasil diperbarui.');
     }
 }

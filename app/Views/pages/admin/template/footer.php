@@ -28,6 +28,28 @@
 		</div>
 	</div>
 
+	<div class="modal fade" id="modalHapus" tabindex="-1" role="dialog" aria-labelledby="modalHapusLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<form id="formHapusGlobal" method="post">
+				<input type="hidden" name="_method" value="DELETE">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Konfirmasi Hapus</h5>
+						<button class="close" type="button" data-dismiss="modal"><span>&times;</span></button>
+					</div>
+					<div class="modal-body">
+						Apakah anda yakin ingin menghapus data ini?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Batal</button>
+						<button type="submit" class="btn btn-danger">Hapus</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
 	<!-- Bootstrap core JavaScript-->
 	<script src="<?= base_url('assets-admin//vendor/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 
@@ -71,6 +93,21 @@
 			});
 		});
 	</script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const modal = document.getElementById('modalHapus');
+			const form = document.getElementById('formHapusGlobal');
+
+			document.querySelectorAll('[data-target="#modalHapus"]').forEach(button => {
+				button.addEventListener('click', function() {
+					const url = this.getAttribute('data-hapus-url');
+					form.setAttribute('action', url);
+				});
+			});
+		});
+	</script>
+
 
 	</body>
 
