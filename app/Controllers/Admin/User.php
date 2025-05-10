@@ -32,41 +32,47 @@ class User extends BaseController
         $rules = [
             'nama' => [
                 'label' => 'Nama',
-                'rules' => 'min_length[3]|max_length[100]|is_unique[users.nama]',
+                'rules' => 'min_length[3]|max_length[100]|is_unique[users.nama]|required',
                 'errors' => [
-                    'min_length' => 'Nama minimal 3 karakter',
-                    'max_length' => 'Nama maksimal 100 karakter',
-                    'is_unique' => 'Nama sudah terdaftar',
+                    'min_length' => 'Nama minimal 3 karakter.',
+                    'max_length' => 'Nama maksimal 100 karakter.',
+                    'is_unique' => 'Nama sudah terdaftar.',
+                    'required' => 'Nama tidak boleh kosong.',
+
+
                 ]
             ],
             'email' => [
                 'label' => 'Email',
-                'rules' => 'valid_email|is_unique[users.email]',
+                'rules' => 'valid_email|is_unique[users.email]|required',
                 'errors' => [
-                    'valid_email' => 'Email tidak valid',
-                    'is_unique' => 'Email sudah terdaftar',
+                    'valid_email' => 'Email tidak valid.',
+                    'is_unique' => 'Email sudah terdaftar.',
+                    'required' => 'Email tidak boleh kosong.',
                 ]
             ],
             'password' => [
                 'label' => 'Password',
-                'rules' => 'min_length[6]|max_length[255]',
+                'rules' => 'min_length[6]|max_length[255]|required',
                 'errors' => [
-                    'min_length' => 'Password minimal 6 karakter',
-                    'max_length' => 'Password maksimal 255 karakter',
+                    'min_length' => 'Password minimal 6 karakter.',
+                    'max_length' => 'Password maksimal 255 karakter.',
+                    'required' => 'Password tidak boleh kosong.',
                 ]
             ],
             'konfirmasi' => [
                 'label' => 'Konfirmasi Password',
-                'rules' => 'matches[password]',
+                'rules' => 'matches[password]|required',
                 'errors' => [
-                    'matches' => 'Konfirmasi password tidak sama',
+                    'matches' => 'Konfirmasi password tidak sama.',
+                    'required' => 'Password tidak boleh kosong.',
                 ]
             ],
             'role' => [
                 'label' => 'Role',
                 'rules' => 'required',
                 'errors' => [
-                    'required' => 'Role tidak boleh kosong',
+                    'required' => 'Role tidak boleh kosong.',
                 ]
             ]
         ];
@@ -117,19 +123,23 @@ class User extends BaseController
         $rules = [
             'nama' => [
                 'label' => 'Nama',
-                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
+                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]|required",
                 'errors' => [
                     'min_length' => 'Nama minimal 3 karakter',
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique' => 'Nama sudah terdaftar',
+                    'required' => 'Nama tidak boleh kosong.',
+
                 ]
             ],
             'email' => [
                 'label' => 'Email',
-                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]",
+                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]|required",
                 'errors' => [
                     'valid_email' => 'Email tidak valid',
                     'is_unique' => 'Email sudah terdaftar',
+                    'required' => 'Email tidak boleh kosong.',
+
                 ]
             ],
             'role' => [
@@ -147,17 +157,21 @@ class User extends BaseController
         if ($password) {
             $rules['password'] = [
                 'label' => 'Password',
-                'rules' => 'min_length[6]|max_length[255]',
+                'rules' => 'min_length[6]|max_length[255]|required',
                 'errors' => [
                     'min_length' => 'Password minimal 6 karakter',
                     'max_length' => 'Password maksimal 255 karakter',
+                    'required' => 'Password tidak boleh kosong.',
+
                 ]
             ];
             $rules['konfirmasi'] = [
                 'label' => 'Konfirmasi Password',
-                'rules' => 'matches[password]',
+                'rules' => 'matches[password]|required',
                 'errors' => [
                     'matches' => 'Konfirmasi password tidak sama',
+                    'required' => 'Password tidak boleh kosong.',
+
                 ]
             ];
         }

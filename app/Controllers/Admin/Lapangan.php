@@ -38,18 +38,22 @@ class Lapangan extends BaseController
 
         $rules = [
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama]',
+                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama]\required',
                 'errors' => [
                     'min_length' => 'Nama Lapangan minimal 3 karakter',
                     'max_length' => 'Nama Lapangan maksimal 100 karakter',
                     'is_unique' => 'Nama Lapangan sudah terdaftar',
+                    'required' => 'Nama Lapangan tidak boleh kosong',
+
                 ]
             ],
             'harga' => [
-                'rules' => 'numeric|is_natural_no_zero',
+                'rules' => 'numeric|is_natural_no_zero|required',
                 'errors' => [
                     'numeric' => 'Harga Sewa berupa angka',
-                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif'
+                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif',
+                    'required' => 'Harga Lapangan tidak boleh kosong',
+
                 ]
             ],
             'jenis_lantai' => [
@@ -59,32 +63,40 @@ class Lapangan extends BaseController
                 ]
             ],
             'no_hp' => [
-                'rules' => 'max_length[15]|regex_match[/^[0-9+\-\s]+$/]',
+                'rules' => 'max_length[15]|regex_match[/^[0-9+\-\s]+$/]|required',
                 'errors' => [
                     'max_length' => 'Nomor Handphone maksimal 15 karakter',
                     'regex_match' => 'Nomor Handphone tidak valid',
+                    'required' => 'Nomor Handphone tidak boleh kosong',
+
                 ]
             ],
             'latitude' => [
-                'rules' => 'numeric|greater_than[-91]|less_than[91]',
+                'rules' => 'numeric|greater_than[-91]|less_than[91]|required',
                 'errors' => [
                     'numeric' => 'Latitude harus berupa angka',
                     'greater_than' => 'Latitude minimal -90',
                     'less_than' => 'Latitude maksimal 90',
+                    'required' => 'Latitude tidak boleh kosong',
+
                 ]
             ],
             'longitude' => [
-                'rules' => 'numeric|greater_than[-181]|less_than[181]',
+                'rules' => 'numeric|greater_than[-181]|less_than[181]|required',
                 'errors' => [
                     'numeric' => 'Longitude harus berupa angka',
                     'greater_than' => 'Longitude minimal -180',
                     'less_than' => 'Longitude maksimal 180',
+                    'required' => 'Longitude tidak boleh kosong',
+
                 ]
             ],
             'alamat' => [
-                'rules' => 'min_length[10]',
+                'rules' => 'min_length[10]|required',
                 'errors' => [
                     'min_length' => 'Alamat minimal 10 karakter',
+                    'required' => 'Alamat Lapangan tidak boleh kosong',
+
                 ]
             ],
         ];
@@ -280,42 +292,66 @@ class Lapangan extends BaseController
 
         $rules = [
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama,id_lapangan,' . $id . ']',
+                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama,id_lapangan,' . $id . ']|required',
                 'errors' => [
                     'min_length' => 'Nama minimal 3 karakter',
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique'  => 'Nama sudah terdaftar oleh lapangan lain',
+                    'required' => 'Nama Lapangan tidak boleh kosong.',
+
                 ]
             ],
             'harga' => [
-                'rules' => 'numeric|is_natural_no_zero',
+                'rules' => 'numeric|is_natural_no_zero|required',
                 'errors' => [
                     'numeric' => 'Harga Sewa berupa angka',
-                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif'
+                    'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif',
+                    'required' => 'Harga Lapangan tidak boleh kosong',
+
                 ]
             ],
             'jenis_lantai' => [
                 'rules' => 'in_list[Vinyl,Rumput Sintetis,Semen,Parquette,Taraflex,Interlock]',
-                'errors' => ['in_list' => 'Jenis lantai tidak valid']
+                'errors' => [
+                    'in_list' => 'Jenis Lantai tidak valid',
+                ]
             ],
             'no_hp' => [
-                'rules' => 'max_length[15]|regex_match[/^[0-9+\-\s]+$/]',
+                'rules' => 'max_length[15]|regex_match[/^[0-9+\-\s]+$/]|required',
                 'errors' => [
-                    'max_length' => 'Nomor HP maksimal 15 karakter',
-                    'regex_match' => 'Format Nomor HP tidak valid'
+                    'max_length' => 'Nomor Handphone maksimal 15 karakter',
+                    'regex_match' => 'Nomor Handphone tidak valid',
+                    'required' => 'Nomor Handphone tidak boleh kosong',
+
                 ]
             ],
             'latitude' => [
-                'rules' => 'numeric|greater_than[-91]|less_than[91]',
-                'errors' => ['numeric' => 'Latitude harus angka']
+                'rules' => 'numeric|greater_than[-91]|less_than[91]|required',
+                'errors' => [
+                    'numeric' => 'Latitude harus berupa angka',
+                    'greater_than' => 'Latitude minimal -90',
+                    'less_than' => 'Latitude maksimal 90',
+                    'required' => 'Latitude tidak boleh kosong',
+
+                ]
             ],
             'longitude' => [
-                'rules' => 'numeric|greater_than[-181]|less_than[181]',
-                'errors' => ['numeric' => 'Longitude harus angka']
+                'rules' => 'numeric|greater_than[-181]|less_than[181]|required',
+                'errors' => [
+                    'numeric' => 'Longitude harus berupa angka',
+                    'greater_than' => 'Longitude minimal -180',
+                    'less_than' => 'Longitude maksimal 180',
+                    'required' => 'Longitude tidak boleh kosong',
+
+                ]
             ],
             'alamat' => [
-                'rules' => 'min_length[10]',
-                'errors' => ['min_length' => 'Alamat minimal 10 karakter']
+                'rules' => 'min_length[10]|required',
+                'errors' => [
+                    'min_length' => 'Alamat minimal 10 karakter',
+                    'required' => 'Alamat Lapangan tidak boleh kosong',
+
+                ]
             ],
         ];
 

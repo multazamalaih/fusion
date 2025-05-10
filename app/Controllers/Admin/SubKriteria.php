@@ -58,17 +58,22 @@ class SubKriteria extends BaseController
                 ]
             ],
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]',
+                'rules' => 'min_length[3]|max_length[100]|required',
                 'errors' => [
                     'min_length' => 'Nama Sub Kriteria minimal 3 karakter.',
                     'max_length' => 'Nama Sub Kriteria maksimal 100 karakter.',
+                    'required' => 'Nama Sub Kriteria tidak boleh kosong.',
+
+
                 ]
             ],
             'nilai' => [
-                'rules' => 'numeric|is_natural_no_zero',
+                'rules' => 'numeric|is_natural_no_zero|required',
                 'errors' => [
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
-                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif'
+                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif',
+                    'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
+
                 ]
             ],
         ];
@@ -116,17 +121,21 @@ class SubKriteria extends BaseController
                 ]
             ],
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]',
+                'rules' => 'min_length[3]|max_length[100]|required',
                 'errors' => [
                     'min_length' => 'Nama Sub Kriteria minimal 3 karakter.',
                     'max_length' => 'Nama Sub Kriteria maksimal 100 karakter.',
+                    'required' => 'Nama Sub Kriteria tidak boleh kosong.',
+
                 ]
             ],
             'nilai' => [
-                'rules' => 'numeric|is_natural_no_zero',
+                'rules' => 'numeric|is_natural_no_zero|required',
                 'errors' => [
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
-                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif'
+                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif',
+                    'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
+
                 ]
             ],
         ];

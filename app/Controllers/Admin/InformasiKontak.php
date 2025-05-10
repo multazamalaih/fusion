@@ -41,34 +41,39 @@ class InformasiKontak extends BaseController
     {
         $rules = [
             'instagram' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Instagram maksimal 255 karakter.'
+                    'max_length' => 'Instagram maksimal 255 karakter.',
+                    'required' => 'Link Instagram tidak boleh kosong.',
                 ]
             ],
             'facebook' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Facebook maksimal 255 karakter.'
+                    'max_length' => 'Facebook maksimal 255 karakter.',
+                    'required' => 'Link Facebook tidak boleh kosong.',
                 ]
             ],
             'twitter' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Twitter maksimal 255 karakter.'
+                    'max_length' => 'Twitter maksimal 255 karakter.',
+                    'required' => 'Link Twitter tidak boleh kosong.',
                 ]
             ],
             'tiktok' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'TikTok maksimal 255 karakter.'
+                    'max_length' => 'TikTok maksimal 255 karakter.',
+                    'required' => 'Link Tiktok tidak boleh kosong.'
                 ]
             ],
             'whatsapp' => [
-                'rules' => 'numeric|max_length[20]',
+                'rules' => 'numeric|max_length[20]|required',
                 'errors' => [
                     'numeric' => 'WhatsApp harus berupa angka.',
-                    'max_length' => 'WhatsApp maksimal 20 karakter.'
+                    'max_length' => 'WhatsApp maksimal 20 karakter.',
+                    'required' => 'Nomor WhatsApp tidak boleh kosong.'
                 ]
             ],
         ];
@@ -91,34 +96,39 @@ class InformasiKontak extends BaseController
     {
         $rules = [
             'instagram' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Instagram maksimal 255 karakter.'
+                    'max_length' => 'Instagram maksimal 255 karakter.',
+                    'required' => 'Link Instagram tidak boleh kosong.',
                 ]
             ],
             'facebook' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Facebook maksimal 255 karakter.'
+                    'max_length' => 'Facebook maksimal 255 karakter.',
+                    'required' => 'Link Facebook tidak boleh kosong.',
                 ]
             ],
             'twitter' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'Twitter maksimal 255 karakter.'
+                    'max_length' => 'Twitter maksimal 255 karakter.',
+                    'required' => 'Link Twitter tidak boleh kosong.',
                 ]
             ],
             'tiktok' => [
-                'rules' => 'max_length[255]',
+                'rules' => 'max_length[255]|required',
                 'errors' => [
-                    'max_length' => 'TikTok maksimal 255 karakter.'
+                    'max_length' => 'TikTok maksimal 255 karakter.',
+                    'required' => 'Link Tiktok tidak boleh kosong.'
                 ]
             ],
             'whatsapp' => [
-                'rules' => 'numeric|max_length[20]',
+                'rules' => 'numeric|max_length[20]|required',
                 'errors' => [
                     'numeric' => 'WhatsApp harus berupa angka.',
-                    'max_length' => 'WhatsApp maksimal 20 karakter.'
+                    'max_length' => 'WhatsApp maksimal 20 karakter.',
+                    'required' => 'Nomor WhatsApp tidak boleh kosong.'
                 ]
             ],
         ];
@@ -144,19 +154,24 @@ class InformasiKontak extends BaseController
                 'rules' => 'is_not_unique[lapangan.id_lapangan]',
                 'errors' => [
                     'is_not_unique' => 'Lapangan Futsal tidak ditemukan.',
+
                 ]
             ],
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]',
+                'rules' => 'min_length[3]|max_length[100]|required',
                 'errors' => [
                     'min_length' => 'Nama Manajemen minimal 3 karakter.',
                     'max_length' => 'Nama Manajemen maksimal 100 karakter.',
+                    'required' => 'Nama Manajemen tidak boleh kosong.',
+
                 ]
             ],
             'ulasan' => [
-                'rules' => 'min_length[10]',
+                'rules' => 'min_length[10]|required',
                 'errors' => [
                     'min_length' => 'Ulasan Minimal 10 karakter.',
+                    'required' => 'Ulasan Manajemen maksimal 100 karakter.',
+
                 ]
             ],
         ];
@@ -186,16 +201,20 @@ class InformasiKontak extends BaseController
                 ]
             ],
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]',
+                'rules' => 'min_length[3]|max_length[100]|required',
                 'errors' => [
                     'min_length' => 'Nama Manajemen minimal 3 karakter.',
                     'max_length' => 'Nama Manajemen maksimal 100 karakter.',
+                    'required' => 'Nama Manajemen tidak boleh kosong.',
+
                 ]
             ],
             'ulasan' => [
-                'rules' => 'min_length[10]',
+                'rules' => 'min_length[10]|required',
                 'errors' => [
-                    'min_length' => 'Ulasan minimal 10 karakter.',
+                    'min_length' => 'Ulasan Minimal 10 karakter.',
+                    'required' => 'Ulasan Manajemen maksimal 100 karakter.',
+
                 ]
             ],
         ];

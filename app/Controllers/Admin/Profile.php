@@ -64,17 +64,21 @@ class Profile extends BaseController
         if ($password) {
             $rules['password'] = [
                 'label' => 'Password',
-                'rules' => 'min_length[6]|max_length[255]',
+                'rules' => 'min_length[6]|max_length[255]|required',
                 'errors' => [
                     'min_length' => 'Password minimal 6 karakter',
                     'max_length' => 'Password maksimal 255 karakter',
+                    'required' => 'Password tidak boleh kosong'
+
                 ]
             ];
             $rules['konfirmasi'] = [
                 'label' => 'Konfirmasi Password',
-                'rules' => 'matches[password]',
+                'rules' => 'matches[password]|required',
                 'errors' => [
                     'matches' => 'Konfirmasi password tidak sama',
+                    'required' => 'Password tidak boleh kosong'
+
                 ]
             ];
         }
