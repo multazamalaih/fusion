@@ -2,124 +2,87 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Fusion</title>
+    <meta charset="utf-8">
+    <title>Fusion - Futsal Recommendation</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
     <!-- Favicon -->
-    <link rel="icon" href="<?= base_url() ?>/img/logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="<?= base_url('/assets/img/logo-baru.png') ?>" type="image/x-icon">
+    <link rel="icon" href="<?= base_url('/assets/img/logo-baru.png') ?>" type="image/x-icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Alata', sans-serif;
-            background: #f8f9fc url('img/bg-login.png') no-repeat center center;
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
 
-        .login-box {
-            background: white;
-            padding: 40px 24px;
-            border-radius: 16px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        .login-box h2 {
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
+    <!-- Libraries Stylesheet -->
+    <link href="<?= base_url('/assets/lib/animate/animate.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('/assets/lib/owlcarousel/assets/owl.carousel.min.css') ?>" rel="stylesheet">
 
-        .login-box input {
-            width: 92%;
-            margin: 0 auto 15px auto;
-            display: block;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            border: 1px solid #43b600;
-            border-radius: 10px;
-            outline: none;
-        }
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="<?= base_url('/assets/css/bootstrap.min.css') ?>" rel="stylesheet">
 
-        .login-box button {
-            font-family: 'Alata';
-            background-color: #43b600;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            width: 100%;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .login-box button:hover {
-            background-color: #3ba200;
-        }
-
-        .register-link {
-            margin-top: 15px;
-            font-size: 14px;
-        }
-
-        .register-link a {
-            color: #ff4800;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .is-invalid {
-            border: 1px solid red !important;
-        }
-    </style>
+    <!-- Template Stylesheet -->
+    <link href="<?= base_url('/assets/css/style.css') ?>" rel="stylesheet">
 </head>
 
-<body>
+<body class="login-page">
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+    <div class="container py-6 wow fadeIn" data-wow-delay="0.1s">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="bg-white p-5 rounded shadow content-rekomendasi">
+                    <h2 class="text-center text-dark mb-4" style="letter-spacing: 2px;">Masuk</h2>
+                    <form action="/login" method="post">
+                        <?= csrf_field() ?>
+                        <div class="mb-4 form-group input-group has-validation">
+                            <input type="email" name="email" id="email" class="form-control rounded-pill <?= session()->getFlashdata('errorEmail') ? 'is-invalid' : '' ?>" placeholder="Email" value="<?= old('email') ?>" required>
+                            <div class="invalid-feedback">
+                                <?= session()->getFlashdata('errorEmail')  ?>
+                            </div>
+                        </div>
 
-    <div class="login-box">
-        <h2>Login</h2>
-        <?php if (session()->getFlashdata('success')) : ?>
-            <div style="background-color: #d4edda; color: #155724; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb;">
-                <?= session()->getFlashdata('success') ?>
+                        <div class="mb-4">
+                            <input type="password" id="password" name="password" class="form-control rounded-pill <?= session()->getFlashdata('errorPassword') ? 'is-invalid' : '' ?>" placeholder="Password" required>
+                            <div class="invalid-feedback">
+                                <?= session()->getFlashdata('errorEmail') ?>
+                            </div>
+
+                        </div>
+
+                        <div class="text-center mb-3">
+                            <button type="submit" class="btn btn-primary rounded-pill px-5 py-2 w-100" style="letter-spacing: 8px;">MASUK</button>
+                        </div>
+
+                        <div class="register-link text-center">
+                            Belum punya akun? <a href="/register" class="text-secondary">Daftar di sini</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-        <?php endif; ?>
-        <?php if (session()->getFlashdata('error')) : ?>
-            <div style="background-color: #d4edda; color:rgb(194, 21, 21); padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #c3e6cb;">
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-        <form action="/login" method="post">
-            <div>
-                <input type="email" placeholder="Email" name="email" required class="<?= session()->getFlashdata("errorEmail") ? "is-invalid" : "" ?>" value="<?= old("email") ?>">
-                <?php if (session()->getFlashdata("errorEmail")) : ?>
-                    <div style="color: red; font-size: 12px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
-                        <?= session()->getFlashdata("errorEmail") ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <div>
-                <input type="password" placeholder="Password" name="password" required class="<?= session()->getFlashdata("errorPassword") ? "is-invalid" : "" ?>">
-                <?php if (session()->getFlashdata("errorPassword")) : ?>
-                    <div style="color: red; font-size: 12px; margin-top: -10px; margin-bottom: 10px; text-align: left;">
-                        <?= session()->getFlashdata("errorPassword") ?>
-                    </div>
-                <?php endif; ?>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div class="register-link">
-            Belum punya akun ? <a href="/register"> Daftar disini</a>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="<?= base_url('/assets/lib/wow/wow.min.js') ?>"></script>
+    <script src="<?= base_url('/assets/lib/easing/easing.min.js') ?>"></script>
+    <script src="<?= base_url('/assets/lib/waypoints/waypoints.min.js') ?>"></script>
+    <script src="<?= base_url('/assets/lib/owlcarousel/owl.carousel.min.js') ?>"></script>
 
+    <!-- Template Javascript -->
+    <script src="<?= base_url('/assets/js/main.js') ?>"></script>
 </body>
+
 
 </html>

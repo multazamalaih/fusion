@@ -42,19 +42,21 @@ class Profile extends BaseController
         $rules = [
             'nama' => [
                 'label' => 'Nama',
-                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]",
+                'rules' => "min_length[3]|max_length[100]|is_unique[users.nama,id_user,{$id}]|required",
                 'errors' => [
                     'min_length' => 'Nama minimal 3 karakter',
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique' => 'Nama sudah terdaftar',
+                    'required' => 'Nama tidak boleh kosong'
                 ]
             ],
             'email' => [
                 'label' => 'Email',
-                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]",
+                'rules' => "valid_email|is_unique[users.email,id_user,{$id}]|required",
                 'errors' => [
                     'valid_email' => 'Email tidak valid',
                     'is_unique' => 'Email sudah terdaftar',
+                    'required' => 'Email tidak boleh kosong'
                 ]
             ]
         ];

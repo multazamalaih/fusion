@@ -134,19 +134,21 @@ class Kriteria extends BaseController
 
         $rules = [
             'kode_kriteria' => [
-                'rules' => "min_length[2]|max_length[6]|is_unique[kriteria.kode_kriteria,id_kriteria,{$id}]",
+                'rules' => "min_length[2]|max_length[6]|is_unique[kriteria.kode_kriteria,id_kriteria,{$id}]|required",
                 'errors' => [
                     'min_length'  => 'Kode Kriteria minimal 2 karakter',
                     'max_length'  => 'Kode Kriteria maksimal 6 karakter',
-                    'is_unique'   => 'Kode Kriteria sudah terdaftar'
+                    'is_unique'   => 'Kode Kriteria sudah terdaftar',
+                    'required' => 'Kode Kriteria tidak boleh kosong'
                 ]
             ],
             'nama' => [
-                'rules' => "min_length[5]|max_length[100]|is_unique[kriteria.nama,id_kriteria,{$id}]",
+                'rules' => "min_length[5]|max_length[100]|is_unique[kriteria.nama,id_kriteria,{$id}]|required",
                 'errors' => [
                     'min_length'  => 'Nama Kriteria minimal 5 karakter',
                     'max_length'  => 'Nama Kriteria maksimal 100 karakter',
-                    'is_unique'   => 'Nama Kriteria sudah terdaftar'
+                    'is_unique'   => 'Nama Kriteria sudah terdaftar',
+                    'required' => 'Nama Kriteria tidak boleh kosong'
                 ]
             ],
             'tipe' => [
@@ -162,15 +164,17 @@ class Kriteria extends BaseController
                 ]
             ],
             'slogan' => [
-                'rules' => 'min_length[10]',
+                'rules' => 'min_length[10]|required',
                 'errors' => [
-                    'min_length' => 'Slogan Kriteria minimal 10 karakter'
+                    'min_length' => 'Slogan Kriteria minimal 10 karakter',
+                    'required' => 'Slogan Kriteria tidak boleh kosong'
                 ]
             ],
             'keterangan' => [
-                'rules' => 'min_length[30]',
+                'rules' => 'min_length[30]|required',
                 'errors' => [
-                    'min_length' => 'Keterangan Kriteria minimal 30 karakter'
+                    'min_length' => 'Keterangan Kriteria minimal 30 karakter',
+                    'required' => 'Keterangan Kriteria tidak boleh kosong'
                 ]
             ],
         ];

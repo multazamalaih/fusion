@@ -1,263 +1,239 @@
-<!DOCTYPE html>
-<html lang="id">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FUSION - Futsal Reccomendation</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="<?= base_url() ?>/img/logo.png">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-
-    <!-- Icon Font -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="<?= base_url() ?>/lib/animate/animate.min.css" rel="stylesheet">
-    <link href="<?= base_url() ?>/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Bootstrap -->
-    <link href="<?= base_url() ?>/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="<?= base_url() ?>/css/style.css" rel="stylesheet">
-</head>
-
-<body style="font-family: 'Alata', sans-serif;">
-
-    <!-- Spinner -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-success" role="status"></div>
-    </div>
-
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
-        <div class="container position-relative">
-
-            <!-- Logo -->
-            <a class="navbar-brand" href="/">
-                <img src="img/logo-fusion.png" alt="FUSION" style="height: 42px;">
-            </a>
-            <!-- Hamburger Menu (mobile) -->
-            <button class="navbar-toggler custom-toggler position-absolute top-0 start-50 translate-middle-x mt-2 z-3 d-lg-none"
-                type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Tombol kanan (mobile) -->
-            <div class="d-flex d-lg-none mt-2">
-                <?php if (!$isLogin) : ?>
-                    <a href="/login" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Masuk</a>
-                    <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
-                <?php else : ?>
-                    <a class="btn btn-sm rounded-pill px-3 btn-daftar" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-                <?php endif; ?>
-            </div>
-
-            <!-- Menu Tengah -->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav fw-semibold text-center mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Daftar Kriteria</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Lapangan Futsal</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Rekomendasikan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Kontak Kami</a></li>
-                </ul>
-            </div>
-
-            <!-- Tombol kanan (desktop) -->
-            <div class="d-none d-lg-flex gap-2">
-                <?php if (!$isLogin) : ?>
-                    <a href="/login" class="btn btn-sm rounded-pill px-3 btn-masuk">Masuk</a>
-                    <a href="/register" class="btn btn-sm rounded-pill px-3 btn-daftar">Daftar</a>
-                <?php else : ?>
-                    <a data-bs-toggle="modal" data-bs-target="#logoutModal" class="btn btn-sm rounded-pill px-3 btn-daftar">Logout</a>
-                <?php endif; ?>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Navbar End -->
-
-    <section class="hero-banner">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>Rekomendasi Lapangan Futsal Terbaik Hanya untuk Kamu !</h1>
-            <p>Dari harga murah hingga fasilitas lengkap, semua ada di sini. Pilih sekarang !</p>
-            <div class="buttons">
-                <a href="#" class="btn btn-sm rounded-pill px-3 me-2 btn-masuk">Lihat Rekomendasi</a>
-                <a href="#" class="btn btn-sm rounded-pill px-3 btn-daftar">Cari Sesuai Kebutuhanmu</a>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="kriteria-section py-5 text-center">
-        <div class="container">
-
-            <!-- 🔁 Diperbaiki urutan garis -->
-            <div class="position-relative d-inline-block mb-3">
-                <div class="garis-oranye"></div> <!-- Oranye sekarang di atas -->
-                <div class="garis-hijau"></div> <!-- Hijau di bawah -->
-            </div>
-
-            <!-- 🔁 Font pada judul otomatis pakai 'Alata' dari CSS -->
-            <h2 class="fw-bold">Kriteria Terbaik</h2>
-
-            <!-- ⏺ Tidak ada perubahan di subjudul, stylingnya tetap -->
-            <p class="text-muted mb-5">Kami Mengutamakan Kriteria dengan Bobot Prioritas Tinggi!</p>
-
-            <!-- Card Grid -->
-            <div class="row g-4">
-
-                <!-- Card 1 -->
-                <div class="col-md-4">
-                    <div class="card-kriteria p-4 h-100">
-                        <!-- 🔁 h5 ini akan gunakan 'Open Sans' sesuai CSS -->
-                        <h5 class=" fw-bold mb-3">Harga Sewa</h5>
-
-                        <!-- 🔁 Teks dalam tanda kutip pakai 'Alata' -->
-                        <p class="fst-italic">“ Semakin murah harga sewa, semakin baik penilaian lapangan di mata pengguna ”</p>
-
-                        <!-- 🔁 Tombol pakai font 'Alata' + outline styling -->
-                        <a href="#" class="btn btn-outline-success rounded-pill px-4 mt-3">Detail</a>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="col-md-4">
-                    <div class="card-kriteria p-4 h-100">
-                        <h5 class=" fw-bold mb-3">Kualitas Lapangan</h5>
-                        <p class="fst-italic">“ Semakin bagus kualitas lapangan, semakin baik penilaian lapangan di mata pengguna ”</p>
-                        <a href="#" class="btn btn-outline-success rounded-pill px-4 mt-3">Detail</a>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="col-md-4">
-                    <div class="card-kriteria p-4 h-100">
-                        <h5 class=" fw-bold mb-3">Kebersihan dan Perawatan</h5>
-                        <p class="fst-italic">“ Semakin bersih dan terawat , semakin baik penilaian lapangan di mata pengguna ”</p>
-                        <a href="#" class="btn btn-outline-success rounded-pill px-4 mt-3">Detail</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-
-
-    <!-- Konten Utama -->
-    <main class="container my-5 text-center">
-        <h1 class="fw-bold text-success mb-3">Selamat Datang di FUSION</h1>
-        <p class="lead">Platform rekomendasi lapangan futsal terbaik berdasarkan berbagai kriteria.</p>
-    </main>
-    <!-- Konten Utama End -->
-
-    <!-- Footer -->
-    <footer class="bg-dark text-light pt-5 footer">
-        <div class="container py-4">
-            <div class="row g-5">
-                <!-- Kolom 1 -->
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-white mb-3">FUSION</h5>
-                    <p class="text-white-50">Platform yang memberikan rekomendasi lapangan futsal terbaik berdasarkan preferensi Anda.</p>
-                </div>
-
-                <!-- Kolom 2 -->
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-white mb-3">Eksplorasi</h5>
-                    <a class="btn btn-link" href="#"><i class="fas fa-angle-right me-2"></i>Daftar Kriteria</a>
-                    <a class="btn btn-link" href="#"><i class="fas fa-angle-right me-2"></i>Lapangan Futsal</a>
-                </div>
-
-                <!-- Kolom 3 -->
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-white mb-3">Informasi</h5>
-                    <a class="btn btn-link" href="#"><i class="fas fa-angle-right me-2"></i>Rekomendasikan</a>
-                    <a class="btn btn-link" href="#"><i class="fas fa-angle-right me-2"></i>Tentang Kami</a>
-                    <a class="btn btn-link" href="#"><i class="fas fa-angle-right me-2"></i>Kontak Kami</a>
-                </div>
-
-                <!-- Kolom 4 -->
-                <div class="col-lg-3 col-md-6">
-                    <h5 class="text-white mb-3">Hubungi Kami</h5>
-                    <p class="text-white-50 mb-2"><i class="fas fa-map-marker-alt me-2"></i>Depok, Indonesia</p>
-                    <p class="text-white-50 mb-2"><i class="fas fa-envelope me-2"></i>multazam071220@gmail.com</p>
-                    <p class="text-white-50 mb-0"><i class="fab fa-whatsapp me-2"></i>0813-1058-2096</p>
-                </div>
-            </div>
-
-            <!-- Sosmed + Divider -->
-            <div class="text-center mt-5">
-                <div class="d-flex justify-content-center gap-3 mb-3">
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-instagram"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-x-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-tiktok"></i></a>
-                </div>
-
-                <hr class="footer-divider mx-auto">
-
-                <p class="text-white-50 small m-0">Copyright by Multazam</p>
-            </div>
-
-        </div>
-    </footer>
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
-    <!-- Modal logout -->
-    <div class="modal fade " id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Logout</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Anda yakin ingin logout?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="/logout" method="post">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-secondary">Ya</button>
-                    </form>
+<?= view('pages/templates/header'); ?>
+<!-- Banner Start -->
+<div class="banner-section mb-5">
+    <img src="<?= base_url('/assets/img/banner.jpg') ?>" alt="Banner Futsal">
+    <div class="overlay-dark">
+        <div class="banner-content">
+            <div class="container">
+                <h1 class="display-5 text-white fw-bold mb-4 wow fadeInDown" data-wow-delay="0.3s">
+                    Rekomendasi Lapangan Futsal Terbaik Hanya untuk Kamu!
+                </h1>
+                <p class="text-white fs-4 mb-4 wow fadeInUp" data-wow-delay="0.5s">
+                    Dari harga murah hingga fasilitas lengkap, semua ada di sini. Pilih sekarang!
+                </p>
+                <div class="banner-buttons d-flex justify-content-center gap-3 flex-wrap wow fadeInUp" data-wow-delay="0.7s">
+                    <a href="/hasil-rekomendasi" class="btn btn-primary rounded-pill py-3 px-5">Lihat Rekomendasi</a>
+                    <a href="/cari-lapangan" class="btn btn-secondary rounded-pill py-3 px-5">Cari Sesuai Kebutuhanmu</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<!-- Banner End -->
+<!-- Feature Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <h1 class="display-5 mb-3 text-nowrap">Kriteria Terbaik</h1>
+            <p>Kami Mengutamakan Kriteria dengan Bobot Prioritas Tinggi!</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-light text-center shadow h-100 p-4 p-xl-5 d-flex flex-column justify-content-between">
+                    <h4 class=" mb-3">Harga Sewa</h4>
+                    <p class="mb-4 ">"Semakin murah harga sewa, semakin baik penilaian lapangan di mata pengguna."</p>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-outline-primary border-2 py-2 px-4 rounded-pill" href="daftar-kriteria.php">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-light text-center shadow h-100 p-4 p-xl-5 d-flex flex-column justify-content-between">
+                    <h4 class="mb-3">Kebersihan dan Perawatan</h4>
+                    <p class="mb-4">"Semakin bersih dan terawat, semakin baik penilaian lapangan di mata pengguna."</p>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-outline-primary border-2 py-2 px-4 rounded-pill" href="daftar-kriteria.php">Read More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="bg-light text-center shadow h-100 p-4 p-xl-5 d-flex flex-column justify-content-between">
+                    <h4 class="mb-3">Kualitas Lapangan</h4>
+                    <p class="mb-4">"Semakin bagus kualitas lapangan, semakin baik penilaian lapangan di mata pengguna."</p>
+                    <div class="text-center mt-3">
+                        <a class="btn btn-outline-primary border-2 py-2 px-4 rounded-pill" href="daftar-kriteria.php">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Feature End -->
+<!-- Daftar Lapangan Start -->
+<div class="container-fluid bg-icon my-5 py-6">
+    <div class="container">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <h1 class="display-5 mb-3">Daftar Lapangan Futsal</h1>
+            <p>Main Futsal Lebih Mudah, Pilih Lapangan Favoritmu!</p>
+        </div>
+        <div class="row g-5 align-items-center">
+            <div class="col-md-7 wow fadeInLeft" data-wow-delay="0.3s">
+                <div class="ratio ratio-16x9 rounded-3 shadow">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="col-md-5 d-flex flex-column justify-content-center align-items-center wow fadeInRight" data-wow-delay="0.5s">
+                <h4 class="mb-4 text-center">Daftar terlengkap lapangan futsal</h4>
+                <a class="btn btn-lg btn-secondary rounded-pill py-3 px-5" href="daftar-lapangan-futsal.php">Lihat Daftar Lapangan</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Daftar Lapangan End -->
+<!-- lapangan Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
+            <h1 class="display-5 mb-3 text-nowrap">Lapangan Futsal Pilihan</h1>
+            <p>Rekomendasi Lapangan Futsal dengan Kualitas Terbaik!</p>
+        </div>
+        <div class="row g-4">
+            <!-- Card 1 -->
+            <div class="col-12 col-sm-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="lapangan-item">
+                    <div class="position-relative bg-light overflow-hidden">
+                        <img class="img-fluid w-100" src="img/foto-contoh.png" alt="">
+                    </div>
+                    <div class="text-center p-4">
+                        <a class="d-block h5 mb-2" href="">Noel Futsal</a>
+                        <span class="text-primary fw-bold">Rp 100.000</span>
+                    </div>
+                    <div class="d-flex border-top">
+                        <small class="w-50 text-center border-end py-2">
+                            <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Lihat Detail</a>
+                        </small>
+                        <small class="w-50 text-center py-2">
+                            <a class="text-body" href=""><i class="fab fa-whatsapp text-primary me-2 fa-lg"></i>Pesan</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2-4 tinggal duplikat dan ubah gambar/tulisan -->
+            <div class="col-12 col-sm-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="lapangan-item">
+                    <div class="position-relative bg-light overflow-hidden">
+                        <img class="img-fluid w-100" src="img/foto-contoh.png" alt="">
+                    </div>
+                    <div class="text-center p-4">
+                        <a class="d-block h5 mb-2" href="">Noel Futsal</a>
+                        <span class="text-primary fw-bold">Rp 100.000</span>
+                    </div>
+                    <div class="d-flex border-top">
+                        <small class="w-50 text-center border-end py-2">
+                            <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Lihat Detail</a>
+                        </small>
+                        <small class="w-50 text-center py-2">
+                            <a class="text-body" href=""><i class="fab fa-whatsapp text-primary me-2 fa-lg"></i>Pesan</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="lapangan-item">
+                    <div class="position-relative bg-light overflow-hidden">
+                        <img class="img-fluid w-100" src="img/foto-contoh.png" alt="">
+                    </div>
+                    <div class="text-center p-4">
+                        <a class="d-block h5 mb-2" href="">Noel Futsal</a>
+                        <span class="text-primary fw-bold">Rp 100.000</span>
+                    </div>
+                    <div class="d-flex border-top">
+                        <small class="w-50 text-center border-end py-2">
+                            <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Lihat Detail</a>
+                        </small>
+                        <small class="w-50 text-center py-2">
+                            <a class="text-body" href=""><i class="fab fa-whatsapp text-primary me-2 fa-lg"></i>Pesan</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="lapangan-item">
+                    <div class="position-relative bg-light overflow-hidden">
+                        <img class="img-fluid w-100" src="img/foto-contoh.png" alt="">
+                    </div>
+                    <div class="text-center p-4">
+                        <a class="d-block h5 mb-2" href="">Noel Futsal</a>
+                        <span class="text-primary fw-bold">Rp 100.000</span>
+                    </div>
+                    <div class="d-flex border-top">
+                        <small class="w-50 text-center border-end py-2">
+                            <a class="text-body" href=""><i class="fa fa-eye text-primary me-2"></i>Lihat Detail</a>
+                        </small>
+                        <small class="w-50 text-center py-2">
+                            <a class="text-body" href=""><i class="fab fa-whatsapp text-primary me-2 fa-lg"></i>Pesan</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- lapangan End -->
+<!-- Firm Visit Start -->
+<div class="container-fluid bg-icon-hijau visit py-6 mt-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-md-7 wow fadeIn" data-wow-delay="0.1s">
+                <h1 class="display-5 text-white mb-3 text-nowrap">Kirimkan Rekomendasi Anda</h1>
+                <p class="text-white mb-0">Rekomendasi Anda, Langkah Awal untuk Meningkatkan Layanan Kami!
+                    <br>Rekomendasikan Lapangan atau Kriteria yang Anda Inginkan Sekarang!
+                </p>
+            </div>
+            <div class="col-md-5 text-md-end wow fadeIn" data-wow-delay="0.5s">
+                <a class="btn btn-lg btn-secondary rounded-pill py-3 px-5" href="">Rekomendasikan</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Firm Visit End -->
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="<?= base_url() ?>/lib/wow/wow.min.js"></script>
-    <script src="<?= base_url() ?>/lib/easing/easing.min.js"></script>
-    <script src="<?= base_url() ?>/lib/waypoints/waypoints.min.js"></script>
-    <script src="<?= base_url() ?>/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="<?= base_url() ?>/js/main.js"></script>
-    <script>
-        window.addEventListener('load', function() {
-            const spinner = document.getElementById('spinner');
-            if (spinner) {
-                spinner.classList.remove('show');
-            }
-        });
-    </script>
-</body>
-
-</html>
+<!-- Ulasan Start -->
+<div class="container-fluid bg-icon testimonial py-6">
+    <div class="container">
+        <div class="section-header text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+            <h1 class="display-5 mb-3">Ulasan Manajemen</h1>
+            <p>Berikut Ulasan Manajemen tentang Rekomendasi Lapangan Futsal</p>
+        </div>
+        <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+            <div class="testimonial-item position-relative bg-white p-5 mt-4">
+                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
+                <p class="mb-4 text-center">Kami berharap website ini terus memberikan kenyamanan bagi pengguna dan menjadi platform terpercaya untuk mencari lapangan futsal terbaik.</p>
+                <hr class="my-4">
+                <div class="text-center">
+                    <h5 class="mb-1">Nama Manajemen</h5>
+                    <span>Nama Lapangan Futsal</span>
+                </div>
+            </div>
+            <div class="testimonial-item position-relative bg-white p-5 mt-4">
+                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
+                <p class="mb-4 text-center">Kami berharap website ini terus memberikan kenyamanan bagi pengguna dan menjadi platform terpercaya untuk mencari lapangan futsal terbaik.</p>
+                <hr class="my-4">
+                <div class="text-center">
+                    <h5 class="mb-1">Nama Manajemen</h5>
+                    <span>Nama Lapangan Futsal</span>
+                </div>
+            </div>
+            <div class="testimonial-item position-relative bg-white p-5 mt-4">
+                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
+                <p class="mb-4 text-center">Kami berharap website ini terus memberikan kenyamanan bagi pengguna dan menjadi platform terpercaya untuk mencari lapangan futsal terbaik.</p>
+                <hr class="my-4">
+                <div class="text-center">
+                    <h5 class="mb-1">Nama Manajemen</h5>
+                    <span>Nama Lapangan Futsal</span>
+                </div>
+            </div>
+            <div class="testimonial-item position-relative bg-white p-5 mt-4">
+                <i class="fa fa-quote-left fa-3x text-primary position-absolute top-0 start-0 mt-n4 ms-5"></i>
+                <p class="mb-4 text-center">Kami berharap website ini terus memberikan kenyamanan bagi pengguna dan menjadi platform terpercaya untuk mencari lapangan futsal terbaik.</p>
+                <hr class="my-4">
+                <div class="text-center">
+                    <h5 class="mb-1">Nama Manajemen</h5>
+                    <span>Nama Lapangan Futsal</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Ulasan End -->
+<?= view('pages/templates/footer'); ?>

@@ -12,10 +12,15 @@ $routes->get('/about', 'Home::about');
 $routes->get('/login', 'Auth::login', ['filter' => 'redirectIfAuthenticated']);
 $routes->get('/register', 'Auth::register', ['filter' => 'redirectIfAuthenticated']);
 
+
 // auth proses
 $routes->post('/login', 'Auth::loginProses');
 $routes->post('/register', 'Auth::registerProses');
 $routes->delete('/logout', 'Auth::logoutProses');
+
+$routes->get('/hasil-rekomendasi', 'Home::hasilRekomendasi');
+$routes->get('/kontak-kami', 'Home::kontakKami');
+$routes->get('/detail-lapangan/(:num)', 'Home::detailLapangan/$1');
 
 // admin view
 $routes->group('admin', ['filter' => 'checkAdmin'], function ($routes) {

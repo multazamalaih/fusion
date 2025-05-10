@@ -35,6 +35,17 @@ class Auth extends BaseController
         if (!password_verify($password, $user["password"])) {
             return redirect()->to(base_url('/login'))->withInput()->with('errorPassword', 'Email atau password salah')->with('errorEmail', 'Email atau password salah');
         }
+        if (!$this->validate([
+            'email' => [
+                "rules" => "required|valid_email",
+                "errors" => [
+                    "required" => "Email tidak boleh kosong",
+                    "valid_email" => "Email tidak valid",
+                ],
+            ]
+        ])) {
+            return redirect()->to(base_url('/login'))->withInput();
+        }
         $user = [
             "id_user" => $user["id_user"],
             "nama" => $user["nama"],

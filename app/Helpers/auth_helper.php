@@ -17,3 +17,14 @@ function getUser()
 
     return $userSession;
 }
+/**
+ * Untuk mengetahui apakah user sudah login atau belum.
+ */
+function checkLogin()
+{
+    $user = getUser();
+    if (!$user) {
+        return false;
+    }
+    return true;
+}
