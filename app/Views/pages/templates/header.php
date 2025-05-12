@@ -19,6 +19,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Lora:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <!-- Icon Font Stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -48,7 +54,7 @@
             <div class="container d-flex align-items-center justify-content-between">
 
                 <!-- Logo -->
-                <a class="navbar-brand d-flex align-items-center" href="index.php" style="text-decoration: none; font-family: 'Alata', sans-serif;">
+                <a class="navbar-brand d-flex align-items-center" href="/" style="text-decoration: none; font-family: 'Alata', sans-serif;">
                     <img src="<?= base_url('/assets/img/logo-baru.png') ?>" alt="Logo Fusion" style="height: 40px; margin-right: 8px;">
                     <div class="d-flex flex-column">
                         <span style="font-size: 15px; font-weight: bold; color: #000; letter-spacing: 5px;">FUSION</span>
@@ -64,7 +70,7 @@
 
                 <!-- Collapse menu -->
                 <div class="collapse navbar-collapse flex-grow-1" id="navbarNav">
-                    <ul class="navbar-nav me-auto ms-3 gap-lg-3 text-center">
+                    <ul class="navbar-nav me-auto ms-3 h6 gap-lg-3 text-center">
                         <li class="nav-item"><a class="nav-link" href="/">Beranda</a></li>
                         <li class="nav-item"><a class="nav-link" href="/daftar-kriteria">Daftar Kriteria</a></li>
                         <li class="nav-item"><a class="nav-link" href="/daftar-lapangan-futsal">Daftar Lapangan Futsal</a></li>
@@ -84,7 +90,7 @@
                                     <img src="<?= base_url('/assets/img/user-baru.png') ?>" alt="User" width="40" height="40" class="rounded-circle" style="object-fit: cover;">
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="profil.php">Profil</a></li>
+                                    <li><a class="dropdown-item" href="/profil">Profil</a></li>
                                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logoutModal">Keluar</a>
                                     </li>
                                 </ul>
@@ -100,7 +106,7 @@
                     <!-- Tombol Mobile (collapse) -->
                     <?php if (checkLogin()) : ?>
                         <div class="collapse-buttons d-flex d-lg-none flex-row gap-2 mt-3 w-100">
-                            <a href="profil.php" class="btn btn-primary rounded-pill px-4 py-2 w-100">Profil</a>
+                            <a href="/profil" class="btn btn-primary rounded-pill px-4 py-2 w-100">Profil</a>
                             <a href="#" class="btn btn-secondary  rounded-pill px-4 py-2 w-100" data-bs-toggle="modal" data-bs-target="#logoutModal">Keluar</a>
                         </div>
                     <?php else : ?>

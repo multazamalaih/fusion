@@ -19,8 +19,20 @@ $routes->post('/register', 'Auth::registerProses');
 $routes->delete('/logout', 'Auth::logoutProses');
 
 $routes->get('/hasil-rekomendasi', 'Home::hasilRekomendasi');
+$routes->get('/cetak-hasil-rekomendasi', 'Home::cetakHasilRekomendasi');
+$routes->get('/cari-lapangan', 'Home::cariLapangan');
+$routes->post('/hasil-perhitungan', 'Home::hasilPerhitungan');
+$routes->get('/cetak-hasil-perhitungan', 'Home::cetakHasilPerhitungan');
+$routes->get('/daftar-kriteria', 'Home::daftarKriteria');
+$routes->get('/daftar-lapangan-futsal', 'Home::daftarLapanganFutsal');
+$routes->get('/daftar-lapangan-futsal/detail/(:num)', 'Home::detailLapanganFutsal/$1');
+$routes->get('/rekomendasikan', 'Home::Rekomendasikan');
+$routes->post('/rekomendasikan', 'Home::RekomendasikanProses');
+$routes->get('/tentang-kami', 'Home::tentangKami');
 $routes->get('/kontak-kami', 'Home::kontakKami');
-$routes->get('/detail-lapangan/(:num)', 'Home::detailLapangan/$1');
+$routes->post('/kontak-kami', 'Home::kontakKamiProses');
+$routes->get('/profil', 'Home::Profil');
+$routes->post('/update-profil', 'Home::updateProfil');
 
 // admin view
 $routes->group('admin', ['filter' => 'checkAdmin'], function ($routes) {
@@ -56,16 +68,18 @@ $routes->group('admin', ['filter' => 'checkAdmin'], function ($routes) {
     $routes->get('perhitungan', 'Admin\Perhitungan::perhitungan');
     $routes->get('hasil', 'Admin\Hasil::hasil');
     $routes->get('cetak', 'Admin\Cetak::cetak');
-    $routes->get('list-rekomendasi', 'Admin::listRekomendasi'); //belom
-    $routes->get('detail-rekomendasi', 'Admin::detailRekomendasi'); //belom
-    $routes->get('list-pesan', 'Admin::listPesan'); //belom
-    $routes->get('detail-pesan', 'Admin::detailPesan'); //belom
     $routes->get('list-informasi-kontak', 'Admin\InformasiKontak::listInformasiKontak');
     $routes->post('simpan-kontak', 'Admin\InformasiKontak::simpanKontak');
     $routes->post('update-kontak', 'Admin\InformasiKontak::updateKontak');
     $routes->post('simpan-ulasan', 'Admin\InformasiKontak::simpanUlasan');
     $routes->post('update-ulasan/(:num)', 'Admin\InformasiKontak::updateUlasan/$1');
     $routes->delete('hapus-ulasan/(:num)', 'Admin\InformasiKontak::hapusUlasan/$1');
+    $routes->get('list-rekomendasi', 'Admin\Rekomendasi::listRekomendasi');
+    $routes->get('detail-rekomendasi/(:num)', 'Admin\Rekomendasi::detailRekomendasi/$1');
+    $routes->delete('hapus-rekomendasi/(:num)', 'Admin\Rekomendasi::hapusRekomendasi/$1');
+    $routes->get('list-pesan', 'Admin\Pesan::listPesan');
+    $routes->get('detail-pesan/(:num)', 'Admin\Pesan::detailPesan/$1');
+    $routes->delete('hapus-pesan/(:num)', 'Admin\Pesan::hapusPesan/$1');
     $routes->get('list-user', 'Admin\User::listUser');
     $routes->get('tambah-user', 'Admin\User::tambahUser');
     $routes->post('simpan-user', 'Admin\User::simpanUser');

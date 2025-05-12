@@ -472,6 +472,29 @@ body.register-page{
 }
 
 /* Cari Filter */
+
+.scrollable-cell {
+    overflow-x: auto;
+    white-space: nowrap;
+ }
+
+.scroll-button-group {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.scroll-button-group label {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.scroll-hasil-wrapper {
+    font-family: 'Alata', sans-serif;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
 .cari-filter {
     font-family: 'Alata', sans-serif;
 }
@@ -509,10 +532,6 @@ select.form-select{
     background: transparent;
     border: none;
 }
-.wow {
-    pointer-events: auto !important;
-}
-
 /* ===== Detail Lapangan CSS ===== */
 .detail-lapangan .main-photo {
     width: 100%;

@@ -63,7 +63,6 @@ class Auth extends BaseController
         $nama = $this->request->getVar("nama");
         $email = $this->request->getVar("email");
         $password = $this->request->getVar("password");
-        $konfirmasi = $this->request->getVar("konfirmasi");
         if (!$this->validate([
             "nama" => [
                 "rules" => "required|min_length[3]|max_length[100]|is_unique[users.nama]",

@@ -19,26 +19,25 @@
             <table class="table">
                 <tr>
                     <td class="w-50">Nama User</td>
-                    <td class="font-weight-bold w-50">User @gmail.com</td>
+                    <td class="font-weight-bold w-50"><?= $rekomendasi['nama'] ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Jenis Rekomendasi</td>
-                    <td class="font-weight-bold w-50">Kriteria</td>
+                    <td class="font-weight-bold w-50"><?= $rekomendasi['jenis_rekomendasi'] ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Nama Rekomendasi</td>
-                    <td class="font-weight-bold w-50">Tipe Lapangan (Indoor / Outdoor)</td>
+                    <td class="font-weight-bold w-50"><?= $rekomendasi['nama_rekomendasi'] ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Keterangan</td>
-                    <td class="font-weight-bold w-50" align="justify">Tipe Lapangan Indoor adalah lapangan yang berada di dalam ruangan tertutup, dirancang untuk memberikan kenyamanan dan perlindungan dari cuaca seperti hujan, panas matahari, atau angin.
-                        Tipe Lapangan Outdoor, di sisi lain, adalah lapangan terbuka yang berada di luar ruangan. Lapangan ini mengandalkan cahaya matahari di siang hari dan memberikan pengalaman olahraga yang lebih alami dengan udara segar.</td>
+                    <td class="font-weight-bold w-50" align="justify"><?= $rekomendasi['keterangan'] ?></td>
                 </tr>
             </table>
         </div>
     </div>
     <div class="card-footer text-right">
-        <a type="delete" class="btn btn-danger" href="<?= base_url('admin/hapus-rekomendasi') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
+        <a type="delete" class="btn btn-danger text-white" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('/admin/hapus-rekomendasi' . $rekomendasi['id_rekomendasi']) ?>"><i class="fa fa-trash"></i> Hapus</a>
     </div>
 </div>
 <?= view('pages/admin/template/footer') ?>

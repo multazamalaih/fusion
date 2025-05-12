@@ -35,7 +35,7 @@
                     <tr align="center">
                         <?php if (!$kontak): ?>
                             <td colspan="5">Belum ada data Informasi Kontak.</td>
-                            <td><a href="#inputKontak" data-toggle="modal" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Input</a></td>
+                            <td><a href="#tambahKontak" data-toggle="modal" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Input</a></td>
                         <?php else: ?>
                             <td><?= esc($kontak['instagram']) ?></td>
                             <td><?= esc($kontak['facebook']) ?></td>

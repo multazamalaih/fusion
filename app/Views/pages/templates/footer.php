@@ -11,16 +11,16 @@
                 <!-- Kolom 2 -->
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Eksplorasi Lapangan</h4>
-                    <a class="btn btn-link" href="daftar-kriteria.php">Daftar Kriteria</a>
-                    <a class="btn btn-link" href="daftar-lapangan-futsal.php">Daftar Lapangan Futsal</a>
+                    <a class="btn btn-link" href="/daftar-kriteria">Daftar Kriteria</a>
+                    <a class="btn btn-link" href="/daftar-lapangan-futsal">Daftar Lapangan Futsal</a>
                 </div>
 
                 <!-- Kolom 3 -->
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Layanan & Informasi</h4>
-                    <a class="btn btn-link" href="rekomendasikan.php">Rekomendasikan</a>
-                    <a class="btn btn-link" href="tentang-kami.php">Tentang Kami</a>
-                    <a class="btn btn-link" href="kontak-kami.php">Kontak Kami</a>
+                    <a class="btn btn-link" href="/rekomendasikan">Rekomendasikan</a>
+                    <a class="btn btn-link" href="/tentang-kami">Tentang Kami</a>
+                    <a class="btn btn-link" href="/kontak-kami">Kontak Kami</a>
                 </div>
 
                 <!-- Kolom 4 -->
@@ -34,10 +34,10 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="#"><i class="fab fa-instagram"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="#"><i class="fab fa-tiktok"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="<?= !empty($kontak['instagram']) ? esc($kontak['instagram']) : '#' ?>" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="<?= !empty($kontak['facebook']) ? esc($kontak['facebook']) : '#' ?>" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="<?= !empty($kontak['twitter']) ? esc($kontak['twitter']) : '#' ?>" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-outline-light rounded-circle me-2" href="<?= !empty($kontak['tiktok']) ? esc($kontak['tiktok']) : '#' ?>" target="_blank"><i class="fab fa-tiktok"></i></a>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,26 @@
 
     <!-- Template Javascript -->
     <script src="<?= base_url('/assets/js/main.js') ?>"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aktifkan tab dari hash URL saat halaman dimuat
+            const hash = window.location.hash;
+            if (hash) {
+                const tabTrigger = document.querySelector(`.nav-link[href="${hash}"]`);
+                if (tabTrigger) {
+                    new bootstrap.Tab(tabTrigger).show();
+                }
+            }
 
+            // Ganti hash URL saat tab diklik
+            document.querySelectorAll('.nav-link[data-bs-toggle="tab"]').forEach(function(tab) {
+                tab.addEventListener('shown.bs.tab', function(e) {
+                    const newHash = e.target.getAttribute('href');
+                    history.replaceState(null, null, newHash);
+                });
+            });
+        });
+    </script>
     </body>
 
     </html>

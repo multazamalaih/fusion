@@ -37,15 +37,22 @@ class Auth implements FilterInterface
         }
 
         $userModel = new Users();
-        $userDatabase = $userModel
-            ->where('email', $userSession['email'])
-            ->where('nama', $userSession['nama'])
-            ->first();
+        $userDatabase = $userModel->find($userSession['id_user']);
+        $userCheckDatabase = $userModel->where('nama', $userSession['nama'])->where('email', $userSession['email'])->where('role', $userSession['role'])->first();
 
         if (!$userDatabase) {
             session()->remove('user');
             session()->destroy();
             return redirect()->to(base_url('/login'))->with('error', 'Sesi kedaluwarsa!');
+        }
+        if (!$userCheckDatabase) {
+            $userData = [
+                'id_user' => $userDatabase['id_user'],
+                'nama' => $userDatabase['nama'],
+                'email' => $userDatabase['email'],
+                'role' => $userDatabase['role'],
+            ];
+            session()->set('user', json_encode($userData));
         }
     }
 

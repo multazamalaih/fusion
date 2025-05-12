@@ -53,7 +53,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
+                        <div class="mb-4 form-group input-group has-validation">
                             <input type="password" id="password" name="password" class="form-control rounded-pill <?= session()->getFlashdata('errorPassword') ? 'is-invalid' : '' ?>" placeholder="Password" required>
                             <div class="invalid-feedback">
                                 <?= session()->getFlashdata('errorEmail') ?>

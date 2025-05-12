@@ -24,19 +24,21 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr align="center">
-                        <td>1</td>
-                        <td>Contoh Nama User</td>
-                        <td>Contoh Jenis Rekomendasi</td>
-                        <td>Contoh Nama Rekomendasi</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a data-toggle="tooltip" data-placement="bottom" title="Detail Data" href="<?= base_url('admin/detail-rekomendasi') ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
-                                <a data-toggle="tooltip" data-placement="bottom" title="Hapus Data" href="<?= base_url('admin/hapus-rekomendasi') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php $i = 1; ?>
+                    <?php foreach ($data as $rekomendasi) : ?>
+                        <tr align="center">
+                            <td><?= $i++; ?></td>
+                            <td><?= $rekomendasi['nama'] ?></td>
+                            <td><?= $rekomendasi['jenis_rekomendasi'] ?></td>
+                            <td><?= $rekomendasi['nama_rekomendasi'] ?></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a data-toggle="tooltip" data-placement="bottom" title="Detail Data" href="<?= base_url('admin/detail-rekomendasi/' . $rekomendasi['id_rekomendasi']) ?>" class="btn btn-info btn-sm"><i class="fa fa-magnifying-glass"></i></a>
+                                    <a data-toggle="modal" data-placement="bottom" title="Hapus Data" data-target="#modalHapus" data-hapus-url="<?= base_url('/admin/hapus-rekomendasi/' . $rekomendasi['id_rekomendasi']) ?>" class="btn btn-danger btn-sm text-white"><i class="fa fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

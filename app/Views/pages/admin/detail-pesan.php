@@ -17,21 +17,21 @@
             <table class="table">
                 <tr>
                     <td class="w-50">Nama User</td>
-                    <td class="font-weight-bold w-50">User</td>
+                    <td class="font-weight-bold w-50"><?= $pesan['nama'] ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Email</td>
-                    <td class="font-weight-bold w-50">User@gmail.com</td>
+                    <td class="font-weight-bold w-50"><?= $pesan['email'] ?></td>
                 </tr>
                 <tr>
                     <td class="w-50">Pesan</td>
-                    <td class="font-weight-bold w-50" align="justify">Tolong ditingkatkan lagi websitenya dengan menambahkan beberapa fitur seperti dapat menemukan teman/tim untuk sparing.</td>
+                    <td class="font-weight-bold w-50" align="justify"><?= $pesan['pesan'] ?></td>
                 </tr>
             </table>
         </div>
     </div>
     <div class="card-footer text-right">
-        <a type="delete" class="btn btn-danger" href="<?= base_url('admin/hapus-pesan') ?>" onclick="return confirm ('Apakah anda yakin untuk meghapus data ini')"><i class="fa fa-trash"></i> Hapus</a>
+        <a type="delete" class="btn btn-danger text-white" data-toggle="modal" data-target="#modalHapus" data-hapus-url="<?= base_url('/admin/hapus-pesan/' . $pesan['id_pesan']) ?>"><i class="fa fa-trash"></i> Hapus</a>
     </div>
 </div>
 <?= view('pages/admin/template/footer') ?>
