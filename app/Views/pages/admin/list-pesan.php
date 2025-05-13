@@ -3,6 +3,11 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-envelope"></i> Data Pesan</h1>
 </div>
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+<?php endif; ?>
 
 <div class="card shadow mb-4">
     <!-- /.card-header -->

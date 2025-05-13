@@ -5,6 +5,12 @@
     <h1 class="h3 mb-0 text-gray-800"><i class="fas fa-fw fa-message"></i> Data Rekomendasi</h1>
 </div>
 
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('error') ?>
+    </div>
+<?php endif; ?>
+
 <div class="card shadow mb-4">
     <!-- /.card-header -->
     <div class="card-header py-3">

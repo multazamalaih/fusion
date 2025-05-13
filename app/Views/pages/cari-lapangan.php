@@ -16,7 +16,7 @@
 
 <!-- Info Banner -->
 <div class="container-fluid bg-primary mb-5 wow fadeInUp" data-wow-delay="0.1s">
-    <div class="container text-center text-white py-4">
+    <div class="container text-center text-white py-4" style="font-family:'Alata', sans-serif;">
         Silahkan isi terlebih dahulu nilai kriteria menggunakan perbandingan berpasangan berdasarkan skala perbandingan 1-9
         (<a href="#" class="text-dark fw-bold" data-bs-toggle="modal" data-bs-target="#teori">lihat teori</a>)
         kemudian klik <strong>Simpan dan Lihat Hasil</strong> untuk melakukan pembobotan preferensi dengan menggunakan metode AHP dan perhitungan dengan menggunakan metode TOPSIS.
@@ -71,7 +71,7 @@
 
 <?php if (!empty($error)) : ?>
     <div class="container-fluid bg-secondary mb-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container text-center text-white py-4">
+        <div class="container text-center text-white  py-4" style="font-family:'Alata', sans-serif;">
             <?= $error ?>
         </div>
     </div>
@@ -128,9 +128,15 @@
 
                     <tr>
                         <td colspan="3">
-                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">
-                                <i class="fas fa-save me-1"></i> Simpan dan Lihat Hasil
-                            </button>
+                            <div class="text-center">
+                                <?php if (checkLogin()) : ?>
+                                    <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">
+                                        <i class="fas fa-save me-1"></i> Hitung dan Lihat Hasil
+                                    </button>
+                                <?php else : ?>
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalLogin" class="btn btn-primary rounded-pill px-5 py-2 w-100" style="letter-spacing: 8px;">K I R I M</button>
+                                <?php endif; ?>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -140,6 +146,23 @@
     <p class="text-muted fst-italic small mt-2 d-block d-md-none">
         <i class="bi bi-arrow-left-right me-1"></i>Geser ke samping untuk memilih skala.
     </p>
+</div>
+<div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="font-family:Alata, sans-serif;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLoginLabel">Masuk Akun ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Silahkan Masuk Akun terlebih dahulu sebelum mengirim nilai perbandingan
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary text-white rounded-pill py-2 px-3" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary rounded-pill py-2 px-3"><a href="/login" class="text-white">Masuk</a></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?= view('pages/templates/footer') ?>

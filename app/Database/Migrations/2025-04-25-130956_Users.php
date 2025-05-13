@@ -12,7 +12,6 @@ class Users extends Migration
             "id_user" => [
                 "type" => "INT",
                 "auto_increment" => true,
-                "null" => true,
                 "constraint" => 11,
             ],
             "nama" => [

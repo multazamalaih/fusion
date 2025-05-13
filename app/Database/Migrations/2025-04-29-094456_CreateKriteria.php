@@ -45,7 +45,7 @@ class CreateKriteria extends Migration
             'slogan' => [
                 'type' => 'VARCHAR',
                 'null' => false,
-                'constraint' => 225,
+                'constraint' => 255,
             ],
             'keterangan' => [
                 'type' => 'TEXT',

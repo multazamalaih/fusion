@@ -1,5 +1,19 @@
 <?= view('pages/templates/header'); ?>
 
+<?php if (session()->get('successLogin')): ?>
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="toastSuccess" class="toast wow fadeInRight align-items-center text-white bg-primary border-0 show" style="font-family:'Alata',sans-serif;"
+            role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000" data-wow-delay="0.1s">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <?= session()->get('successLogin') ?>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!-- Banner Start -->
 <div class="banner-section mb-5">
     <img src="<?= base_url('assets/img/banner.jpg') ?>" alt="Banner Futsal">

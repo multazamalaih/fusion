@@ -55,22 +55,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Noel Futsal</td>
-                    <td>12345</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>Apakek Futsal</td>
-                    <td>12345</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>helleh</td>
-                    <td>12345</td>
-                    <td>3</td>
-                </tr>
+                <?php foreach ($data as $row): ?>
+                    <tr>
+                        <td><?= esc($row['nama']) ?></td>
+                        <td><?= number_format($row['nilai'], 5, ',', '.') ?></td>
+                        <td><?= $row['peringkat'] ?></td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
+
         </table>
     </div>
 

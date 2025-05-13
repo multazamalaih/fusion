@@ -38,13 +38,12 @@ class Lapangan extends BaseController
 
         $rules = [
             'nama' => [
-                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama]\required',
+                'rules' => 'min_length[3]|max_length[100]|is_unique[lapangan.nama]|required',
                 'errors' => [
                     'min_length' => 'Nama Lapangan minimal 3 karakter',
                     'max_length' => 'Nama Lapangan maksimal 100 karakter',
                     'is_unique' => 'Nama Lapangan sudah terdaftar',
                     'required' => 'Nama Lapangan tidak boleh kosong',
-
                 ]
             ],
             'harga' => [
@@ -53,7 +52,6 @@ class Lapangan extends BaseController
                     'numeric' => 'Harga Sewa berupa angka',
                     'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif',
                     'required' => 'Harga Lapangan tidak boleh kosong',
-
                 ]
             ],
             'jenis_lantai' => [
@@ -68,7 +66,6 @@ class Lapangan extends BaseController
                     'max_length' => 'Nomor Handphone maksimal 15 karakter',
                     'regex_match' => 'Nomor Handphone tidak valid',
                     'required' => 'Nomor Handphone tidak boleh kosong',
-
                 ]
             ],
             'latitude' => [
@@ -78,7 +75,6 @@ class Lapangan extends BaseController
                     'greater_than' => 'Latitude minimal -90',
                     'less_than' => 'Latitude maksimal 90',
                     'required' => 'Latitude tidak boleh kosong',
-
                 ]
             ],
             'longitude' => [
@@ -88,7 +84,6 @@ class Lapangan extends BaseController
                     'greater_than' => 'Longitude minimal -180',
                     'less_than' => 'Longitude maksimal 180',
                     'required' => 'Longitude tidak boleh kosong',
-
                 ]
             ],
             'alamat' => [
@@ -96,82 +91,92 @@ class Lapangan extends BaseController
                 'errors' => [
                     'min_length' => 'Alamat minimal 10 karakter',
                     'required' => 'Alamat Lapangan tidak boleh kosong',
-
                 ]
             ],
         ];
 
-        // Validasi foto (wajib dan maksimal 2MB)
         foreach ($fotoKeys as $key) {
             $rules["foto.$key"] = [
-                'rules' => 'uploaded[foto.' . $key . ']|max_size[foto.' . $key . ',2048]|is_image[foto.' . $key . ']',
+                'rules' => "uploaded[foto.$key]|max_size[foto.$key,2048]|is_image[foto.$key]",
                 'errors' => [
                     'uploaded' => 'Foto ' . ucwords(str_replace('_', ' ', $key)) . ' wajib diunggah',
-                    'max_size' => 'Ukuran foto ' . ucwords(str_replace('_', ' ', $key)) . ' maksimal 2 MB',
-                    'is_image' => 'File foto ' . ucwords(str_replace('_', ' ', $key)) . ' tidak valid',
+                    'max_size' => 'Ukuran foto maksimal 2 MB',
+                    'is_image' => 'File foto tidak valid',
                 ]
             ];
         }
+
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Simpan data utama
+        $hariList = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+        $jamErrors = [];
+        $dataJam = [];
+
+        foreach ($hariList as $hari) {
+            $status = $this->request->getPost($hari) ? 'Buka' : 'Tutup';
+            $jamBuka = $this->request->getPost($hari . '_buka');
+            $jamTutup = $this->request->getPost($hari . '_tutup');
+
+            $jamBukaValid = $jamBuka && $jamBuka !== '00:00';
+            $jamTutupValid = $jamTutup && $jamTutup !== '00:00';
+
+            if ($status === 'Buka' && (!$jamBukaValid || !$jamTutupValid)) {
+                $jamErrors[$hari] = "Jam buka dan tutup hari " . ucfirst($hari) . " wajib diisi.";
+            }
+
+            $dataJam[$hari] = [
+                'status' => $status,
+                'jam_buka' => $jamBukaValid ? $jamBuka : null,
+                'jam_tutup' => $jamTutupValid ? $jamTutup : null,
+            ];
+        }
+
+        if (!empty($jamErrors)) {
+            return redirect()->back()->withInput()->with('jam_errors', $jamErrors);
+        }
+
         $id = $this->lapanganModel->insert([
-            'nama'         => $this->request->getPost('nama'),
-            'harga'        => $this->request->getPost('harga'),
+            'nama' => $this->request->getPost('nama'),
+            'harga' => $this->request->getPost('harga'),
             'jenis_lantai' => $this->request->getPost('jenis_lantai'),
-            'no_hp'        => $this->request->getPost('no_hp'),
-            'latitude'     => $this->request->getPost('latitude'),
-            'longitude'    => $this->request->getPost('longitude'),
-            'alamat'       => $this->request->getPost('alamat'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'latitude' => $this->request->getPost('latitude'),
+            'longitude' => $this->request->getPost('longitude'),
+            'alamat' => $this->request->getPost('alamat'),
         ], true);
 
-        // Simpan foto
         $fotoArray = $this->request->getFiles()['foto'] ?? [];
-        $fotoLabel = [
-            'lapangan'         => 'Lapangan',
-            'bangku_cadangan'  => 'Bangku Cadangan',
-            'toilet_wc'        => 'Toilet/WC',
-            'mushola'          => 'Mushola',
-            'tempat_parkir'    => 'Tempat Parkir',
-        ];
-        foreach ($fotoLabel as $key => $label) {
+        foreach ($fotoKeys as $key) {
             if (isset($fotoArray[$key]) && $fotoArray[$key]->isValid()) {
                 $namaFile = $fotoArray[$key]->getRandomName();
                 $fotoArray[$key]->move('uploads', $namaFile);
                 $this->fotoModel->insert([
                     'id_lapangan' => $id,
-                    'jenis_foto'  => $label,
-                    'file'        => $namaFile,
+                    'jenis_foto' => ucwords(str_replace('_', ' ', $key)),
+                    'file' => $namaFile,
                 ]);
             }
         }
 
-        // Simpan fasilitas
         $fasilitas = $this->request->getPost('fasilitas');
-        if ($fasilitas && is_array($fasilitas)) {
+        if (is_array($fasilitas) && !empty($fasilitas)) {
             foreach ($fasilitas as $f) {
                 $this->fasilitasModel->insert([
                     'id_lapangan' => $id,
-                    'nama'        => $f,
+                    'nama' => $f,
                 ]);
             }
         }
 
-        // Simpan jam operasional
-        $hariList = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
-        foreach ($hariList as $hari) {
-            $status = $this->request->getPost($hari) ? 'Buka' : 'Tutup';
-            $jamBuka = $status === 'Buka' ? $this->request->getPost($hari . '_buka') : null;
-            $jamTutup = $status === 'Buka' ? $this->request->getPost($hari . '_tutup') : null;
-
+        foreach ($dataJam as $hari => $jam) {
             $this->jamOperasionalModel->insert([
                 'id_lapangan' => $id,
-                'hari'        => ucfirst($hari),
-                'status'      => $status,
-                'jam_buka'    => $jamBuka,
-                'jam_tutup'   => $jamTutup,
+                'hari' => ucfirst($hari),
+                'status' => $jam['status'],
+                'jam_buka' => $jam['jam_buka'],
+                'jam_tutup' => $jam['jam_tutup'],
             ]);
         }
 
@@ -298,7 +303,6 @@ class Lapangan extends BaseController
                     'max_length' => 'Nama maksimal 100 karakter',
                     'is_unique'  => 'Nama sudah terdaftar oleh lapangan lain',
                     'required' => 'Nama Lapangan tidak boleh kosong.',
-
                 ]
             ],
             'harga' => [
@@ -307,7 +311,6 @@ class Lapangan extends BaseController
                     'numeric' => 'Harga Sewa berupa angka',
                     'is_natural_no_zero' => 'Harga Sewa harus angka bulat positif',
                     'required' => 'Harga Lapangan tidak boleh kosong',
-
                 ]
             ],
             'jenis_lantai' => [
@@ -322,7 +325,6 @@ class Lapangan extends BaseController
                     'max_length' => 'Nomor Handphone maksimal 15 karakter',
                     'regex_match' => 'Nomor Handphone tidak valid',
                     'required' => 'Nomor Handphone tidak boleh kosong',
-
                 ]
             ],
             'latitude' => [
@@ -332,7 +334,6 @@ class Lapangan extends BaseController
                     'greater_than' => 'Latitude minimal -90',
                     'less_than' => 'Latitude maksimal 90',
                     'required' => 'Latitude tidak boleh kosong',
-
                 ]
             ],
             'longitude' => [
@@ -342,7 +343,6 @@ class Lapangan extends BaseController
                     'greater_than' => 'Longitude minimal -180',
                     'less_than' => 'Longitude maksimal 180',
                     'required' => 'Longitude tidak boleh kosong',
-
                 ]
             ],
             'alamat' => [
@@ -350,7 +350,6 @@ class Lapangan extends BaseController
                 'errors' => [
                     'min_length' => 'Alamat minimal 10 karakter',
                     'required' => 'Alamat Lapangan tidak boleh kosong',
-
                 ]
             ],
         ];
@@ -359,7 +358,33 @@ class Lapangan extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Update data utama
+        $hariList = ['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'];
+        $jamErrors = [];
+        $dataJam = [];
+
+        foreach ($hariList as $hari) {
+            $status = $this->request->getPost($hari) ? 'Buka' : 'Tutup';
+            $jamBuka = $this->request->getPost($hari . '_buka');
+            $jamTutup = $this->request->getPost($hari . '_tutup');
+
+            $jamBukaValid = $jamBuka && $jamBuka !== '00:00';
+            $jamTutupValid = $jamTutup && $jamTutup !== '00:00';
+
+            if ($status === 'Buka' && (!$jamBukaValid || !$jamTutupValid)) {
+                $jamErrors[$hari] = "Jam buka dan tutup hari " . ucfirst($hari) . " wajib diisi.";
+            }
+
+            $dataJam[$hari] = [
+                'status' => $status,
+                'jam_buka' => $jamBukaValid ? $jamBuka : null,
+                'jam_tutup' => $jamTutupValid ? $jamTutup : null,
+            ];
+        }
+
+        if (!empty($jamErrors)) {
+            return redirect()->back()->withInput()->with('jam_errors', $jamErrors);
+        }
+
         $this->lapanganModel->update($id, [
             'nama'         => $this->request->getPost('nama'),
             'harga'        => $this->request->getPost('harga'),
@@ -370,7 +395,6 @@ class Lapangan extends BaseController
             'alamat'       => $this->request->getPost('alamat'),
         ]);
 
-        // Cek dan update file jika diupload ulang
         $fotoArray = $this->request->getFiles()['foto'] ?? [];
         $fotoLabel = [
             'lapangan'         => 'Lapangan',
@@ -382,7 +406,6 @@ class Lapangan extends BaseController
 
         foreach ($fotoLabel as $key => $label) {
             if (isset($fotoArray[$key]) && $fotoArray[$key]->isValid()) {
-                // Validasi ukuran maks 2 MB
                 if ($fotoArray[$key]->getSizeByUnit('mb') > 2) {
                     session()->setFlashdata('errors', ["Ukuran file $label maksimal 2 MB"]);
                     return redirect()->back()->withInput();
@@ -412,7 +435,6 @@ class Lapangan extends BaseController
             }
         }
 
-        // Update fasilitas
         $this->fasilitasModel->where('id_lapangan', $id)->delete();
         foreach ($this->request->getPost('fasilitas') ?? [] as $f) {
             $this->fasilitasModel->insert([
@@ -421,24 +443,21 @@ class Lapangan extends BaseController
             ]);
         }
 
-        // Update jam operasional
         $this->jamOperasionalModel->where('id_lapangan', $id)->delete();
-        foreach (['senin', 'selasa', 'rabu', 'kamis', 'jumat', 'sabtu', 'minggu'] as $hari) {
-            $status = $this->request->getPost($hari) ? 'Buka' : 'Tutup';
-            $jamBuka = $status == 'Buka' ? $this->request->getPost($hari . '_buka') : null;
-            $jamTutup = $status == 'Buka' ? $this->request->getPost($hari . '_tutup') : null;
-
+        foreach ($dataJam as $hari => $jam) {
             $this->jamOperasionalModel->insert([
                 'id_lapangan' => $id,
                 'hari'        => ucfirst($hari),
-                'status'      => $status,
-                'jam_buka'    => $jamBuka,
-                'jam_tutup'   => $jamTutup,
+                'status'      => $jam['status'],
+                'jam_buka'    => $jam['jam_buka'],
+                'jam_tutup'   => $jam['jam_tutup'],
             ]);
         }
+
         session()->setFlashdata('success', 'Data Lapangan Futsal berhasil diperbarui.');
         return redirect()->to(base_url('admin/list-lapangan'));
     }
+
 
     public function hapusLapangan($id)
     {

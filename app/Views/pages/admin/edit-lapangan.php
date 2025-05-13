@@ -119,21 +119,27 @@
 					<div class="row">
 						<div class="col-md-12">
 							<?php foreach (["senin", "selasa", "rabu", "kamis", "jumat", "sabtu", "minggu"] as $hari):
-								$status = $jamMap[$hari]['status'] ?? 'Tutup';
-								$buka = $jamMap[$hari]['jam_buka'] ?? '';
-								$tutup = $jamMap[$hari]['jam_tutup'] ?? ''; ?>
-								<div class="form-check">
-									<input class="form-check-input" type="checkbox" id="<?= $hari ?>" name="<?= $hari ?>" <?= $status == 'Buka' ? 'checked' : '' ?> />
-									<label class="form-check-label" for="<?= $hari ?>"> <?= ucfirst($hari) ?> </label>
-									<div class="jam-input" style="display:<?= $status == 'Buka' ? 'flex' : 'none' ?>">
+								$status = old($hari, $jamMap[$hari]['status'] ?? 'Tutup');
+								$buka   = old("{$hari}_buka", $jamMap[$hari]['jam_buka'] ?? '');
+								$tutup  = old("{$hari}_tutup", $jamMap[$hari]['jam_tutup'] ?? '');
+							?>
+								<div class="form-check mb-3">
+									<input class="form-check-input toggle-jam" type="checkbox" id="<?= $hari ?>" name="<?= $hari ?>" <?= $status === 'Buka' ? 'checked' : '' ?>>
+									<label class="form-check-label" for="<?= $hari ?>"><?= ucfirst($hari) ?></label>
+
+									<div class="jam-input mt-2 ml-4" style="display: <?= $status === 'Buka' ? 'flex' : 'none' ?>; flex-wrap: wrap;">
 										<span class="mr-2 mb-2">Jam Buka:</span>
 										<input type="time" name="<?= $hari ?>_buka" value="<?= $buka ?>" class="form-control form-control-sm bg-light mr-3 mb-2" style="width: 100px;">
 										<span class="mr-2 mb-2">-</span>
 										<span class="mr-2 mb-2">Jam Tutup:</span>
 										<input type="time" name="<?= $hari ?>_tutup" value="<?= $tutup ?>" class="form-control form-control-sm bg-light mb-2" style="width: 100px;">
 									</div>
+									<?php if (session('jam_errors') && isset(session('jam_errors')[$hari])) : ?>
+										<div class="w-100 text-danger small mt-1"><?= session('jam_errors')[$hari] ?></div>
+									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
+
 						</div>
 					</div>
 				</div>

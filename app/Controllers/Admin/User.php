@@ -38,8 +38,6 @@ class User extends BaseController
                     'max_length' => 'Nama maksimal 100 karakter.',
                     'is_unique' => 'Nama sudah terdaftar.',
                     'required' => 'Nama tidak boleh kosong.',
-
-
                 ]
             ],
             'email' => [

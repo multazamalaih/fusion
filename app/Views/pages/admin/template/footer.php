@@ -91,8 +91,36 @@
 					jamInput.style.display = this.checked ? "flex" : "none";
 				});
 			});
+
+			// Tambah validasi saat submit
+			document.querySelector('form').addEventListener('submit', function(e) {
+				let error = false;
+
+				checkboxes.forEach(function(checkbox) {
+					if (checkbox.checked) {
+						let hari = checkbox.id;
+						let buka = document.querySelector(`[name="${hari}_buka"]`);
+						let tutup = document.querySelector(`[name="${hari}_tutup"]`);
+
+						if (!buka.value || !tutup.value) {
+							error = true;
+							buka.classList.add('is-invalid');
+							tutup.classList.add('is-invalid');
+						} else {
+							buka.classList.remove('is-invalid');
+							tutup.classList.remove('is-invalid');
+						}
+					}
+				});
+
+				if (error) {
+					e.preventDefault();
+					alert("Jam buka dan tutup wajib diisi untuk hari yang dicentang.");
+				}
+			});
 		});
 	</script>
+
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {

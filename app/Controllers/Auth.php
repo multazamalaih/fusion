@@ -56,7 +56,7 @@ class Auth extends BaseController
         if ($user['role'] === "Admin") {
             return redirect()->to(base_url('/admin/'));
         }
-        return redirect()->to(base_url('/'))->with('success', 'Berhasil login');
+        return redirect()->to(base_url('/'))->with('successLogin', 'Berhasil Login ke Akun');
     }
     public function registerProses()
     {
@@ -106,16 +106,15 @@ class Auth extends BaseController
                 "password" => password_hash($password, PASSWORD_DEFAULT),
                 "role" => "User",
             ]);
-            return redirect()->to(base_url('/login'))->with('success', 'Berhasil mendaftar, silahkan login');
+            return redirect()->to(base_url('/login'))->with('successRegister', 'Berhasil Mendaftar, Silahkan Login');
         } catch (\Exception $e) {
-            dd($e);
-            return redirect()->to(base_url('/register'))->with('error', 'Gagal mendaftar');
+            return redirect()->to(base_url('/register'))->with('errorRegister', 'Gagal Mendaftar');
         }
     }
     public function logoutProses()
     {
         session()->remove('user');
         session()->destroy();
-        return redirect()->to(base_url('/login'));
+        return redirect()->to(base_url('/'));
     }
 }

@@ -1,5 +1,19 @@
 <?= view('pages/templates/header') ?>
 
+<?php if (session()->get('successProfil')): ?>
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+        <div id="toastSuccess" class="toast wow fadeInRight align-items-center text-white bg-primary border-0 show" style="font-family:'Alata',sans-serif;"
+            role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000" data-wow-delay="0.1s">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <?= session()->get('successProfil') ?>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <!-- Page Header Start -->
 <div class="container-fluid page-header my-5 wow fadeIn" data-wow-delay="0.1s">
     <div class="container text-center">
@@ -22,16 +36,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
             <div class="bg-white p-5 rounded shadow content-rekomendasi">
-                <?php if (session()->getFlashdata('error')) : ?>
-                    <div class="alert alert-secondary text-center rounded" style="font-family: 'Alata', sans-serif;" role="alert">
-                        <?= session()->getFlashdata('error') ?>
-                    </div>
-                <?php endif; ?>
-                <?php if (session()->getFlashdata('success')) : ?>
-                    <div class="alert alert-primary text-center rounded" style="font-family: 'Alata', sans-serif;" role="alert">
-                        <?= session()->getFlashdata('success') ?>
-                    </div>
-                <?php endif; ?>
                 <form method="post" action="/update-profil">
                     <div class="mb-4">
                         <label for="nama" class="form-label">Nama</label>
@@ -46,18 +50,21 @@
                     </div>
                     <div class="mb-4">
                         <label for="passwordLama" class="form-label">Password Lama</label>
-                        <input type="text" class="form-control rounded-pill" id="passwordLama" name="passwordLama">
+                        <input type="password" class="form-control rounded-pill <?= validation_show_error('passwordLama') ? 'is-invalid' : '' ?>" id="passwordLama" name="passwordLama">
+                        <div class="invalid-feedback">
+                            <?= validation_show_error('passwordLama')  ?>
+                        </div>
                     </div>
                     <div class="mb-4">
                         <label for="passwordBaru" class="form-label">Password Baru</label>
-                        <input type="text" class="form-control rounded-pill <?= validation_show_error('passwordBaru') ? 'is-invalid' : '' ?>" id="passwordBaru" name="passwordBaru">
+                        <input type="password" class="form-control rounded-pill <?= validation_show_error('passwordBaru') ? 'is-invalid' : '' ?>" id="passwordBaru" name="passwordBaru">
                         <div class="invalid-feedback">
                             <?= validation_show_error('passwordBaru')  ?>
                         </div>
                     </div>
                     <div class="mb-4">
                         <label for="konfirmasi" class="form-label">Ulangi Password</label>
-                        <input type="text" class="form-control rounded-pill <?= validation_show_error('konfirmasi') ? 'is-invalid' : '' ?>" id="konfirmasi" name="konfirmasi">
+                        <input type="password" class="form-control rounded-pill <?= validation_show_error('konfirmasi') ? 'is-invalid' : '' ?>" id="konfirmasi" name="konfirmasi">
                         <div class="invalid-feedback">
                             <?= validation_show_error('konfirmasi')  ?>
                         </div>

@@ -28,6 +28,7 @@ class CreateLapangan extends Migration
             'jenis_lantai' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
+                'null' => false,
             ],
             'no_hp' => [
                 'type' => 'VARCHAR',

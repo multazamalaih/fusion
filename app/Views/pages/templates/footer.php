@@ -28,7 +28,16 @@
                     <h4 class="text-light mb-4">Hubungi Kami</h4>
                     <p><i class="fa fa-map-marker-alt me-3"></i>Pondok Petir, Bojongsari, Depok</p>
                     <p><i class="fa fa-envelope me-3"></i>multazam071220@gmail.com</p>
-                    <p><i class="fab fa-whatsapp me-3"></i>081310582096</p>
+                    <?php
+                    $nomor = !empty($kontak['whatsapp']) ? preg_replace('/^0/', '62', $kontak['whatsapp']) : '';
+                    $link = $nomor ? 'https://wa.me/' . $nomor : '#';
+                    ?>
+                    <p>
+                        <i class="fab fa-whatsapp me-3"></i>
+                        <a href="<?= $link ?>" target="_blank">
+                            <?= esc($kontak['whatsapp']) ?>
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="row">
@@ -61,7 +70,10 @@
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta3/js/bootstrap-select.min.js"></script>
+
+
     <script src="<?= base_url('/assets/lib/wow/wow.min.js') ?>"></script>
     <script src="<?= base_url('/assets/lib/easing/easing.min.js') ?>"></script>
     <script src="<?= base_url('/assets/lib/waypoints/waypoints.min.js') ?>"></script>
@@ -89,6 +101,16 @@
             });
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastEl = document.getElementById('toastSuccess');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show(); // <-- ini penting agar autohide dan delay aktif
+            }
+        });
+    </script>
+
     </body>
 
     </html>

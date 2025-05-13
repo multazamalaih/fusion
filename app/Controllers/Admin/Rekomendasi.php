@@ -24,7 +24,7 @@ class Rekomendasi extends BaseController
     {
         $rekomendasi = $this->rekomendasiModel->join('users', 'rekomendasi.id_user = users.id_user')->find($id_rekomendasi);
         if (!$rekomendasi) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan!');
+            return redirect()->to(base_url('admin/list-rekomendasi'))->with('error', 'Data Rekomendasi tidak ditemukan.');
         }
         return view('pages/admin/detail-rekomendasi', [
             'rekomendasi' => $rekomendasi,

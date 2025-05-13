@@ -9,7 +9,8 @@
     <!-- Content Row -->
     <div class="alert alert-success">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
-        Selamat datang <span class="text-uppercase"><b>Admin</b></span>, Anda bisa mengoperasikan sistem dengan wewenang tertentu melalui pilihan menu di bawah.
+        Selamat datang <span class="text-uppercase"><b> <?= esc(getUser()['nama'] ?? 'Admin') ?>
+            </b></span>, Anda bisa mengoperasikan sistem dengan wewenang tertentu melalui pilihan menu di bawah.
     </div>
     <div class="row">
 

@@ -39,6 +39,20 @@
         <div class="spinner-border text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
+
+    <?php if (session()->get('successRegister')): ?>
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+            <div id="toastSuccess" class="toast wow fadeInRight align-items-center text-white bg-primary border-0 show" style="font-family:'Alata',sans-serif;"
+                role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3000" data-wow-delay="0.1s">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <?= session()->get('successRegister') ?>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
     <div class="container py-6 wow fadeIn" data-wow-delay="0.1s">
         <div class="row justify-content-center">
             <div class="col-lg-6">
@@ -56,9 +70,8 @@
                         <div class="mb-4 form-group input-group has-validation">
                             <input type="password" id="password" name="password" class="form-control rounded-pill <?= session()->getFlashdata('errorPassword') ? 'is-invalid' : '' ?>" placeholder="Password" required>
                             <div class="invalid-feedback">
-                                <?= session()->getFlashdata('errorEmail') ?>
+                                <?= session()->getFlashdata('errorPassword') ?>
                             </div>
-
                         </div>
 
                         <div class="text-center mb-3">
@@ -82,6 +95,24 @@
 
     <!-- Template Javascript -->
     <script src="<?= base_url('/assets/js/main.js') ?>"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastEl = document.getElementById('toastSuccess');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show(); // <-- ini penting agar autohide dan delay aktif
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastEl = document.getElementById('toastSuccess');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show(); // <-- ini penting agar autohide dan delay aktif
+            }
+        });
+    </script>
 </body>
 
 

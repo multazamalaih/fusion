@@ -24,7 +24,7 @@ class Pesan extends BaseController
     {
         $pesan = $this->pesanModel->find($id_pesan);
         if (!$pesan) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Data tidak ditemukan');
+            return redirect()->to(base_url('admin/list-pesan'))->with('error', 'Data Pesan tidak ditemukan.');
         }
         return view('pages/admin/detail-pesan', [
             'pesan' => $pesan,

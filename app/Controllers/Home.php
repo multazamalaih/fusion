@@ -96,57 +96,92 @@ class Home extends BaseController
 
     public function cariLapangan()
     {
+        // Ambil semua kriteria untuk ditampilkan di form
         $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
+
+        // Ambil input user sebelumnya (jika ada), hasil AHP sementara, dan error konsistensi
         $inputUser = session()->getFlashdata('nilai_input_sementara') ?? [];
-        $hasilAhp = session()->getFlashdata('hasil_ahp');
+        $hasilAhp = session()->getFlashdata('hasil_ahp') ?? [];
         $error = session()->getFlashdata('error');
 
+        // Kirim ke view
         return view('pages/cari-lapangan', [
             'kriteria' => $kriteria,
             'inputUser' => $inputUser,
             'hasil_ahp' => $hasilAhp,
-            'error' => $error
+            'error' => $error,
         ]);
     }
 
-
     public function hasilPerhitungan()
     {
+        // Ambil kriteria dari database
         $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
-        [$matrik, $inputUser] = $this->buatMatrikDariInput($kriteria);
-        $hasilAhp = $this->hitungAhp($matrik);
 
-        // Validasi CR
+        // Bentuk matriks perbandingan AHP dari input user
+        [$matrik, $inputUser] = $this->buatMatrikDariInput($kriteria);
+
+        // Hitung hasil AHP
+        $hasilAhp = $this->hitungAhp($matrik);
+        $user = getUser();
+        if (!$user) {
+            return redirect()->to(base_url('/login'))->with('error', 'Silahkan login terlebih dahulu');
+        }
+
+        // Cek konsistensi
         if ($hasilAhp['cr'] > 0.1) {
             session()->setFlashdata('nilai_input_sementara', $inputUser);
             session()->setFlashdata('hasil_ahp', $hasilAhp);
-            session()->setFlashdata('error', 'Data tidak konsisten (CR > 0.1). Silakan perbaiki.');
-
+            session()->setFlashdata('error', 'Data tidak konsisten (CR > 0.1). Silahkan perbaiki nilai perbandingan.');
             return redirect()->to(base_url('cari-lapangan'));
         }
 
-        // Ambil data penilaian lapangan
+
+        // Konversi bobot AHP (numerik) ke format [id_kriteria => bobot]
+        $bobot = [];
+        $tipe = [];
+        foreach ($kriteria as $i => $k) {
+            $bobot[$k['id_kriteria']] = $hasilAhp['prioritas'][$i];
+            $tipe[$k['id_kriteria']] = $k['tipe'];
+        }
+
+        // Ambil nilai penilaian lapangan dari database
         $penilaian = $this->penilaianModel
             ->join('lapangan', 'lapangan.id_lapangan = penilaian.id_lapangan')
-            ->orderBy('lapangan.nama')
+            ->orderBy('penilaian.id_lapangan')
+            ->orderBy('penilaian.id_kriteria')
             ->findAll();
-        $tipe = array_column($kriteria, 'tipe');
-        $hasilTopsis = $this->hitungTopsis($penilaian, $hasilAhp['prioritas'], $tipe);
+
+        // Jalankan perhitungan TOPSIS berdasarkan bobot user
+        $hasilTopsis = $this->hitungTopsis($penilaian, $bobot, $tipe);
+
+        // Ambil lapangan terbaik dari hasil ranking
         $lapangan = $this->lapanganModel
             ->select('lapangan.*, foto_lapangan.file')
             ->join('foto_lapangan', 'foto_lapangan.id_lapangan = lapangan.id_lapangan AND foto_lapangan.jenis_foto = "Lapangan"', 'left')
-            ->where('lapangan.id_lapangan', $hasilTopsis[0]['id_lapangan'])
-            ->first();
-        // Format ulang data kriteria
+            ->where('lapangan.id_lapangan', $hasilTopsis[0]['id_lapangan'])->first();
+
+        // Format ulang bobot untuk tabel view
         $dataKriteria = [];
-        foreach ($kriteria as $i => $k) {
+        foreach ($kriteria as $k) {
             $dataKriteria[] = [
                 'nama' => $k['nama'],
                 'tipe' => $k['tipe'],
-                'bobot' => $hasilAhp['prioritas'][$i],
+                'bobot' => $bobot[$k['id_kriteria']],
             ];
         }
 
+        usort($dataKriteria, function ($a, $b) {
+            return $b['bobot'] <=> $a['bobot'];
+        });
+
+        session()->set('hasil_ahp', $hasilAhp); // untuk halaman cetak
+        session()->set('data_topsis', $hasilTopsis);
+        session()->setFlashdata('successHitung', 'Perhitungan berhasil dilakukan!');
+
+
+
+        // Tampilkan hasil ke halaman view
         return view('pages/hasil-perhitungan', [
             'data' => $hasilTopsis,
             'lapangan' => $lapangan,
@@ -158,21 +193,23 @@ class Home extends BaseController
     {
         $matrik = [];
         $input_user = [];
+        $idKriteria = array_column($kriteria, 'id_kriteria');
+        $n = count($idKriteria);
 
-        foreach ($kriteria as $i => $k1) {
-            foreach ($kriteria as $j => $k2) {
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = 0; $j < $n; $j++) {
                 if ($i == $j) {
                     $matrik[$i][$j] = 1;
                 } elseif ($i < $j) {
-                    $inputName = 'nilai_' . $k1['id_kriteria'] . '_' . $k2['id_kriteria'];
+                    $inputName = 'nilai_' . $idKriteria[$i] . '_' . $idKriteria[$j];
                     $nilai = $this->request->getPost($inputName);
 
                     if ($nilai !== null) {
                         $nilai = (float)$nilai;
 
                         if ($nilai < 0) {
-                            $nilai1 = round(1 / abs($nilai), 5); // nilai k1 terhadap k2
-                            $nilai2 = abs($nilai);               // nilai k2 terhadap k1
+                            $nilai1 = round(1 / abs($nilai), 5);
+                            $nilai2 = abs($nilai);
                         } elseif ($nilai > 0) {
                             $nilai1 = abs($nilai);
                             $nilai2 = round(1 / abs($nilai), 5);
@@ -180,11 +217,10 @@ class Home extends BaseController
                             $nilai1 = $nilai2 = 1;
                         }
 
-
                         $matrik[$i][$j] = $nilai1;
                         $matrik[$j][$i] = $nilai2;
 
-                        $input_user[$k1['id_kriteria']][$k2['id_kriteria']] = $nilai;
+                        $input_user[$idKriteria[$i]][$idKriteria[$j]] = $nilai;
                     }
                 }
             }
@@ -192,17 +228,18 @@ class Home extends BaseController
 
         return [$matrik, $input_user];
     }
-    private function hitungAhp($matrik)
+
+    private function hitungAhp(array $matrik)
     {
         $n = count($matrik);
 
-        // Jumlah tiap kolom
+        // Jumlah kolom
         $jumlahKolom = [];
         for ($j = 0; $j < $n; $j++) {
             $jumlahKolom[$j] = array_sum(array_column($matrik, $j));
         }
 
-        // Normalisasi & bobot prioritas
+        // Normalisasi & prioritas
         $normalisasi = [];
         $prioritas = [];
         for ($i = 0; $i < $n; $i++) {
@@ -215,7 +252,7 @@ class Home extends BaseController
             $prioritas[$i] = round($total / $n, 5);
         }
 
-        // Matriks terbobot & jumlah baris
+        // Matriks terbobot
         $matrikBaris = [];
         $jumlahBaris = [];
         for ($i = 0; $i < $n; $i++) {
@@ -236,7 +273,7 @@ class Home extends BaseController
 
         $lambdaMax = $lambda / $n;
         $ci = ($lambdaMax - $n) / ($n - 1);
-        $ir = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49]; // RI untuk n = 1 s/d 10
+        $ir = [0, 0, 0.58, 0.9, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49];
         $cr = ($n <= 10) ? round($ci / $ir[$n - 1], 5) : 0;
 
         return compact(
@@ -253,46 +290,48 @@ class Home extends BaseController
             'ir'
         );
     }
-    private function hitungTopsis($data, $bobot, $tipeKriteria = [])
+
+    private function hitungTopsis(array $data, array $bobot, array $tipeKriteria = [])
     {
         $matriks = [];
         $lapanganList = [];
 
-        // Susun matriks keputusan dari data penilaian
+        // Susun matriks keputusan
         foreach ($data as $row) {
-            $id = $row['id_lapangan'];
-            $k = $row['id_kriteria'];
-            $v = $row['nilai'];
+            $idLapangan = $row['id_lapangan'];
+            $idKriteria = $row['id_kriteria'];
+            $nilai = (float) $row['nilai'];
 
-            $matriks[$id][$k] = $v;
-            $lapanganList[$id] = $row['nama'];
+            $matriks[$idLapangan][$idKriteria] = $nilai;
+            $lapanganList[$idLapangan] = $row['nama'];
         }
 
-        // Normalisasi matriks
+        // Hitung penyebut normalisasi (akar jumlah kuadrat per kriteria)
         $pembagi = [];
         foreach ($matriks as $alt) {
-            foreach ($alt as $id_kriteria => $nilai) {
-                $pembagi[$id_kriteria] = isset($pembagi[$id_kriteria])
-                    ? $pembagi[$id_kriteria] + pow($nilai, 2)
+            foreach ($alt as $idKriteria => $nilai) {
+                $pembagi[$idKriteria] = isset($pembagi[$idKriteria])
+                    ? $pembagi[$idKriteria] + pow($nilai, 2)
                     : pow($nilai, 2);
             }
         }
         foreach ($pembagi as $id => $val) {
-            $pembagi[$id] = sqrt($val);
+            $pembagi[$id] = round(sqrt($val), 5);
         }
 
+        // Matriks normalisasi (R)
         $normalisasi = [];
-        foreach ($matriks as $id_lapangan => $alt) {
-            foreach ($alt as $id_kriteria => $nilai) {
-                $normalisasi[$id_lapangan][$id_kriteria] = $nilai / $pembagi[$id_kriteria];
+        foreach ($matriks as $idLapangan => $alt) {
+            foreach ($alt as $idKriteria => $nilai) {
+                $normalisasi[$idLapangan][$idKriteria] = round($nilai / $pembagi[$idKriteria], 5);
             }
         }
 
-        // Matriks terbobot
+        // Matriks normalisasi terbobot (Y)
         $terbobot = [];
-        foreach ($normalisasi as $id_lapangan => $alt) {
-            foreach ($alt as $id_kriteria => $nilai) {
-                $terbobot[$id_lapangan][$id_kriteria] = $nilai * ($bobot[$id_kriteria] ?? 0);
+        foreach ($normalisasi as $idLapangan => $alt) {
+            foreach ($alt as $idKriteria => $nilai) {
+                $terbobot[$idLapangan][$idKriteria] = round($nilai * ($bobot[$idKriteria] ?? 0), 5);
             }
         }
 
@@ -300,49 +339,46 @@ class Home extends BaseController
         $idealPositif = [];
         $idealNegatif = [];
 
-        foreach (array_keys($bobot) as $id_kriteria) {
-            $kolom = array_column($terbobot, $id_kriteria);
-            if (!empty($kolom)) {
-                if (($tipeKriteria[$id_kriteria] ?? 'Benefit') === 'Cost') {
-                    $idealPositif[] = min($kolom);
-                    $idealNegatif[] = max($kolom);
-                } else {
-                    $idealPositif[] = max($kolom);
-                    $idealNegatif[] = min($kolom);
-                }
+        foreach (array_keys($bobot) as $idKriteria) {
+            $kolom = array_column($terbobot, $idKriteria);
+
+            if (($tipeKriteria[$idKriteria] ?? 'Benefit') === 'Cost') {
+                $idealPositif[$idKriteria] = round(min($kolom), 5);
+                $idealNegatif[$idKriteria] = round(max($kolom), 5);
             } else {
-                $idealPositif[] = 0;
-                $idealNegatif[] = 0;
+                $idealPositif[$idKriteria] = round(max($kolom), 5);
+                $idealNegatif[$idKriteria] = round(min($kolom), 5);
             }
         }
 
-        // Hitung nilai preferensi tiap alternatif
+        // Hitung preferensi
         $hasil = [];
-        foreach ($terbobot as $id_lapangan => $nilai) {
-            $d_plus = 0;
-            $d_min = 0;
+        foreach ($terbobot as $idLapangan => $alt) {
+            $dPlus = 0;
+            $dMin = 0;
 
-            foreach (array_keys($bobot) as $i => $id_kriteria) {
-                $val = $nilai[$id_kriteria] ?? 0;
-                $d_plus += pow($val - $idealPositif[$i], 2);
-                $d_min += pow($val - $idealNegatif[$i], 2);
+            foreach (array_keys($bobot) as $idKriteria) {
+                $val = $alt[$idKriteria] ?? 0;
+                $dPlus += pow($val - $idealPositif[$idKriteria], 2);
+                $dMin += pow($val - $idealNegatif[$idKriteria], 2);
             }
 
-            $d_plus = sqrt($d_plus);
-            $d_min = sqrt($d_min);
-            $preferensi = $d_min / ($d_min + $d_plus);
+            $dPlus = round(sqrt($dPlus), 5);
+            $dMin = round(sqrt($dMin), 5);
+
+            $preferensi = ($dPlus + $dMin) != 0
+                ? round($dMin / ($dMin + $dPlus), 5)
+                : 0;
 
             $hasil[] = [
-                'id_lapangan' => $id_lapangan,
-                'nama' => $lapanganList[$id_lapangan],
-                'nilai' => round($preferensi, 5),
+                'id_lapangan' => $idLapangan,
+                'nama' => $lapanganList[$idLapangan],
+                'nilai' => $preferensi,
             ];
         }
 
-        // Urutkan berdasarkan nilai preferensi (descending)
+        // Urutkan dan beri peringkat
         usort($hasil, fn($a, $b) => $b['nilai'] <=> $a['nilai']);
-
-        // Tambahkan peringkat
         foreach ($hasil as $i => &$row) {
             $row['peringkat'] = $i + 1;
         }
@@ -350,12 +386,31 @@ class Home extends BaseController
         return $hasil;
     }
 
-
-
-
     public function cetakHasilPerhitungan()
     {
-        return view('pages/cetak-hasil');
+        // Ambil ulang data hasil perhitungan user terakhir dari session
+        $kriteria = $this->kriteriaModel->orderBy('kode_kriteria', 'ASC')->findAll();
+        $hasilAhp = session()->get('hasil_ahp');
+        $dataTopsis = session()->get('data_topsis'); // pastikan diset setelah perhitungan
+
+        if (!$hasilAhp || !$dataTopsis) {
+            return redirect()->to(base_url('cari-lapangan'))->with('error', 'Silakan lakukan perhitungan terlebih dahulu.');
+        }
+
+        // Format bobot kriteria
+        $dataKriteria = [];
+        foreach ($kriteria as $i => $k) {
+            $dataKriteria[] = [
+                'nama' => $k['nama'],
+                'tipe' => $k['tipe'],
+                'bobot' => $hasilAhp['prioritas'][$i],
+            ];
+        }
+
+        return view('pages/cetak-hasil', [
+            'data' => $dataTopsis,
+            'dataKriteria' => $dataKriteria,
+        ]);
     }
 
     // Akses default, tab pertama aktif
@@ -425,6 +480,9 @@ class Home extends BaseController
     public function detailLapanganFutsal($id_lapangan)
     {
         $lapangan = $this->lapanganModel->find($id_lapangan);
+        if (!$lapangan) {
+            return redirect()->to(base_url('/daftar-lapangan-futsal'))->with('errorDetail', 'Detail Lapangan Futsal tidak tersedia');
+        }
         $foto = $this->fotoLapanganModel->where('id_lapangan', $id_lapangan)->findAll();
         $fasilitas = $this->fasilitasModel->where('id_lapangan', $id_lapangan)->findAll();
         $jamOperasional = $this->jamOperasionalModel->where('id_lapangan', $id_lapangan)
@@ -453,21 +511,25 @@ class Home extends BaseController
         $keterangan = $this->request->getVar('keterangan');
         if (!$this->validate([
             'jenis_rekomendasi' => [
-                'rules' => 'required',
+                'rules' => 'required|in_list[lapangan,kriteria]',
                 'errors' => [
-                    'required' => 'Jenis rekomendasi tidak boleh kosong'
+                    'required' => 'Jenis rekomendasi wajib dipilih',
+                    'in_list' => 'Jenis rekomendasi tidak valid'
                 ]
             ],
             'nama_rekomendasi' => [
-                'rules' => 'required',
+                'rules' => 'required|min_length[5]',
                 'errors' => [
-                    'required' => 'Nama rekomendasi tidak boleh kosong'
+                    'required' => 'Nama rekomendasi tidak boleh kosong',
+                    'min_length' => 'Nama minimal 5 karakter'
+
                 ]
             ],
             'keterangan' => [
-                'rules' => 'required',
+                'rules' => 'required|min_length[10]',
                 'errors' => [
-                    'required' => 'Keterangan tidak boleh kosong'
+                    'required' => 'Keterangan tidak boleh kosong',
+                    'min_length' => 'Keterangan minimal 10 karakter'
                 ]
             ]
         ])) {
@@ -479,7 +541,7 @@ class Home extends BaseController
             'jenis_rekomendasi' => $jenis_rekomendasi,
             'keterangan' => $keterangan,
         ]);
-        return redirect()->to(base_url('/rekomendasikan'));
+        return redirect()->to(base_url('/rekomendasikan'))->with('successRekomendasi', 'Berhasil Mengirim Rekomendasi');
     }
     public function tentangKami()
     {
@@ -525,7 +587,7 @@ class Home extends BaseController
             'email' => $email,
             'pesan' => $pesan,
         ]);
-        return redirect()->to(base_url('/kontak-kami'))->with('success', 'Berhasil mengirim pesan');
+        return redirect()->to(base_url('/kontak-kami'))->with('successPesan', 'Berhasil Mengirim Pesan');
     }
     public function Profil()
     {
@@ -539,60 +601,90 @@ class Home extends BaseController
     }
     public function updateProfil()
     {
-        $user =  getUser();
+        $user = getUser();
         if (!$user) {
-            return redirect()->to(base_url('/login'));
+            return redirect()->to('/login');
         }
-        $userDatabase = $this->userModel->find($user['id_user']);
-        $username = $this->request->getVar('nama');
-        $passwordLama = $this->request->getVar('passwordLama');
-        $passwordBaru = $this->request->getVar('passwordBaru');
+
+        $userDb = $this->userModel->find($user['id_user']);
+        $namaBaru = $this->request->getVar('nama');
+        $passLama = $this->request->getVar('passwordLama');
+        $passBaru = $this->request->getVar('passwordBaru');
+        $konfirmasi = $this->request->getVar('konfirmasi');
+
+        // === 1. Set rules utama
         $rules = [
             'nama' => [
-                'rules' => 'required',
+                'rules' => 'required|min_length[3]|max_length[100]|is_unique[users.nama,id_user,' . $user['id_user'] . ']',
                 'errors' => [
-                    'required' => 'Nama tidak boleh kosong',
+                    'required' => 'Nama tidak boleh kosong.',
+                    'min_length' => 'Nama minimal 3 karakter',
+                    'max_length' => 'Nama maksimal 100 karakter',
+                    'is_unique' => 'Nama sudah terdaftar.',
+                ]
+            ],
+            'passwordBaru' => [
+                'rules' => 'permit_empty|min_length[6]',
+                'errors' => [
+                    'min_length' => 'Password minimal 6 karakter'
+                ]
+            ],
+            'konfirmasi' => [
+                'rules' => 'permit_empty|matches[passwordBaru]',
+                'errors' => [
+                    'matches' => 'Konfirmasi password tidak cocok'
                 ]
             ]
         ];
-        if (!empty($passwordLama) && !empty($passwordBaru)) {
-            $rules['konfirmasi'] = [
-                'rules' => 'required|matches[passwordBaru]',
-                'errors' => [
-                    'required' => 'Konfirmasi password tidak boleh kosong',
-                    'matches' => 'Password tidak sama'
-                ]
-            ];
-            if (password_verify($passwordLama, $userDatabase['password'])) {
-                $rules['passwordBaru'] = [
-                    'rules' => 'required|min_length[8]',
-                    'errors' => [
-                        'required' => 'Password tidak boleh kosong',
-                        'min_length' => 'Password minimal 8 karakter'
-                    ]
-                ];
-            } else {
-                return redirect()->to(base_url('/profil'))->withInput()->with('error', 'Password lama tidak sesuai');
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput();
+        }
+
+        $validation = \Config\Services::validation();
+
+        if (!empty($passBaru)) {
+            if (empty($passLama)) {
+                $validation->setError('passwordLama', 'Password lama wajib diisi');
+                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            }
+
+            if (!password_verify($passLama, $userDb['password'])) {
+                $validation->setError('passwordLama', 'Password lama tidak sesuai');
+                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
             }
         }
-        if (!$this->validate($rules)) {
-            return redirect()->to(base_url('/profil'))->withInput();
+
+        if (!empty($passLama) && empty($passBaru)) {
+            if (!password_verify($passLama, $userDb['password'])) {
+                $validation->setError('passwordLama', 'Password lama tidak sesuai');
+                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            }
+
+            if ($namaBaru === $userDb['nama']) {
+                return redirect()->to('/profil')->with('successProfil', 'Tidak ada perubahan data');
+            }
         }
+
         $dataUser = [
             'id_user' => $user['id_user'],
-            'nama' => $username,
+            'nama' => $namaBaru,
         ];
-        if (!empty($passwordLama) && !empty($passwordBaru)) {
-            $dataUser['password'] = password_hash($passwordBaru, PASSWORD_DEFAULT);
+
+        if (!empty($passBaru)) {
+            $dataUser['password'] = password_hash($passBaru, PASSWORD_DEFAULT);
         }
-        $userSession = [
-            "id_user" => $user["id_user"],
-            "nama" => $username,
-            "email" => $user["email"],
-            "role" => $user["role"],
-        ];
-        session()->set('user', $userSession);
+
         $this->userModel->save($dataUser);
-        return redirect()->to(base_url('/profil'))->with('success', 'Berhasil update profil');
+
+        // Update session nama jika berubah
+        session()->set('user', [
+            'id_user' => $user['id_user'],
+            'nama' => $namaBaru,
+            'email' => $user['email'],
+            'role' => $user['role'],
+        ]);
+
+        return redirect()->to('/profil')->with('successProfil', 'Berhasil update profil');
     }
 }

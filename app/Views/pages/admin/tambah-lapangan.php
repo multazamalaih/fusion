@@ -135,6 +135,9 @@
 										<span class="mr-2 mb-2">Jam Tutup:</span>
 										<input type="time" name="<?= $hari ?>_tutup" value="<?= $tutup ?>" class="form-control form-control-sm bg-light mb-2" style="width: 100px;">
 									</div>
+									<?php if (session('jam_errors') && isset(session('jam_errors')[$hari])) : ?>
+										<div class="w-100 text-danger small"><?= session('jam_errors')[$hari] ?></div>
+									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
 						</div>
