@@ -104,7 +104,7 @@
 									</select>
 								<?php else: ?>
 									<!-- Input angka jika kriteria tidak memiliki sub-kriteria -->
-									<input type="number" name="nilai[]" class="form-control" step="0.001" required>
+									<input type="number" name="nilai[]" class="form-control" step="0.01" required>
 								<?php endif; ?>
 							</div>
 						<?php endforeach; ?>
@@ -163,7 +163,7 @@
 										</select>
 									<?php else: ?>
 										<!-- Input angka jika kriteria tidak memiliki sub-kriteria -->
-										<input type="number" name="nilai[]" class="form-control" step="1" value="<?= $nilai ?>" required autocomplete="off">
+										<input type="number" name="nilai[]" class="form-control" step="0.01" value="<?= (float)$nilai == floor($nilai) ? number_format($nilai, 0, '.', '') : number_format($nilai, 2, '.', '') ?>" required autocomplete="off">
 									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>

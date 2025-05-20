@@ -32,7 +32,7 @@ class CreateLapangan extends Migration
             ],
             'no_hp' => [
                 'type' => 'VARCHAR',
-                'constraint' => 15,
+                'constraint' => 20,
                 'null' => false,
             ],
             'latitude' => [

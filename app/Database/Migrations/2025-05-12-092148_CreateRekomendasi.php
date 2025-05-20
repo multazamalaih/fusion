@@ -13,7 +13,6 @@ class CreateRekomendasi extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'auto_increment' => true,
-                'null' => true,
             ],
             'id_user' => [
                 'type' => 'INT',
@@ -38,10 +37,10 @@ class CreateRekomendasi extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-            'updated_at' => [
+            'deleted_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
-            ]
+            ],
         ]);
         $this->forge->addKey('id_rekomendasi', true);
         $this->forge->addForeignKey('id_user', 'users', 'id_user', 'CASCADE', 'CASCADE');

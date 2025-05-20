@@ -17,30 +17,30 @@ class CreateKontak extends Migration
             'instagram' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => true
+                'null' => false
             ],
             'facebook'   => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => true
+                'null' => false
             ],
             'twitter'    =>
             [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => true
+                'null' => false
             ],
             'tiktok'     =>
             [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => true
+                'null' => false
             ],
             'whatsapp'   =>
             [
                 'type' => 'VARCHAR',
                 'constraint' => 20,
-                'null' => true
+                'null' => false
             ],
             'created_at' =>
             [

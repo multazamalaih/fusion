@@ -16,21 +16,20 @@ class CreateHasil extends Migration
             ],
             'id_lapangan' => [
                 'type' => 'INT',
-                'constraint' => 11
+                'constraint' => 11,
+                'null' => false,
             ],
             'nilai' => [
                 'type' => 'DECIMAL',
                 'constraint' => '10,5',
+                'null' => false,
+
             ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true
             ],
             'updated_at' => [
-                'type' => 'DATETIME',
-                'null' => true
-            ],
-            'deleted_at' => [
                 'type' => 'DATETIME',
                 'null' => true
             ],

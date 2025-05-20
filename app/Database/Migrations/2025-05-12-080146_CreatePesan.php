@@ -13,7 +13,6 @@ class CreatePesan extends Migration
                 'type' => 'INT',
                 'constraint' => 11,
                 'auto_increment' => true,
-                'null' => true,
             ],
             'nama' => [
                 'type' => 'VARCHAR',
@@ -30,10 +29,6 @@ class CreatePesan extends Migration
                 'null' => false,
             ],
             'created_at' => [
-                'type' => 'DATETIME',
-                'null' => true,
-            ],
-            'updated_at' => [
                 'type' => 'DATETIME',
                 'null' => true,
             ],

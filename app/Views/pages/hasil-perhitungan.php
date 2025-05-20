@@ -91,6 +91,9 @@
             </tbody>
         </table>
     </div>
+    <p class="text-muted fst-italic small mt-2 text-left d-block d-md-none">
+        <i class="bi bi-arrow-left-right me-1"></i>Geser untuk melihat data yang lebih lengkap.
+    </p>
 </div>
 
 <!-- Judul Ranking Lapangan -->
@@ -133,6 +136,9 @@
             </tbody>
         </table>
     </div>
+    <p class="text-muted fst-italic small mt-2 text-left d-block d-md-none">
+        <i class="bi bi-arrow-left-right me-1"></i>Geser untuk melihat data yang lebih lengkap.
+    </p>
 </div>
 
 <!-- Tombol Cetak -->

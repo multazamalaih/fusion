@@ -57,23 +57,24 @@ $errorMessage  = session()->getFlashdata('error') ?: ($error ?? null);
 								1 => 'Sama penting',
 								2 => 'Mendekati sedikit lebih penting',
 								3 => 'Sedikit lebih penting',
-								4 => 'Mendekati lebih penting',
+								4 => 'Mendekati lebih penting ',
 								5 => 'Lebih penting',
-								6 => 'Mendekati jauh lebih penting',
-								7 => 'Jauh lebih penting',
-								8 => 'Mendekati sangat penting',
-								9 => 'Sangat penting'
+								6 => 'Mendekati sangat lebih penting ',
+								7 => 'Sangat lebih penting',
+								8 => 'Mendekati mutlak lebih penting',
+								9 => 'Mutlak lebih penting'
 							];
+
 							$deskripsi = [
-								1 => 'Kedua Kriteria sama - sama penting',
-								2 => 'Satu Kriteria sedikit lebih penting dari Kriteria lainnya',
-								3 => 'Satu Kriteria lebih penting dari Kriteria lainnya',
-								4 => 'Satu Kriteria agak lebih penting dari Kriteria lainnya',
-								5 => 'Satu Kriteria cukup lebih penting dari Kriteria lainnya',
-								6 => 'Satu Kriteria jauh lebih penting dari Kriteria lainnya',
-								7 => 'Satu Kriteria sangat lebih penting dari Kriteria lainnya',
-								8 => 'Satu Kriteria hampir mutlak lebih penting dari Kriteria lainnya',
-								9 => 'Satu Kriteria jauh lebih penting dari Kriteria lainnya tanpa keraguan',
+								1 => 'Kedua kriteria memiliki tingkat kepentingan yang sama.',
+								2 => 'Satu kriteria mendekati sedikit lebih penting daripada kriteria lainnya.',
+								3 => 'Satu kriteria sedikit lebih penting daripada kriteria lainnya.',
+								4 => 'Satu kriteria mendekati lebih penting daripada kriteria lainnya.',
+								5 => 'Satu kriteria lebih penting daripada kriteria lainnya.',
+								6 => 'Satu kriteria mendekati sangat lebih penting daripada kriteria lainnya.',
+								7 => 'Satu kriteria sangat lebih penting daripada kriteria lainnya.',
+								8 => 'Satu kriteria mendekati mutlak lebih penting daripada kriteria lainnya.',
+								9 => 'Satu kriteria mutlak lebih penting daripada kriteria lainnya.'
 							];
 							foreach ($skala as $i => $label): ?>
 								<tr>

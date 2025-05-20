@@ -26,7 +26,7 @@ class CreateSubKriteria extends Migration
             ],
             'nilai' => [
                 'type' => 'DECIMAL',
-                'constraint' => '10,0',
+                'constraint' => '10,2',
                 'null' => false,
             ],
             "created_at" => [

@@ -25,7 +25,6 @@ class CreateUlasan extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 100,
                 'null'       => false
-
             ],
             'ulasan' => [
                 'type' => 'TEXT',

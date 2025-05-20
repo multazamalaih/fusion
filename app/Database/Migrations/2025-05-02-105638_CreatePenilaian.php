@@ -17,14 +17,17 @@ class CreatePenilaian extends Migration
             'id_lapangan' => [
                 'type'       => 'INT',
                 'constraint' => 11,
+                'null' => false,
             ],
             'id_kriteria' => [
                 'type'       => 'INT',
                 'constraint' => 11,
+                'null' => false,
+
             ],
             'nilai' => [
                 'type' => 'DECIMAL',
-                'constraint' => '10,0',
+                'constraint' => '10,2',
                 'null' => false,
             ],
             'created_at' => [

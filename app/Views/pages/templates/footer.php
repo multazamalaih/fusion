@@ -28,16 +28,7 @@
                     <h4 class="text-light mb-4">Hubungi Kami</h4>
                     <p><i class="fa fa-map-marker-alt me-3"></i>Pondok Petir, Bojongsari, Depok</p>
                     <p><i class="fa fa-envelope me-3"></i>multazam071220@gmail.com</p>
-                    <?php
-                    $nomor = !empty($kontak['whatsapp']) ? preg_replace('/^0/', '62', $kontak['whatsapp']) : '';
-                    $link = $nomor ? 'https://wa.me/' . $nomor : '#';
-                    ?>
-                    <p>
-                        <i class="fab fa-whatsapp me-3"></i>
-                        <a href="<?= $link ?>" target="_blank">
-                            <?= esc($kontak['whatsapp']) ?>
-                        </a>
-                    </p>
+                    <p><i class="fab fa-whatsapp me-3"></i>081310582096</p>
                 </div>
             </div>
             <div class="row">

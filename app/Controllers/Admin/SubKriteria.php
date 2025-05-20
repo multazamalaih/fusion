@@ -68,11 +68,11 @@ class SubKriteria extends BaseController
                 ]
             ],
             'nilai' => [
-                'rules' => 'numeric|is_natural_no_zero|required',
+                'rules' => 'numeric|greater_than[0]|required',
                 'errors' => [
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
-                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif',
                     'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
+                    'greater_than' => 'Nilai Sub Kriteria harus lebih besar dari 0.',
 
                 ]
             ],
@@ -130,11 +130,11 @@ class SubKriteria extends BaseController
                 ]
             ],
             'nilai' => [
-                'rules' => 'numeric|is_natural_no_zero|required',
+                'rules' => 'numeric|greater_than[0]|required',
                 'errors' => [
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
-                    'is_natural_no_zero' => 'Nilai Sub Kriteria harus angka bulat positif',
                     'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
+                    'greater_than' => 'Nilai Sub Kriteria harus lebih besar dari 0.',
 
                 ]
             ],

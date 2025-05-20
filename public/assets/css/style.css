@@ -490,10 +490,14 @@ body.register-page{
 }
 
 .scroll-hasil-wrapper {
-    font-family: 'Alata', sans-serif;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-}
+        font-family: 'Alata', sans-serif;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .scroll-hasil-table {
+        min-width: 600px;
+    }
 
 .cari-filter {
     font-family: 'Alata', sans-serif;

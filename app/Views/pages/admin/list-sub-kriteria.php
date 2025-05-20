@@ -52,7 +52,7 @@
 								</div>
 								<div class="form-group">
 									<label class="font-weight-bold">Nilai</label>
-									<input type="number" name="nilai" step="1"
+									<input type="number" name="nilai" step="0.01"
 										value="<?= old('id_kriteria') == $id_kriteria ? old('nilai') : '' ?>"
 										class="form-control <?= session('errors.nilai') && old('id_kriteria') == $id_kriteria ? 'is-invalid' : '' ?>" required>
 									<?php if (session('errors.nilai') && old('id_kriteria') == $id_kriteria): ?>
@@ -86,7 +86,7 @@
 								<tr class="text-center">
 									<td><?= $i + 1 ?></td>
 									<td><?= esc($sub['nama']) ?></td>
-									<td><?= esc($sub['nilai']) ?></td>
+									<td><?= esc((float)$sub['nilai'] == floor($sub['nilai']) ? number_format($sub['nilai'], 0, '.', '') : number_format($sub['nilai'], 2, '.', '')) ?></td>
 									<td>
 										<div class="btn-group" role="group">
 											<a data-toggle="modal" data-placement="bottom" title="Edit Data"
@@ -126,13 +126,19 @@
 
 													<div class="form-group">
 														<label class="font-weight-bold">Nilai</label>
-														<input type="number" name="nilai" step="1"
-															value="<?= old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? old('nilai') : esc($sub['nilai']) ?>"
+														<input type="number" name="nilai" step="0.01"
+															value="<?php
+																	$nilai = old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? old('nilai') : $sub['nilai'];
+																	echo esc((float)$nilai == floor($nilai)
+																		? number_format($nilai, 0, '.', '')
+																		: number_format($nilai, 2, '.', ''));
+																	?>"
 															class="form-control <?= session('errors.nilai') && old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? 'is-invalid' : '' ?>" required>
 														<?php if (session('errors.nilai') && old('id_sub_kriteria') == $sub['id_sub_kriteria']): ?>
 															<div class="invalid-feedback text-danger"> <?= session('errors.nilai') ?> </div>
 														<?php endif; ?>
 													</div>
+
 												</div>
 
 												<div class="modal-footer">
