@@ -42,8 +42,16 @@
 								<td><?= $no++ ?></td> <!-- Nomor urut dimulai dari 1 -->
 								<td align="center"><?= esc($lapangan['nama']) ?></td>
 								<?php foreach ($kriteriaList as $kriteria): ?>
-									<td><?= esc($matriksX[$lapangan['id_lapangan']][$kriteria['id_kriteria']]) ?></td>
-								<?php endforeach ?>
+									<td>
+										<?php
+										$nilai = $matriksX[$lapangan['id_lapangan']][$kriteria['id_kriteria']];
+										echo (is_numeric($nilai)
+											? ((floor((float)$nilai) == (float)$nilai)
+												? number_format((float)$nilai, 0, '.', '')
+												: number_format((float)$nilai, 2, '.', ''))
+											: '');
+										?>
+									</td> <?php endforeach ?>
 							</tr>
 						<?php endforeach ?>
 					</tbody>

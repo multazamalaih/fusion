@@ -171,7 +171,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary text-white rounded-pill py-2 px-3" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary rounded-pill py-2 px-3"><a href="/login" class="text-white">Masuk</a></button>
+                <button type="button" class="btn btn-primary rounded-pill py-2 px-3"><a href="<?= base_url('login') ?>" class="text-white">Masuk</a></button>
             </div>
         </div>
     </div>

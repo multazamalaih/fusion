@@ -52,6 +52,11 @@ class CreateKontak extends Migration
                 'type' => 'DATETIME',
                 'null' => true
             ],
+            'deleted_at' =>
+            [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
         ]);
         $this->forge->addPrimaryKey('id_kontak');
         $this->forge->createTable('kontak');

@@ -63,8 +63,6 @@ class SubKriteria extends BaseController
                     'min_length' => 'Nama Sub Kriteria minimal 3 karakter.',
                     'max_length' => 'Nama Sub Kriteria maksimal 100 karakter.',
                     'required' => 'Nama Sub Kriteria tidak boleh kosong.',
-
-
                 ]
             ],
             'nilai' => [
@@ -73,7 +71,6 @@ class SubKriteria extends BaseController
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
                     'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
                     'greater_than' => 'Nilai Sub Kriteria harus lebih besar dari 0.',
-
                 ]
             ],
         ];
@@ -86,13 +83,18 @@ class SubKriteria extends BaseController
         $nama        = $this->request->getPost('nama');
         $nilai       = $this->request->getPost('nilai');
 
+        //  Validasi tambahan: nilai harus bilangan bulat
+        if (floor($nilai) != $nilai) {
+            return redirect()->back()->withInput()->with('errors', ['Nilai Sub Kriteria harus bilangan bulat.']);
+        }
+
         // Cek apakah kriteria bertipe 'Sub Kriteria'
         $kriteria = $this->kriteriaModel->find($id_kriteria);
         if ($kriteria['pilihan'] !== 'Sub Kriteria') {
             return redirect()->back()->withInput()->with('errors', ['Kriteria harus bertipe Sub Kriteria.']);
         }
 
-        // Cek duplikat nama per kriteria (manual karena is_unique tidak bisa digabung dengan kondisi)
+        // Cek duplikat nama per kriteria
         $duplikat = $this->subKriteriaModel
             ->where('id_kriteria', $id_kriteria)
             ->where('nama', $nama)
@@ -111,6 +113,7 @@ class SubKriteria extends BaseController
         return redirect()->to(base_url('admin/list-sub-kriteria'));
     }
 
+
     public function updateSubKriteria($id)
     {
         $rules = [
@@ -126,7 +129,6 @@ class SubKriteria extends BaseController
                     'min_length' => 'Nama Sub Kriteria minimal 3 karakter.',
                     'max_length' => 'Nama Sub Kriteria maksimal 100 karakter.',
                     'required' => 'Nama Sub Kriteria tidak boleh kosong.',
-
                 ]
             ],
             'nilai' => [
@@ -135,7 +137,6 @@ class SubKriteria extends BaseController
                     'numeric' => 'Nilai Sub Kriteria harus berupa angka.',
                     'required' => 'Nilai Sub Kriteria tidak boleh kosong.',
                     'greater_than' => 'Nilai Sub Kriteria harus lebih besar dari 0.',
-
                 ]
             ],
         ];
@@ -147,6 +148,11 @@ class SubKriteria extends BaseController
         $id_kriteria = $this->request->getPost('id_kriteria');
         $nama        = $this->request->getPost('nama');
         $nilai       = $this->request->getPost('nilai');
+
+        // ✅ Validasi tambahan: nilai harus bilangan bulat
+        if (floor($nilai) != $nilai) {
+            return redirect()->back()->withInput()->with('errors', ['Nilai Sub Kriteria harus bilangan bulat.']);
+        }
 
         $kriteria = $this->kriteriaModel->find($id_kriteria);
         if (!$kriteria || $kriteria['pilihan'] !== 'Sub Kriteria') {
@@ -180,6 +186,7 @@ class SubKriteria extends BaseController
         session()->setFlashdata('success', 'Sub Kriteria berhasil diperbarui.');
         return redirect()->to(base_url('admin/list-sub-kriteria'));
     }
+
 
     public function hapusSubKriteria($id_sub_kriteria)
     {

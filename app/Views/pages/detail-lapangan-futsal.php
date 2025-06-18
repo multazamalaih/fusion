@@ -41,7 +41,7 @@
 
                 <div class="row mb-2">
                     <div class="col-md-4">
-                        <h6>Harga</h6>
+                        <h6>Harga Mulai Dari </h6>
                     </div>
                     <div class="col-md-8">
                         <p><span class="harga-highlight">Rp. <?= number_format($lapangan['harga'], 0, ',', '.') ?> / Jam</span></p>

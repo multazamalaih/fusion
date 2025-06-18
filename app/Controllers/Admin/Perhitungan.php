@@ -41,7 +41,7 @@ class Perhitungan extends BaseController
             ]);
         }
 
-        // ✅ Cek kelengkapan data penilaian
+        //Cek kelengkapan data penilaian
         foreach ($lapanganList as $lapangan) {
             foreach ($kriteriaList as $kriteria) {
                 $cek = $this->penilaianModel

@@ -132,7 +132,7 @@
                     Apakah Anda yakin ingin keluar? Pilih 'Keluar' untuk melanjutkan.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-warning rounded-pill py-2 px-3" type="button" data-bs-dismiss="modal">
+                    <button class="btn btn-warning text-white rounded-pill py-2 px-3" type="button" data-bs-dismiss="modal">
                         Batal
                     </button>
                     <form action="/logout" method="post">

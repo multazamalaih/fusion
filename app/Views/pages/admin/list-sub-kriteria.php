@@ -52,7 +52,7 @@
 								</div>
 								<div class="form-group">
 									<label class="font-weight-bold">Nilai</label>
-									<input type="number" name="nilai" step="0.01"
+									<input type="number" name="nilai" step="1"
 										value="<?= old('id_kriteria') == $id_kriteria ? old('nilai') : '' ?>"
 										class="form-control <?= session('errors.nilai') && old('id_kriteria') == $id_kriteria ? 'is-invalid' : '' ?>" required>
 									<?php if (session('errors.nilai') && old('id_kriteria') == $id_kriteria): ?>
@@ -126,7 +126,7 @@
 
 													<div class="form-group">
 														<label class="font-weight-bold">Nilai</label>
-														<input type="number" name="nilai" step="0.01"
+														<input type="number" name="nilai" step="1"
 															value="<?php
 																	$nilai = old('id_sub_kriteria') == $sub['id_sub_kriteria'] ? old('nilai') : $sub['nilai'];
 																	echo esc((float)$nilai == floor($nilai)

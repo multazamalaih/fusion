@@ -12,6 +12,12 @@ $routes->get('/about', 'Home::about');
 $routes->get('/login', 'Auth::login', ['filter' => 'redirectIfAuthenticated']);
 $routes->get('/register', 'Auth::register', ['filter' => 'redirectIfAuthenticated']);
 
+$routes->group('backup', function (RouteCollection $routes) {
+    $routes->get('/', 'Backup::index');
+    $routes->get('download', 'Backup::downloadUploadsZip');
+    $routes->post('upload', 'Backup::uploadZip');
+    $routes->delete('delete', 'Backup::deleteUploads');
+});
 
 // auth proses
 $routes->post('/login', 'Auth::loginProses');

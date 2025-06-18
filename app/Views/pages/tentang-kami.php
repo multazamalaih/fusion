@@ -24,7 +24,7 @@
         <div class="col-lg-7">
             <h2 class="mb-3" style="font-family: 'Alata', sans-serif;">Fusion (Futsal Recommendation)</h2>
             <p style="text-align: justify;">
-                Fusion adalah sistem rekomendasi lapangan futsal yang memanfaatkan pendekatan objektif berbasis data. Dirancang untuk membantu pemain atau tim memilih lapangan terbaik sesuai kebutuhan. Fusion memperhitungkan faktor seperti harga, kualitas lapangan, fasilitas, dan faktor lainnya.
+                Fusion adalah sistem rekomendasi lapangan futsal yang memanfaatkan pendekatan objektif berbasis data. Dirancang untuk membantu pemain atau tim memilih lapangan terbaik sesuai kebutuhan. Fusion memperhitungkan faktor seperti harga, kondisi lapangan, fasilitas, dan faktor lainnya.
             </p>
             <p style="text-align: justify;">
                 Dengan tampilan yang sederhana dan fokus pada pengalaman pengguna, Fusion menyederhanakan proses pencarian lapangan, menghemat waktu, dan memberikan hasil yang relevan. Website ini cocok untuk agenda main bareng rutin, latihan tim, hingga turnamen komunitas.
@@ -38,7 +38,7 @@
         <div class="col-lg-7">
             <h2 class="mb-3" style="font-family: 'Alata', sans-serif;">Metode AHP & TOPSIS</h2>
             <p style="text-align: justify;">
-                Fusion memberikan rekomendasi berdasarkan metode <strong>Analytical Hierarchy Process (AHP)</strong> untuk menentukan bobot penting setiap kriteria seperti harga, fasilitas, kualitas lapangan, kebersihan, dan sebagainya.
+                Fusion memberikan rekomendasi berdasarkan metode <strong>Analytical Hierarchy Process (AHP)</strong> untuk menentukan bobot penting setiap kriteria seperti harga, fasilitas, kondisi lapangan, kebersihan, dan sebagainya.
             </p>
             <p style="text-align: justify;">
                 Setelah bobot didapatkan, sistem menggunakan <strong>Technique for Order Preference by Similarity to Ideal Solution (TOPSIS)</strong> untuk mengurutkan lapangan berdasarkan kedekatan pada solusi terbaik. Metode ini memberikan rekomendasi yang logis, terukur, dan transparan.
